@@ -1,0 +1,14 @@
+.container {
+  height: 50px;
+  border: 1px solid black;
+}
+
+.logo {
+	float: left;
+}
+
+.login {
+  float: right;
+  width: 100px;
+  text-align: right;
+}
