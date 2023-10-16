@@ -1,8 +1,8 @@
 import LoginModal from './loginModal';
+import './navigation.css';
 
 import { isModalOpen } from '../../actions/loginAction';
 import { useSelector, useDispatch } from 'react-redux';
-import './navigation.css';
 
 export default function Navigation() {
   const open = useSelector(state => state.loginReducer.state);
