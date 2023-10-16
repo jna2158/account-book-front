@@ -1,13 +1,11 @@
 import LoginModal from './loginModal';
+import { isModalOpen } from '../../actions/loginAction';
+import { useSelector, useDispatch } from 'react-redux';
 import './navigation.css';
-import { useState } from 'react';
 
 export default function Navigation() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  }
+  const open = useSelector(state => state.loginReducer);
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -20,13 +18,13 @@ export default function Navigation() {
             
             {/* 로그인 */}
             <div className="login">
-              <a href="#none" onClick={openModal}>로그인</a>
+              <a href="#none" onClick={() => dispatch(isModalOpen(open.state))}>로그인</a>
             </div>
           </nav>
         </header>
         <div>
           {
-            isModalOpen ? <LoginModal /> : <></>
+            open.state ? <LoginModal /> : <></>
           }
         </div>
       </div>
