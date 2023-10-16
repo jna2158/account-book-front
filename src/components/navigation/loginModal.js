@@ -1,13 +1,14 @@
-import { useSelector, useDispatch } from "react-redux";
 import "./loginModal.css";
+
 import { isModalOpen } from "../../actions/loginAction";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function LoginModal () {
   const dispatch = useDispatch();
-  const open = useSelector((state) => state.loginReducer);// state.모듈명
+  const open = useSelector((state) => state.loginReducer.state);
 
   const confirm = () => {
-    dispatch(isModalOpen(open.state));
+    dispatch(isModalOpen(open));
   }
 
   return (

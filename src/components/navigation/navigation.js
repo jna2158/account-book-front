@@ -1,10 +1,11 @@
 import LoginModal from './loginModal';
+
 import { isModalOpen } from '../../actions/loginAction';
 import { useSelector, useDispatch } from 'react-redux';
 import './navigation.css';
 
 export default function Navigation() {
-  const open = useSelector(state => state.loginReducer);
+  const open = useSelector(state => state.loginReducer.state);
   const dispatch = useDispatch();
 
   return (
@@ -18,13 +19,13 @@ export default function Navigation() {
             
             {/* 로그인 */}
             <div className="login">
-              <a href="#none" onClick={() => dispatch(isModalOpen(open.state))}>로그인</a>
+              <a href="#none" onClick={() => dispatch(isModalOpen(open))}>로그인</a>
             </div>
           </nav>
         </header>
         <div>
           {
-            open.state ? <LoginModal /> : <></>
+            open ? <LoginModal /> : <></>
           }
         </div>
       </div>
