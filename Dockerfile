@@ -1,19 +1,24 @@
-# 가져올 이미지를 정의
-FROM node:14
-# 경로 설정하기
+FROM node:14 AS build
+
 WORKDIR /app
-# package.json 워킹 디렉토리에 복사 (.은 설정한 워킹 디렉토리를 뜻함)
-COPY package.json .
-# 명령어 실행 (의존성 설치)
+COPY package.json package-lock.json ./
 RUN npm install
-# 현재 디렉토리의 모든 파일을 도커 컨테이너의 워킹 디렉토리에 복사한다.
 COPY . .
+RUN npm run build
 
-# 3000번 포트 노출
-# EXPOSE 3000
+FROM nginx:1.18.0
 
-# npm start 스크립트 실행
-CMD ["npm", "start"]
+# Remove the default Nginx configuration
+RUN rm -rf /etc/nginx/conf.d
 
-# 그리고 Dockerfile로 docker 이미지를 빌드해야한다.
-# $ docker build .
+# Copy the Nginx configuration file from your host to the container
+COPY ./react_nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy the built React app from the 'build' stage to the Nginx 'html' directory
+COPY --from=build /app/build /usr/share/nginx/public
+
+# Expose port 80
+EXPOSE 80
+
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
