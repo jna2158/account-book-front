@@ -1,10 +1,47 @@
-.container {
-  height: 50px;
-  border: 1px solid black;
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: #222;
+  line-height: 1.5em;
+  font-size: 15px;
+  background-color: #eee;
+}
+
+a {
+  text-decoration: none;
+  color: #222;
+}
+
+header {
+  background-color: #fff;
+}
+
+nav {
+  width: calc(100% - 100px);
+  margin: auto;
+  line-height: 70px;
+}
+
+nav > div {
+  height: 70px;
 }
 
 .logo {
-	float: left;
+  float: left;
+  width: 180px;
+}
+
+.gnb {
+  width: calc(100% - 280px);
+  display: inline-block;
+  text-align: center;
+}
+
+.gnb a {
+  padding: 90px;
 }
 
 .login {
