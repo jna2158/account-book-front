@@ -1,7 +1,7 @@
 import { Content } from '../content/content';
 import { Chart } from '../chart/chart';
 import { Calendar } from '../mainpage/calendar';
-import LoginModal from '../login/loginModal';
+import SignInModal from '../signin/signInModal';
 import './navigation.css';
 
 import { isModalOpen } from '../../actions/loginAction';
@@ -13,20 +13,20 @@ export default function Navigation() {
   const dispatch = useDispatch();
 
   return (
-    <div class="container">
+    <div className="container">
       <header>
         <nav>
-          <div class="logo">
+          <div className="logo">
             <Link to="/">Logo</Link>
           </div>
 
-          <div class="gnb">
+          <div className="gnb">
             <Link to="/"><a>조회</a></Link>
             <Link to="/chart"><a>차트 보기</a></Link>
             <Link to="/content"><a>소비 습관</a></Link>
           </div>
 
-          <div class="login">
+          <div className="login">
             <a onClick={() => dispatch(isModalOpen(open))}>로그인</a>
           </div>
         </nav>
@@ -38,7 +38,7 @@ export default function Navigation() {
         <Route path="/content" element={<Content />}></Route>
       </Routes>
 
-      <div> {open ? <LoginModal /> : <></> } </div>
+      <div> {open ? <SignInModal /> : <></> } </div>
     </div>
   )
 }
