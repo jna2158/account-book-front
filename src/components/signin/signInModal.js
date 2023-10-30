@@ -34,15 +34,21 @@ export default function LoginModal () {
             <input type="email" placeholder="이메일 입력하세요"></input>
             <input type="password" placeholder="비밀번호 입력하세요"></input>
             <button onClick={confirm}>로그인하기</button>
+            <img></img>
+            <img></img>
+            <img></img>
             <span>아직 회원이 아니신가요? <span onClick={() => onToggleModal()}>회원가입</span></span>
           </div>
         </section>
       : <section className="signUpSection">
           <div className="signUpModal">
-            <h1 className="title">Account Bank</h1>
+            <h1 className="title">Account Book</h1>
             <input type="email" placeholder="이메일 입력하세요"></input>
             <input type="password" placeholder="비밀번호 입력하세요"></input>
             <button onClick={confirm}>회원가입하기</button>
+            <img></img>
+            <img></img>
+            <img></img>
             <span>이미 계정이 있으신가요? <span onClick={() => onToggleModal()}>로그인</span></span>
           </div>
         </section>
