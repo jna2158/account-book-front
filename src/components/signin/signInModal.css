@@ -7,15 +7,22 @@
   height: 100%;
   background-color: rgba(0, 0, 0, 0.7);
 }
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .signin-modal,
-.signup-modal{
+.signup-modal {
   padding: 2rem;
   background-color: var(--white);
   border-radius: 1.3rem;
   position: fixed;
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 30px;
   top: 50%;
   left: 50%;
   width: 400px;
@@ -25,6 +32,7 @@
 }
 .title {
   text-align: center;
+  font-size: 1.5rem;
 }
 input {
   width: 100%;
