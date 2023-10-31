@@ -35,19 +35,17 @@ export const Calendar = () => {
 
 
   return (
-    <section className="calendarSection">
-      <div className="calendar">
-        <ReactCalendar
-          locale='en'
-          next2Label={null}
-          prev2Label={null}
-          formatDay={(locale, date) => moment(date).format('D')}
-          showNeighboringMonth={false}
-          tileContent={setContent}
-          onChange={onChange}
-          value={value}
-        />
-      </div>
-    </section>
+    <div className="calendar">
+      <ReactCalendar
+        locale='en'
+        next2Label={null}
+        prev2Label={null}
+        formatDay={(locale, date) => moment(date).format('D')}
+        showNeighboringMonth={false}
+        tileContent={setContent}
+        onChange={onChange}
+        value={value}
+      />
+    </div>
   )
 }

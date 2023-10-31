@@ -1,5 +1,31 @@
+:root {
+  --primary-color: #4267B2;
+  --secondary-color: #1DA1F2;
+  --black: #000000;
+  --white: #ffffff;
+  --gray: #efefef;
+  --gray2: rgba(0, 0, 0, 0.31);
+  --gray3: rgba(0, 0, 0, 0.5);
+}
+
 /* Common */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+* {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: #222;
+  line-height: 1.5em;
+}
+
 a {
   text-decoration: none;
-  color: black;
+  color: #222;
+  font-size: 1.1rem;
+  cursor: pointer;
 }

@@ -28,28 +28,32 @@ export default function LoginModal () {
     <>
     {
       !isSignIn
-      ? <section className="signInSection">
-          <div className="signInModal">
-            <h1 className="title">Account Bank</h1>
+      ? <section className="modal-back signin-section">
+          <div className="signin-modal">
+            <h1 className="title">Account Book</h1>
             <input type="email" placeholder="이메일 입력하세요"></input>
             <input type="password" placeholder="비밀번호 입력하세요"></input>
             <button onClick={confirm}>로그인하기</button>
-            <img></img>
-            <img></img>
-            <img></img>
-            <span>아직 회원이 아니신가요? <span onClick={() => onToggleModal()}>회원가입</span></span>
+            <div className="social-container">
+              <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+              <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <span className="sub-info">아직 회원이 아니신가요? <span onClick={() => onToggleModal()}><strong>회원가입</strong></span></span>
           </div>
         </section>
-      : <section className="signUpSection">
-          <div className="signUpModal">
+      : <section className="modal-back signup-section">
+          <div className="signup-modal">
             <h1 className="title">Account Book</h1>
             <input type="email" placeholder="이메일 입력하세요"></input>
             <input type="password" placeholder="비밀번호 입력하세요"></input>
             <button onClick={confirm}>회원가입하기</button>
-            <img></img>
-            <img></img>
-            <img></img>
-            <span>이미 계정이 있으신가요? <span onClick={() => onToggleModal()}>로그인</span></span>
+            <div className="social-container">
+              <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+              <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <span className="sub-info">이미 계정이 있으신가요? <span onClick={() => onToggleModal()}><strong>로그인</strong></span></span>
           </div>
         </section>
     }

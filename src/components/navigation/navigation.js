@@ -13,7 +13,7 @@ export default function Navigation() {
   const dispatch = useDispatch();
 
   return (
-    <div className="container">
+    <section>
       <header>
         <nav>
           <div className="logo">
@@ -39,6 +39,6 @@ export default function Navigation() {
       </Routes>
 
       <div> {open ? <SignInModal /> : <></> } </div>
-    </div>
+    </section>
   )
 }
