@@ -33,3 +33,15 @@ nav > div {
   width: 100px;
   text-align: right;
 }
+
+@media (min-width: 1024px) {
+	/* PC CSS */
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+	/* Tablet CSS */
+}
+
+@media (max-width: 767px) {
+	/* Mobile CSS */
+}

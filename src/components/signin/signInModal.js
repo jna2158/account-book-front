@@ -129,9 +129,9 @@ export default function LoginModal () {
               </div>
               <button onClick={onClickSignIn}>로그인하기</button>
               <div className="social-container">
-                <a href="#" className="social"><i className="fab fa-facebook-f"></i></a>
+                <a href="#" className="social"><i class="fa-solid fa-n"></i></a>
                 <a href="#" className="social"><i className="fab fa-google-plus-g"></i></a>
-                <a href="#" className="social"><i className="fab fa-linkedin-in"></i></a>
+                <a href="#" className="social"><i class="fa-solid fa-k"></i></a>
               </div>
             </form>
             <span className="sub-info">아직 회원이 아니신가요? <span onClick={() => onToggleModal()}><strong>회원가입</strong></span></span>
