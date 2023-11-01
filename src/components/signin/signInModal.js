@@ -140,24 +140,26 @@ export default function LoginModal () {
       : <section className="modal-back signup-section">
           <div className="signup-modal">
             <h1 className="title">Account Book</h1>
-            <div>
-              <input type="email" placeholder="이메일 입력하세요"></input>
-              {
-                (submit && !emailValid) && <span className="validation">필수값입니다</span>
-              }
-            </div>
-            <div>
-              <input type="password" placeholder="비밀번호 입력하세요"></input>
-              {
-                (submit && !passwordValid) && <span className="validation">필수값입니다</span>
-              }
-            </div>
-            <button onClick={onClickSignUp}>회원가입하기</button>
-            <div className="social-container">
-              <a href="#" className="social"><i className="fab fa-facebook-f"></i></a>
-              <a href="#" className="social"><i className="fab fa-google-plus-g"></i></a>
-              <a href="#" className="social"><i className="fab fa-linkedin-in"></i></a>
-            </div>
+            <form onSubmit={e=> e.preventDefault()}>
+              <div>
+                <input type="email" placeholder="이메일 입력하세요"></input>
+                {
+                  (submit && !emailValid) && <span className="validation">필수값입니다</span>
+                }
+              </div>
+              <div>
+                <input type="password" placeholder="비밀번호 입력하세요"></input>
+                {
+                  (submit && !passwordValid) && <span className="validation">필수값입니다</span>
+                }
+              </div>
+              <button onClick={onClickSignUp}>회원가입하기</button>
+              <div className="social-container">
+                <a href="#" className="social"><i className="fab fa-facebook-f"></i></a>
+                <a href="#" className="social"><i className="fab fa-google-plus-g"></i></a>
+                <a href="#" className="social"><i className="fab fa-linkedin-in"></i></a>
+              </div>
+            </form>
             <span className="sub-info">이미 계정이 있으신가요? <span onClick={() => onToggleModal()}><strong>로그인</strong></span></span>
           </div>
         </section>
