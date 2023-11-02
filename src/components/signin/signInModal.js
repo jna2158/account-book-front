@@ -123,7 +123,7 @@ export default function LoginModal () {
     console.log(nicknameValid);
 
     if (emailValid && passwordValid && usernameValid && nicknameValid) {
-      axios.post("https://account-book.store/accounts/signup",
+      axios.post("http://localhost:8000/accounts/signup",
       {
         "email": email,
         "password": password,
