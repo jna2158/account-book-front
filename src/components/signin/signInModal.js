@@ -125,10 +125,11 @@ export default function LoginModal () {
     if (emailValid && passwordValid && usernameValid && nicknameValid) {
       axios.post("http://backend-django:8000/accounts/signup/",
       {
-        "email": email,
-        "password": password,
-        "username": username,
-        "nickname": nickname
+        userID: 'userID',
+        username: 'username',
+        phone_number: '010-2222-2222',
+        email: "jiwon@gmail.com",
+        password: "1234"
       })
       .then(res => {
         console.log('Success');
