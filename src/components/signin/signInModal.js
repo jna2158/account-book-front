@@ -123,7 +123,7 @@ export default function LoginModal () {
     console.log(nicknameValid);
 
     if (emailValid && passwordValid && usernameValid && nicknameValid) {
-      axios.post("http://localhost:8000/accounts/signup",
+      axios.post("http://backend-django:8000/accounts/signup",
       {
         "email": email,
         "password": password,
