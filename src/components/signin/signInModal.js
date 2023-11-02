@@ -64,7 +64,7 @@ export default function LoginModal () {
       isPasswordValid(false);
     }
 
-    axios.get(`${API_HOST}/signin`)
+    axios.post(`https://account-book.store/accounts/login`)
     .then(res => {
       console.log('Success');
       setSubmit(false);
@@ -88,7 +88,7 @@ export default function LoginModal () {
       isPasswordValid(false);
     }
 
-    axios.get("https://account-book.store/accounts/signup")
+    axios.post("https://account-book.store/accounts/signup")
     .then(res => {
       console.log('Success');
       setSubmit(false);
