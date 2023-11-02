@@ -64,15 +64,15 @@ export default function LoginModal () {
       isPasswordValid(false);
     }
 
-    // axios.get(`${API_HOST}/signin`)
-    // .then(res => {
-    //   console.log('Success');
-    //   setSubmit(false);
-    // })
-    // .catch(err => {
-    //   console.log(err);
-    //   setSubmit(false);
-    // });
+    axios.get(`${API_HOST}/signin`)
+    .then(res => {
+      console.log('Success');
+      setSubmit(false);
+    })
+    .catch(err => {
+      console.log(err);
+      setSubmit(false);
+    });
   }
 
   /**
@@ -88,15 +88,15 @@ export default function LoginModal () {
       isPasswordValid(false);
     }
 
-    // axios.get(`${API_HOST}/signup`)
-    // .then(res => {
-    //   console.log('Success');
-    //   setSubmit(false);
-    // })
-    // .catch(err => {
-    //   console.log(err);
-    //   setSubmit(false);
-    // });
+    axios.get("https://account-book.store/accounts/signup")
+    .then(res => {
+      console.log('Success');
+      setSubmit(false);
+    })
+    .catch(err => {
+      console.log(err);
+      setSubmit(false);
+    });
   }
 
   return (
@@ -105,6 +105,7 @@ export default function LoginModal () {
       !isSignIn
       ? <section className="modal-back signin-section">
           <div className="signin-modal">
+          <span><i className="fa-solid fa-x" onClick={confirm}></i></span>
             <h1 className="title">Account Book</h1>
              <form onSubmit={e=> e.preventDefault()}>
               <div>
@@ -139,6 +140,7 @@ export default function LoginModal () {
         </section>
       : <section className="modal-back signup-section">
           <div className="signup-modal">
+          <span><i className="fa-solid fa-x" onClick={confirm}></i></span>
             <h1 className="title">Account Book</h1>
             <form onSubmit={e=> e.preventDefault()}>
               <div>
@@ -153,6 +155,19 @@ export default function LoginModal () {
                   (submit && !passwordValid) && <span className="validation">필수값입니다</span>
                 }
               </div>
+              <div>
+                <input type="text" placeholder="이름을 입력하세요"></input>
+                {
+                  (submit && !passwordValid) && <span className="validation">필수값입니다</span>
+                }
+              </div>
+              <div>
+                <input type="text" placeholder="닉네임을 입력하세요"></input>
+                {
+                  (submit && !passwordValid) && <span className="validation">필수값입니다</span>
+                }
+              </div>
+              
               <button onClick={onClickSignUp}>회원가입하기</button>
               <div className="social-container">
                 <a href="#" className="social"><i className="fab fa-facebook-f"></i></a>
