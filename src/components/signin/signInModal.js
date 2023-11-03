@@ -42,11 +42,11 @@ export default function LoginModal () {
       isUserNameValid(true);
     }
 
-    // if (!nicknameValid.length) {
-    //   isNickNameValid(false);
-    // } else {
-    //   isNickNameValid(true);
-    // }
+    if (!nickname.length) {
+      isNickNameValid(false);
+    } else {
+      isNickNameValid(true);
+    }
   }, [email, password, username, nickname]);
 
   /**
@@ -102,7 +102,6 @@ export default function LoginModal () {
    * 회원가입 버튼 눌렀을 때 호출되는 함수
    */
   const onClickSignUp = () => {
-    console.log('onClickSignUp >> ');
     setSubmit(true);
 
     if (!email.length) {
@@ -117,19 +116,14 @@ export default function LoginModal () {
     if (!nickname.length) {
       isNickNameValid(false);
     }
-    
-    console.log('isNickNameValid');
-    console.log(nickname);
-    console.log(nicknameValid);
 
     if (emailValid && passwordValid && usernameValid && nicknameValid) {
       axios.post("http://backend-django:8000/accounts/signup/",
       {
-        userID: 'userID',
-        username: 'username',
-        phone_number: '010-2222-2222',
-        email: "jiwon@gmail.com",
-        password: "1234"
+        "email": email,
+        "password": password,
+        "username": username,
+        "nickname": nickname
       })
       .then(res => {
         console.log('Success');
