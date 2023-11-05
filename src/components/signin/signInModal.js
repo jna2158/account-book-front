@@ -89,6 +89,10 @@ export default function LoginModal () {
       "password": password
     })
     .then(res => {
+      // 로그인 성공했을 때
+      if (res.response.status === 200) {
+        confirm();
+      }
       console.log('Success');
       setSubmit(false);
     })
@@ -120,15 +124,16 @@ export default function LoginModal () {
     if (emailValid && passwordValid && usernameValid && nicknameValid) {
       axios.post("https://account-book.store/api/accounts/signup/",
       {
-        Headers: {
-
-        },
         "email": email,
         "password": password,
         "username": username,
         "nickname": nickname
       })
       .then(res => {
+        // 회원가입 성공했을 때
+        if (res.response.status === 201) {
+          setIsSignIn(!isSignIn);
+        }
         console.log('Success');
         setSubmit(false);
       })
