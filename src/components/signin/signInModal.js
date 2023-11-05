@@ -84,7 +84,7 @@ export default function LoginModal () {
       isPasswordValid(false);
     }
 
-    axios.post(`https://account-book.store/api/accounts/login`, {
+    axios.post(`https://account-book.store/api/accounts/login/`, {
       "email": email,
       "password": password
     })
@@ -118,8 +118,11 @@ export default function LoginModal () {
     }
 
     if (emailValid && passwordValid && usernameValid && nicknameValid) {
-      axios.post("https://account-book.store/api/accounts/signup",
+      axios.post("https://account-book.store/api/accounts/signup/",
       {
+        Headers: {
+
+        },
         "email": email,
         "password": password,
         "username": username,
