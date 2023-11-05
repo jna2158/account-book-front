@@ -90,7 +90,7 @@ export default function LoginModal () {
     })
     .then(res => {
       // 로그인 성공했을 때
-      if (res.response.status === 200) {
+      if (res.status === 200) {
         confirm();
       }
       console.log('Success');
@@ -131,7 +131,7 @@ export default function LoginModal () {
       })
       .then(res => {
         // 회원가입 성공했을 때
-        if (res.response.status === 201) {
+        if (res.status === 201) {
           setIsSignIn(!isSignIn);
         }
         console.log('Success');
