@@ -84,7 +84,7 @@ export default function LoginModal () {
       isPasswordValid(false);
     }
 
-    axios.post(`http://backend-django:8000/api/accounts/login`, {
+    axios.post(`https://accounts-book.store/api/accounts/login`, {
       "email": email,
       "password": password
     })
@@ -118,7 +118,7 @@ export default function LoginModal () {
     }
 
     if (emailValid && passwordValid && usernameValid && nicknameValid) {
-      axios.post("http://backend-django:8000/api/accounts/signup",
+      axios.post("https://accounts-book.store/api/accounts/signup",
       {
         "email": email,
         "password": password,
