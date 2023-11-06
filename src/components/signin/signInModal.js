@@ -1,5 +1,4 @@
 import { isModalOpen } from "../../actions/loginAction";
-import { getUser, setUser } from "../../actions/userAction";
 import "./signInModal.css";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -99,23 +98,30 @@ export default function LoginModal () {
       isPasswordValid(false);
     }
 
-    axios.post(`https://account-book.store/api/accounts/login/`, {
-      "email": email,
-      "password": password
-    })
-    .then(res => {
-      // 로그인 성공했을 때
-      if (res.status === 200) {
-        confirm();
-        localStorage.setItem("refresh_token", res.data.jwt_token.access_token);
-        localStorage.setItem("nickname", res.data.user.nickname);
-        navigate("/");
-      }
-      setSubmit(false);
-    })
-    .catch(err => {
-      setSubmit(false);
-    });
+    if (emailValid && passwordValid) {
+      axios.post(`https://account-book.store/api/accounts/login/`, {
+        "email": email,
+        "password": password
+      })
+      .then(res => {
+        // 로그인 성공했을 때
+        if (res.status === 200) {
+          confirm();
+          localStorage.setItem("refresh_token", res.data.jwt_token.access_token);
+          localStorage.setItem("nickname", res.data.user.nickname);
+          navigate("/");
+        }
+        setSubmit(false);
+      })
+      .catch(e => {
+        setSubmit(false);
+        if (e.response.data.message) {
+          const err = errMsg;
+          err.push(e.response.data.message);
+          setErrMsg(err);
+        }
+      });
+    }
   }
 
   /**
@@ -157,8 +163,18 @@ export default function LoginModal () {
         }
         setSubmit(false);
       })
-      .catch(err => {
+      .catch(e => {
         setSubmit(false);
+        if (e.response.data.email) {
+          const err = errMsg;
+          err.push(e.response.data.email[0]);
+          setErrMsg(err);
+        }
+        if (e.response.data.nickname) {
+          const err = errMsg;
+          err.push(e.response.data.nickname[0]);
+          setErrMsg(err);
+        }
       });
     }
   }
@@ -184,6 +200,9 @@ export default function LoginModal () {
                 {
                   (submit && emailValid && errMsg.includes('올바른 이메일 형식을 입력하세요.')) && <span className="validation">올바른 이메일 형식을 입력하세요.</span>
                 }
+                {
+                  (errMsg.includes('존재하지않는 아이디입니다.')) && <span className="validation">존재하지않는 아이디입니다.</span>
+                }
               </div>
               <div>
               <input type="password"
@@ -193,6 +212,9 @@ export default function LoginModal () {
               ></input>
               {
                 (submit && !passwordValid) && <span className="validation">필수값입니다</span>
+              }
+              {
+                (errMsg.includes('비밀번호가 일치하지않습니다..')) && <span className="validation">비밀번호가 일치하지않습니다..</span>
               }
               </div>
               <button onClick={onClickSignIn}>로그인하기</button>
@@ -218,6 +240,9 @@ export default function LoginModal () {
                 {
                   (submit && emailValid && errMsg.includes('올바른 이메일 형식을 입력하세요.')) && <span className="validation">올바른 이메일 형식을 입력하세요.</span>
                 }
+                {
+                  (errMsg.includes('user with this email already exists.')) && <span className="validation">이미 존재하는 이메일 입니다.</span>
+                }
               </div>
               <div>
                 <input type="password" placeholder="비밀번호 입력하세요" value={password} onChange={e => setPassword(e.target.value)}></input>
@@ -235,6 +260,9 @@ export default function LoginModal () {
                 <input type="text" placeholder="닉네임을 입력하세요" value={nickname} onChange={e => setNickName(e.target.value)}></input>
                 {
                   (submit && !nicknameValid) && <span className="validation">필수값입니다</span>
+                }
+                {
+                  (errMsg.includes('user with this nickname already exists.')) && <span className="validation">이미 존재하는 닉네임 입니다.</span>
                 }
               </div>
               
