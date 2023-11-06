@@ -1,5 +1,7 @@
 import { isModalOpen } from "../../actions/loginAction";
+import { getUser, setUser } from "../../actions/userAction";
 import "./signInModal.css";
+
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -105,6 +107,8 @@ export default function LoginModal () {
       // 로그인 성공했을 때
       if (res.status === 200) {
         confirm();
+        localStorage.setItem("refresh_token", res.data.jwt_token.access_token);
+        localStorage.setItem("nickname", res.data.user.nickname);
         navigate("/");
       }
       setSubmit(false);

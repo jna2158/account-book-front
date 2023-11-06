@@ -2,6 +2,8 @@ import { Content } from '../content/content';
 import { Chart } from '../chart/chart';
 import { Calendar } from '../mainpage/calendar';
 import SignInModal from '../signin/signInModal';
+import { getCookie } from '../../shared/cookie';
+
 import './navigation.css';
 
 import { isModalOpen } from '../../actions/loginAction';
@@ -10,7 +12,13 @@ import { Link, Route, Routes } from 'react-router-dom';
 
 export default function Navigation() {
   const open = useSelector(state => state.loginReducer.state);
+  const user = useSelector(state => state.userReducer.state);
+
   const dispatch = useDispatch();
+
+  const isLogin = () => {
+    return localStorage.getItem("refresh_token");
+  }
 
   return (
     <section>
@@ -27,7 +35,9 @@ export default function Navigation() {
           </div>
 
           <div className="login">
-            <a onClick={() => dispatch(isModalOpen(open))}>로그인</a>
+            {
+              isLogin() ? `${localStorage.getItem('nickname')} 님` : <a onClick={() => dispatch(isModalOpen(open))}>로그인</a> 
+            }
           </div>
         </nav>
       </header>
