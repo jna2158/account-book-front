@@ -3,11 +3,14 @@ import "./signInModal.css";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+import { checkEmail } from '../../shared/global-regular-expression';
 import { API_HOST } from "../../constant";
 
 
 export default function LoginModal () {
   const open = useSelector((state) => state.loginReducer.state);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [isSignIn, setIsSignIn] = useState(false);
@@ -21,13 +24,23 @@ export default function LoginModal () {
   const [usernameValid, isUserNameValid] = useState(true);
   const [nickname, setNickName] = useState('');
   const [nicknameValid, isNickNameValid] = useState(true);
-  const [errMsg, setErrMsg] = useState('');
+  const [errMsg, setErrMsg] = useState([]);
 
   useEffect(() => {
     if (!email.length) {
       isEmailValid(false);
     } else {
       isEmailValid(true);
+    }
+
+    if (!checkEmail(email) && !errMsg.includes('올바른 이메일 형식을 입력하세요.')) {
+      const err = errMsg;
+      err.push('올바른 이메일 형식을 입력하세요.');
+      setErrMsg(err);
+    } else if (checkEmail(email)) {
+      let err = errMsg;
+      err = err.filter(el => el !== '올바른 이메일 형식을 입력하세요.');
+      setErrMsg(err);
     }
 
     if (!password.length) {
@@ -92,12 +105,11 @@ export default function LoginModal () {
       // 로그인 성공했을 때
       if (res.status === 200) {
         confirm();
+        navigate("/");
       }
-      console.log('Success');
       setSubmit(false);
     })
     .catch(err => {
-      console.log(err);
       setSubmit(false);
     });
   }
@@ -120,6 +132,11 @@ export default function LoginModal () {
     if (!nickname.length) {
       isNickNameValid(false);
     }
+    if (!checkEmail(email) && !errMsg.includes('올바른 이메일 형식을 입력하세요.')) {
+      const err = errMsg;
+      err.push('올바른 이메일 형식을 입력하세요.');
+      setErrMsg(err);
+    }
 
     if (emailValid && passwordValid && usernameValid && nicknameValid) {
       axios.post("https://account-book.store/api/accounts/signup/",
@@ -134,11 +151,9 @@ export default function LoginModal () {
         if (res.status === 201) {
           setIsSignIn(!isSignIn);
         }
-        console.log('Success');
         setSubmit(false);
       })
       .catch(err => {
-        console.log(err);
         setSubmit(false);
       });
     }
@@ -154,13 +169,16 @@ export default function LoginModal () {
             <h1 className="title">Account Book</h1>
              <form onSubmit={e=> e.preventDefault()}>
               <div>
-                <input type="email"
+                <input type="text"
                   placeholder="이메일 입력하세요"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                 ></input>
                 {
                   (submit && !emailValid) && <span className="validation">필수값입니다</span>
+                }
+                {
+                  (submit && emailValid && errMsg.includes('올바른 이메일 형식을 입력하세요.')) && <span className="validation">올바른 이메일 형식을 입력하세요.</span>
                 }
               </div>
               <div>
@@ -189,9 +207,12 @@ export default function LoginModal () {
             <h1 className="title">Account Book</h1>
             <form onSubmit={e=> e.preventDefault()}>
               <div>
-                <input type="email" placeholder="이메일 입력하세요" value={email} onChange={e => setEmail(e.target.value)}></input>
+                <input type="text" placeholder="이메일 입력하세요" value={email} onChange={e => setEmail(e.target.value)}></input>
                 {
                   (submit && !emailValid) && <span className="validation">필수값입니다</span>
+                }
+                {
+                  (submit && emailValid && errMsg.includes('올바른 이메일 형식을 입력하세요.')) && <span className="validation">올바른 이메일 형식을 입력하세요.</span>
                 }
               </div>
               <div>
