@@ -7,12 +7,15 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import { checkEmail } from '../../shared/global-regular-expression';
 import { API_HOST } from "../../constant";
+import { Cookies } from "react-cookie";
+import { signInErrorMsg, signUpErrorMsg, errorMsg } from "../../shared/errorMsgConstant";
 
 
 export default function LoginModal () {
   const open = useSelector((state) => state.loginReducer.state);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const cookie = new Cookies();
 
   const [isSignIn, setIsSignIn] = useState(false);
   const [submit, setSubmit] = useState(false);
@@ -27,6 +30,8 @@ export default function LoginModal () {
   const [nicknameValid, isNickNameValid] = useState(true);
   const [errMsg, setErrMsg] = useState([]);
 
+  const cookies = new Cookies();
+
   useEffect(() => {
     if (!email.length) {
       isEmailValid(false);
@@ -34,13 +39,13 @@ export default function LoginModal () {
       isEmailValid(true);
     }
 
-    if (!checkEmail(email) && !errMsg.includes('올바른 이메일 형식을 입력하세요.')) {
+    if (!checkEmail(email) && !errMsg.includes(errorMsg.invalidEmailFormat)) {
       const err = errMsg;
-      err.push('올바른 이메일 형식을 입력하세요.');
+      err.push(errorMsg.invalidEmailFormat);
       setErrMsg(err);
     } else if (checkEmail(email)) {
       let err = errMsg;
-      err = err.filter(el => el !== '올바른 이메일 형식을 입력하세요.');
+      err = err.filter(el => el !== errorMsg.invalidEmailFormat);
       setErrMsg(err);
     }
 
@@ -107,15 +112,16 @@ export default function LoginModal () {
         // 로그인 성공했을 때
         if (res.status === 200) {
           confirm();
-          localStorage.setItem("refresh_token", res.data.jwt_token.access_token);
-          localStorage.setItem("nickname", res.data.user.nickname);
-          navigate("/");
+          // access token은 local storage에, refresh token은 cookie에 저장
+          const ACCESS_TOKEN = res.data.jwt_token.access_token;
+          localStorage.setItem('ACCESS_TOKEN', ACCESS_TOKEN);
+          localStorage.setItem('user', JSON.stringify(res.data.user));
         }
         setSubmit(false);
       })
       .catch(e => {
         setSubmit(false);
-        if (e.response.data.message) {
+        if (e.response && e.response.data.message) {
           const err = errMsg;
           err.push(e.response.data.message);
           setErrMsg(err);
@@ -142,9 +148,9 @@ export default function LoginModal () {
     if (!nickname.length) {
       isNickNameValid(false);
     }
-    if (!checkEmail(email) && !errMsg.includes('올바른 이메일 형식을 입력하세요.')) {
+    if (!checkEmail(email) && !errMsg.includes(errorMsg.invalidEmailFormat)) {
       const err = errMsg;
-      err.push('올바른 이메일 형식을 입력하세요.');
+      err.push(errorMsg.invalidEmailFormat);
       setErrMsg(err);
     }
 
@@ -175,6 +181,16 @@ export default function LoginModal () {
           err.push(e.response.data.nickname[0]);
           setErrMsg(err);
         }
+        if (e.response.data.username) {
+          const err = errMsg;
+          err.push(e.response.data.username[0]);
+          setErrMsg(err);
+        }
+        if (e.response.data.password) {
+          const err = errMsg;
+          err.push(e.response.data.password[0]);
+          setErrMsg(err);
+        }
       });
     }
   }
@@ -187,7 +203,7 @@ export default function LoginModal () {
           <div className="signin-modal">
           <span><i className="fa-solid fa-x" onClick={confirm}></i></span>
             <h1 className="title">Account Book</h1>
-             <form onSubmit={e=> e.preventDefault()}>
+             <form className="user_form" onSubmit={e=> e.preventDefault()}>
               <div>
                 <input type="text"
                   placeholder="이메일 입력하세요"
@@ -195,13 +211,13 @@ export default function LoginModal () {
                   onChange={e => setEmail(e.target.value)}
                 ></input>
                 {
-                  (submit && !emailValid) && <span className="validation">필수값입니다</span>
+                  (submit && !emailValid) && <span className="validation">{errorMsg.requiredField}</span>
                 }
                 {
-                  (submit && emailValid && errMsg.includes('올바른 이메일 형식을 입력하세요.')) && <span className="validation">올바른 이메일 형식을 입력하세요.</span>
+                  (submit && emailValid && errMsg.includes(`${errorMsg.invalidEmailFormat}`)) && <span className="validation">{errorMsg.invalidEmailFormat}</span>
                 }
                 {
-                  (errMsg.includes('존재하지않는 아이디입니다.')) && <span className="validation">존재하지않는 아이디입니다.</span>
+                  (errMsg.includes(`${signInErrorMsg.invalidEmail}`)) && <span className="validation">{`${signInErrorMsg.invalidEmail}`}</span>
                 }
               </div>
               <div>
@@ -211,17 +227,17 @@ export default function LoginModal () {
                 onChange={e => setPassword(e.target.value)}
               ></input>
               {
-                (submit && !passwordValid) && <span className="validation">필수값입니다</span>
+                (submit && !passwordValid) && <span className="validation">{errorMsg.requiredField}</span>
               }
               {
-                (errMsg.includes('비밀번호가 일치하지않습니다..')) && <span className="validation">비밀번호가 일치하지않습니다..</span>
+                (errMsg.includes(`${signInErrorMsg.invalidPassword}`)) && <span className="validation">{signInErrorMsg.invalidPassword}</span>
               }
               </div>
               <button onClick={onClickSignIn}>로그인하기</button>
               <div className="social-container">
-                <a href="#" className="social"><i class="fa-solid fa-n"></i></a>
+                <a href="#" className="social"><i className="fa-solid fa-n"></i></a>
                 <a href="#" className="social"><i className="fab fa-google-plus-g"></i></a>
-                <a href="#" className="social"><i class="fa-solid fa-k"></i></a>
+                <a href="#" className="social"><i className="fa-solid fa-k"></i></a>
               </div>
             </form>
             <span className="sub-info">아직 회원이 아니신가요? <span onClick={() => onToggleModal()}><strong>회원가입</strong></span></span>
@@ -231,38 +247,44 @@ export default function LoginModal () {
           <div className="signup-modal">
           <span><i className="fa-solid fa-x" onClick={confirm}></i></span>
             <h1 className="title">Account Book</h1>
-            <form onSubmit={e=> e.preventDefault()}>
+            <form className="user_form" onSubmit={e=> e.preventDefault()}>
               <div>
                 <input type="text" placeholder="이메일 입력하세요" value={email} onChange={e => setEmail(e.target.value)}></input>
                 {
-                  (submit && !emailValid) && <span className="validation">필수값입니다</span>
+                  (submit && !emailValid) && <span className="validation">{errorMsg.requiredField}</span>
                 }
                 {
-                  (submit && emailValid && errMsg.includes('올바른 이메일 형식을 입력하세요.')) && <span className="validation">올바른 이메일 형식을 입력하세요.</span>
+                  (submit && emailValid && errMsg.includes(errorMsg.invalidEmailFormat)) && <span className="validation">{errorMsg.invalidEmailFormat}</span>
                 }
                 {
-                  (errMsg.includes('user with this email already exists.')) && <span className="validation">이미 존재하는 이메일 입니다.</span>
+                  (errMsg.includes(`${signUpErrorMsg.email[0]}`)) && <span className="validation">{signUpErrorMsg.email[0]}</span>
                 }
               </div>
               <div>
                 <input type="password" placeholder="비밀번호 입력하세요" value={password} onChange={e => setPassword(e.target.value)}></input>
                 {
-                  (submit && !passwordValid) && <span className="validation">필수값입니다</span>
+                  (submit && !passwordValid) && <span className="validation">{errorMsg.requiredField}</span>
+                }
+                {
+                  (errMsg.includes(`${signUpErrorMsg.password[0]}`)) && <span className="validation">{signUpErrorMsg.password[0]}</span>
                 }
               </div>
               <div>
                 <input type="text" placeholder="이름을 입력하세요" value={username} onChange={e => setUserName(e.target.value)}></input>
                 {
-                  (submit && !usernameValid) && <span className="validation">필수값입니다</span>
+                  (submit && !usernameValid) && <span className="validation">{errorMsg.requiredField}</span>
+                }
+                {
+                  (errMsg.includes(`${signUpErrorMsg.username[0]}`)) && <span className="validation">{signUpErrorMsg.username[0]}</span>
                 }
               </div>
               <div>
                 <input type="text" placeholder="닉네임을 입력하세요" value={nickname} onChange={e => setNickName(e.target.value)}></input>
                 {
-                  (submit && !nicknameValid) && <span className="validation">필수값입니다</span>
+                  (submit && !nicknameValid) && <span className="validation">{errorMsg.requiredField}</span>
                 }
                 {
-                  (errMsg.includes('user with this nickname already exists.')) && <span className="validation">이미 존재하는 닉네임 입니다.</span>
+                  (errMsg.includes(`${signUpErrorMsg.nickname[0]}`)) && <span className="validation">{signUpErrorMsg.nickname[0]}</span>
                 }
               </div>
               

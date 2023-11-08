@@ -1,9 +1,8 @@
 import { Content } from '../content/content';
 import { Chart } from '../chart/chart';
 import { Calendar } from '../mainpage/calendar';
+import MyPage from '../mypage/mypage';
 import SignInModal from '../signin/signInModal';
-import { getCookie } from '../../shared/cookie';
-
 import './navigation.css';
 
 import { isModalOpen } from '../../actions/loginAction';
@@ -17,7 +16,7 @@ export default function Navigation() {
   const dispatch = useDispatch();
 
   const isLogin = () => {
-    return localStorage.getItem("refresh_token");
+    return localStorage.getItem("ACCESS_TOKEN");
   }
 
   return (
@@ -36,7 +35,7 @@ export default function Navigation() {
 
           <div className="login">
             {
-              isLogin() ? `${localStorage.getItem('nickname')} 님` : <a onClick={() => dispatch(isModalOpen(open))}>로그인</a> 
+              isLogin() ? <Link to="/mypage"><a>{JSON.parse(localStorage.getItem('user')).nickname} 님</a></Link> : <a onClick={() => dispatch(isModalOpen(open))}>로그인</a> 
             }
           </div>
         </nav>
@@ -46,6 +45,7 @@ export default function Navigation() {
         <Route path="/" exact={true} element={<Calendar />}></Route>
         <Route path="/chart" element={<Chart />}></Route>
         <Route path="/content" element={<Content />}></Route>
+        <Route path="/mypage" element={<MyPage />}></Route>
       </Routes>
 
       <div> {open ? <SignInModal /> : <></> } </div>
