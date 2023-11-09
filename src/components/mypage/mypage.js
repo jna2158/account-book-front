@@ -65,7 +65,7 @@ export default function Mypage() {
       localStorage.removeItem('ACCESS_TOKEN');
       localStorage.removeItem('user');
       navigate('/');
-      location.reload();
+      window.location.reload();
     })
     .catch(err => {
       throw err
@@ -88,7 +88,7 @@ export default function Mypage() {
       localStorage.removeItem('ACCESS_TOKEN');
       localStorage.removeItem('user');
       navigate('/');
-      location.reload();
+      window.location.reload();
     })
     .catch(err => {
       console.log(err);
