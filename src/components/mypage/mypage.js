@@ -19,22 +19,43 @@ export default function Mypage() {
    * 회원의 마이페이지 정보를 가져오는 함수
    */
   const getUserInfo = () => {
-    axios({
-      method:'get',
-      url:`${API_HOST}/api/accounts/detail`,
-      headers:{
-        'Content-Type':'application/json',
-        Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`,
-      },
-      body: JSON.parse(localStorage.getItem('user')).email
-    })
-    .then(res => {
-      console.log(res);
-    })
-    .catch(err => {
-      throw err;
-    })
+    console.log(JSON.parse(localStorage.getItem('user')).email);
+  //   axios({
+  //     method:'get',
+  //     url:`${API_HOST}/api/accounts/detail/`,
+  //     headers: {
+  //       'Content-Type':'application/json',
+  //       Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`,
+  //     },
+  //     body: {
+  //       email: JSON.parse(localStorage.getItem('user')).email
+  //     }
+  //   })
+  //   .then(res => {
+  //     console.log(res);
+  //   })
+  //   .catch(err => {
+  //     throw err;
+  //   })
+  // }
+  const apiUrl = `${API_HOST}/api/accounts/detail/`;
+  const headers = {
+    Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
   }
+  const requestBody = {
+    email: JSON.parse(localStorage.getItem('user')).email
+  }
+
+  axios.get(apiUrl,
+    { headers: headers,
+      params: requestBody }
+  )
+  .then(res => {
+    console.log(res);
+  })
+  .catch(err => {
+    throw err
+  })}
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
