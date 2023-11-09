@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './mypage.css';
 import { API_HOST } from '../../constant';
 import axios from 'axios';
+import { updateRefreshToken } from '../../shared/token';
 
 export default function Mypage() {
   const [formData, setFormData] = useState({
@@ -43,19 +44,14 @@ export default function Mypage() {
    */
   const deleteUser = () => {
     const password = prompt("비밀번호를 입력하세요", "");
-    console.log(password);
     if (!password) {
       return;
     }
-    const apiUrl = `${API_HOST}/api/accounts/delete/`;
+    const apiUrl = `${API_HOST}/api/accounts/detail/`;
     const headers = {
       Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
     }
-    const requestBody = {
-      email: JSON.parse(localStorage.getItem('user')).email,
-      password
-    }
-
+ 
     axios.delete(apiUrl, {
       data: {
         email: JSON.parse(localStorage.getItem('user')).email,
@@ -71,13 +67,13 @@ export default function Mypage() {
     })
   }
 
+  /**
+   * 회원의 로그아웃 요청을 보내는 함수
+   */
   const logoutUser = () => {
     const apiUrl = `${API_HOST}/api/accounts/logout/`;
     const headers = {
       Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
-    }
-    const requestBody = {
-      email: JSON.parse(localStorage.getItem('user')).email
     }
 
     axios.post(apiUrl, null, {
@@ -88,6 +84,12 @@ export default function Mypage() {
       localStorage.removeItem('user');
     })
     .catch(err => {
+      console.log(err);
+      if (err.response.status === 401) {
+        const newToken = updateRefreshToken();
+        console.log('newToken');
+        console.log(newToken);
+      }
       throw err
     })
   }
