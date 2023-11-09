@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, } from 'react';
 import './mypage.css';
 import { API_HOST } from '../../constant';
 import axios from 'axios';
 import { updateRefreshToken } from '../../shared/token';
+import { useNavigate } from 'react-router-dom';
 
 export default function Mypage() {
   const [formData, setFormData] = useState({
@@ -11,6 +12,7 @@ export default function Mypage() {
     username: ''
   });
   const [isPasswordModifyMode, setIsPasswordModifyMode] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getUserInfo();
@@ -61,6 +63,9 @@ export default function Mypage() {
     })
     .then(res => {
       console.log(res);
+      localStorage.removeItem('ACCESS_TOKEN');
+      localStorage.removeItem('user');
+      navigate('/');
     })
     .catch(err => {
       throw err
@@ -82,6 +87,7 @@ export default function Mypage() {
     .then(res => {
       localStorage.removeItem('ACCESS_TOKEN');
       localStorage.removeItem('user');
+      navigate('/');
     })
     .catch(err => {
       console.log(err);
