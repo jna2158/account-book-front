@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from 'axios';
 
 export const updateRefreshToken = () => {
   axios.post('https://account-book.store/api/accounts/login/refresh/')

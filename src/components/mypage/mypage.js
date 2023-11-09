@@ -1,10 +1,9 @@
 import React, { useEffect, useState, } from 'react';
-import './mypage.css';
 import { API_HOST } from '../../constant';
+import './mypage.css';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { updateRefreshToken } from '../../shared/token';
-import { useNavigate } from 'react-router-dom';
-
 export default function Mypage() {
   const [formData, setFormData] = useState({
     email: '',

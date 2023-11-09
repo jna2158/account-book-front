@@ -1,14 +1,13 @@
 import { isModalOpen } from "../../actions/loginAction";
+import { checkEmail } from '../../shared/global-regular-expression';
+import { signInErrorMsg, signUpErrorMsg, errorMsg } from "../../shared/errorMsgConstant";
 import "./signInModal.css";
 
+import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-import { checkEmail } from '../../shared/global-regular-expression';
-import { API_HOST } from "../../constant";
 import { Cookies } from "react-cookie";
-import { signInErrorMsg, signUpErrorMsg, errorMsg } from "../../shared/errorMsgConstant";
 
 
 export default function LoginModal () {
