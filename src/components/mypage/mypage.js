@@ -38,6 +38,60 @@ export default function Mypage() {
     throw err
   })}
 
+  /**
+   * 회원의 탈퇴 요청을 보내는 함수
+   */
+  const deleteUser = () => {
+    const password = prompt("비밀번호를 입력하세요", "");
+    console.log(password);
+    if (!password) {
+      return;
+    }
+    const apiUrl = `${API_HOST}/api/accounts/delete/`;
+    const headers = {
+      Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
+    }
+    const requestBody = {
+      email: JSON.parse(localStorage.getItem('user')).email,
+      password
+    }
+
+    axios.delete(apiUrl, {
+      data: {
+        email: JSON.parse(localStorage.getItem('user')).email,
+        password
+      },
+      headers: headers
+    })
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => {
+      throw err
+    })
+  }
+
+  const logoutUser = () => {
+    const apiUrl = `${API_HOST}/api/accounts/logout/`;
+    const headers = {
+      Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
+    }
+    const requestBody = {
+      email: JSON.parse(localStorage.getItem('user')).email
+    }
+
+    axios.post(apiUrl, null, {
+      headers: headers
+    })
+    .then(res => {
+      localStorage.removeItem('ACCESS_TOKEN');
+      localStorage.removeItem('user');
+    })
+    .catch(err => {
+      throw err
+    })
+  }
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
@@ -106,9 +160,10 @@ export default function Mypage() {
           )
         }
         
-        
       </form>
       <button type="submit">확인</button>
+      <button type="button" onClick={() => deleteUser()}>회원탈퇴</button>
+      <button type="button" onClick={() => logoutUser()}>로그아웃</button>
     </div>
   );
 }
