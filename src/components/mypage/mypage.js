@@ -1,16 +1,20 @@
 import React, { useEffect, useState, } from 'react';
 import { API_HOST } from '../../constant';
+import logo from "../../source/account-book-logo.png";
+import Profile from './profile';
 import './mypage.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { updateRefreshToken } from '../../shared/token';
 export default function Mypage() {
   const [formData, setFormData] = useState({
-    email: '',
-    nickname: '',
-    username: ''
+    email: 'jiwonemail',
+    id: 'jiwonid',
+    nickname: 'nickname',
+    username: 'username'
   });
   const [isPasswordModifyMode, setIsPasswordModifyMode] = useState(false);
+  const [isClickProfileBtn, setIsClickProfieBtn] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,24 +25,25 @@ export default function Mypage() {
    * 회원의 마이페이지 정보를 가져오는 함수
    */
   const getUserInfo = () => {
-  const apiUrl = `${API_HOST}/api/accounts/detail/`;
-  const headers = {
-    Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
-  }
-  const requestBody = {
-    email: JSON.parse(localStorage.getItem('user')).email
-  }
+  // const apiUrl = `${API_HOST}/api/accounts/detail/`;
+  // const headers = {
+  //   Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
+  // }
+  // const requestBody = {
+  //   email: JSON.parse(localStorage.getItem('user')).email
+  // }
 
-  axios.get(apiUrl, {
-    headers: headers,
-    params: requestBody
-  })
-  .then(res => {
-    setFormData(res.data);
-  })
-  .catch(err => {
-    throw err
-  })}
+  // axios.get(apiUrl, {
+  //   headers: headers,
+  //   params: requestBody
+  // })
+  // .then(res => {
+  //   setFormData(res.data);
+  // })
+  // .catch(err => {
+  //   throw err
+  // })
+}
 
   /**
    * 회원의 탈퇴 요청을 보내는 함수
@@ -109,36 +114,65 @@ export default function Mypage() {
     event.preventDefault();
   };
 
+  /**
+   * 프로필 변경
+   */
+  const changeMyProfile = () => {
+    setIsClickProfieBtn(!isClickProfileBtn);
+  }
+
   return (
     <div className='mypage_section'>
-      <h1>마이 페이지</h1>
       <form onSubmit={handleSubmit}>
-        <label>닉네임</label>
-        <input
-          type="text"
-          id="nickname"
-          name="nickname"
-          value={formData.nickname}
-          onChange={handleInputChange}
-          required
-        />
-
-        <label>아이디</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          value={formData.username}
-          onChange={handleInputChange}
-          required
-        />
-
-        <label>비밀번호</label>
+        <div onClick={() => changeMyProfile()}>
+          <a>프로필 사진</a>
+          <img className="profile" src={logo}></img>
+        </div>
         {
-          !isPasswordModifyMode
-          ? <button type="submit" onClick={() => setIsPasswordModifyMode(!isPasswordModifyMode)}>수정</button>
-          : (
-            <>
+          isClickProfileBtn ? <Profile /> : ''
+        }
+
+        <div>
+          <a>이메일</a>
+          <input
+                disabled
+                type="text"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+              />
+        </div>
+
+        <div>
+          <a>아이디</a>
+          <input
+                type="text"
+                id="id"
+                name="id"
+                value={formData.id}
+                onChange={handleInputChange}
+                required
+              />
+        </div>
+
+        <div>
+          <a>닉네임</a>
+          <input
+                disabled
+                type="text"
+                id="nickname"
+                name="nickname"
+                value={formData.nickname}
+                onChange={handleInputChange}
+                required
+              />
+        </div>
+        
+        <div className='password_section'>
+          <a>비밀번호</a>
+            <span>
               <input
                 type="password"
                 id="username"
@@ -163,15 +197,50 @@ export default function Mypage() {
                 onChange={handleInputChange}
                 required
               />
-              <button type="submit" onClick={() => setIsPasswordModifyMode(!isPasswordModifyMode)}>취소</button>
+          </span>
+          {/* <button type="submit" onClick={() => setIsPasswordModifyMode(!isPasswordModifyMode)}>취소</button> */}
+          {/* {
+          !isPasswordModifyMode
+          ? <button type="submit" onClick={() => setIsPasswordModifyMode(!isPasswordModifyMode)}>수정</button>
+          : (
+            <>
+            <span>
+              <input
+                type="password"
+                id="username"
+                name="username"
+                placeholder='현재 비밀번호'
+                onChange={handleInputChange}
+                required
+              />
+              <input
+                type="password"
+                id="username"
+                name="username"
+                placeholder='새 비밀번호'
+                onChange={handleInputChange}
+                required
+              />
+              <input
+                type="password"
+                id="username"
+                name="username"
+                placeholder='새 비밀번호 확인'
+                onChange={handleInputChange}
+                required
+              />
+            </span>
+            <button type="submit" onClick={() => setIsPasswordModifyMode(!isPasswordModifyMode)}>취소</button>
             </>
           )
-        }
-        
+        } */}
+        </div>
+        <section className='button_section'>
+          <button type="submit">확인</button>
+          <button type="button" onClick={() => deleteUser()}>회원탈퇴</button>
+          <button type="button" onClick={() => logoutUser()}>로그아웃</button>
+        </section>
       </form>
-      <button type="submit">확인</button>
-      <button type="button" onClick={() => deleteUser()}>회원탈퇴</button>
-      <button type="button" onClick={() => logoutUser()}>로그아웃</button>
     </div>
   );
 }

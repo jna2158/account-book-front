@@ -54,7 +54,7 @@ a.link_selected.active {
     width: 70px;
   } */
   .gnb {
-    width: calc(100% - 170px);
+    width: calc(100% - 245px);
   }
 }
 

@@ -1,15 +1,59 @@
 /* Mypage */
-.mypage_section {
-  width: 70%;
-  height: auto;
-  margin: 3rem;
+.mypage_section form {
+  background-color: #fff;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+  padding: 1%;
+  height: 85vh;
+  width: 70vw;
 }
-.mypage_section h1 {
-  font-size: 1.7rem;
-  margin-bottom: 2rem;
+.mypage_section {
+  height: auto;
+  margin: 1%;
+}
+.mypage_section div {
+  border: 1px solid var(--gray);
+  background-color: #fafdff;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.01);
+  border-radius: 5px;
+  height: 13%;
+  line-height: 12vh;
+  padding-bottom: 8%;
+}
+.mypage_section a {
+  font-size: 1rem;
+  padding: 30px;
 }
 .mypage_section form {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+.mypage_section input {
+  padding: .4rem 3rem;
+  font-size: 1rem;
+  background-color: #f5f5f5;
+  border-radius: .5rem;
+  border: 0.125rem solid var(--white);
+  outline: none;
+}
+.profile {
+  width: 10%;
+}
+
+/* password */
+.password_section {
+  height: auto !important;
+  display: flex;
+  align-items: center;
+  padding-bottom: 0 !important;
+}
+.password_section input {
+  display: flex;
+  margin: 2%;
+}
+
+/* button */
+.button_section {
+  display: flex;
+  justify-content: flex-end;
 }
