@@ -1,18 +1,17 @@
+import React from 'react';
+import { NavLink, Routes, Route } from 'react-router-dom';
 import { Content } from '../content/content';
 import { Chart } from '../chart/chart';
 import { Calendar } from '../mainpage/calendar';
 import MyPage from '../mypage/mypage';
 import SignInModal from '../signin/signInModal';
-import './navigation.css';
+import styles from './navigation.css';
 
 import { isModalOpen } from '../../actions/loginAction';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, Route, Routes } from 'react-router-dom';
 
 export default function Navigation() {
   const open = useSelector(state => state.loginReducer.state);
-  const user = useSelector(state => state.userReducer.state);
-
   const dispatch = useDispatch();
 
   const isLogin = () => {
@@ -24,28 +23,29 @@ export default function Navigation() {
       <header>
         <nav>
           <div className="logo">
-            <Link to="/">Logo</Link>
+            <NavLink to="/" className="link_selected"><a className='item'>Logo</a></NavLink>
           </div>
 
           <div className="gnb">
-            <Link to="/"><a>조회</a></Link>
-            <Link to="/chart"><a>차트 보기</a></Link>
-            <Link to="/content"><a>소비 습관</a></Link>
+            <NavLink to="/home" className="link_selected"><a className='item'>조회</a></NavLink>
+            <NavLink to="/chart" className="link_selected"><a className='item'>차트 보기</a></NavLink>
+            <NavLink to="/content" className="link_selected"><a className='item'>소비 습관</a></NavLink>
           </div>
 
           <div className="login">
             {
-              isLogin() ? <Link to="/mypage"><a>{JSON.parse(localStorage.getItem('user')).nickname} 님</a></Link> : <a onClick={() => dispatch(isModalOpen(open))}>로그인</a> 
+              isLogin() ? <NavLink to="/mypage" className="link_selected"><a className='item'>{JSON.parse(localStorage.getItem('user')).nickname} 님</a></NavLink> : <a onClick={() => dispatch(isModalOpen(open))}><a className='item'>로그인</a></a> 
             }
           </div>
         </nav>
       </header>
 
       <Routes>
-        <Route path="/" exact={true} element={<Calendar />}></Route>
-        <Route path="/chart" element={<Chart />}></Route>
-        <Route path="/content" element={<Content />}></Route>
-        <Route path="/mypage" element={<MyPage />}></Route>
+        <Route path="/" exact={true} element={<Calendar />}/>
+        <Route path="/home" element={<Calendar />}/>
+        <Route path="/chart" element={<Chart />} />
+        <Route path="/content" element={<Content />} />
+        <Route path="/mypage" element={<MyPage />} />
       </Routes>
 
       <div> {open ? <SignInModal /> : <></> } </div>

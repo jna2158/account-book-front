@@ -15,7 +15,7 @@ nav > div {
 
 .logo {
   float: left;
-  width: 180px;
+  width: 130px;
 }
 
 .gnb {
@@ -25,7 +25,7 @@ nav > div {
 }
 
 .gnb a {
-  padding: 90px;
+  padding: 4rem;
 }
 
 .login {
@@ -34,12 +34,24 @@ nav > div {
   text-align: right;
 }
 
+a.link_selected.active {
+  font-weight: 600;
+  /* background-color: var(--btn-light-blue); */
+  text-shadow: 2px 2px 20px var(--primary-color);
+}
+
 @media (min-width: 1024px) {
 	/* PC CSS */
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
 	/* Tablet CSS */
+  .logo {
+    width: 70px;
+  }
+  .gnb {
+    width: calc(100% - 170px);
+  }
 }
 
 @media (max-width: 767px) {

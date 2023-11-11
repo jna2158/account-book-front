@@ -36,7 +36,7 @@ export const Calendar = () => {
 
   return (
     <div className="calendar">
-      <ReactCalendar
+      {/* <ReactCalendar
         locale='en'
         next2Label={null}
         prev2Label={null}
@@ -45,7 +45,7 @@ export const Calendar = () => {
         tileContent={setContent}
         onChange={onChange}
         value={value}
-      />
+      /> */}
     </div>
   )
 }
