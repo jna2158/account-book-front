@@ -24,7 +24,7 @@ export default function Navigation() {
       <header>
         <nav>
           <div className="logo">
-            <NavLink to="/home"><a><img className="account-book-logo" src={logo}></img></a></NavLink>
+            <NavLink to="/home" className="link_selected"><a><img className="account-book-logo" src={logo}></img></a></NavLink>
           </div>
 
           <div className="gnb">

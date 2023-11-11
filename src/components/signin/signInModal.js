@@ -2,6 +2,7 @@ import { isModalOpen } from "../../actions/loginAction";
 import { checkEmail } from '../../shared/global-regular-expression';
 import { signInErrorMsg, signUpErrorMsg, errorMsg } from "../../shared/errorMsgConstant";
 import "./signInModal.css";
+import logo from "../../source/account-book-logo.png";
 
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
@@ -196,105 +197,123 @@ export default function LoginModal () {
 
   return (
     <>
+    
+    {open && (
+        <div className="modal-overlay">
+        </div>
+      )
+    }
+
     {
       !isSignIn
-      ? <section className="modal-back signin-section">
+      ? <section className="signin-section">
           <div className="signin-modal">
           <span><i className="fa-solid fa-x" onClick={confirm}></i></span>
-            <h1 className="title">Account Book</h1>
+            <div className="title"><img className="modal-logo" src={logo}></img></div>
              <form className="user_form" onSubmit={e=> e.preventDefault()}>
               <div>
                 <input type="text"
-                  placeholder="이메일 입력하세요"
+                  placeholder="email을 입력해주세요."
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                 ></input>
                 {
-                  (submit && !emailValid) && <span className="validation">{errorMsg.requiredField}</span>
+                  (submit && !emailValid) && <div className="validation">{errorMsg.requiredField}</div>
                 }
                 {
-                  (submit && emailValid && errMsg.includes(`${errorMsg.invalidEmailFormat}`)) && <span className="validation">{errorMsg.invalidEmailFormat}</span>
+                  (submit && emailValid && errMsg.includes(`${errorMsg.invalidEmailFormat}`)) && <div className="validation">{errorMsg.invalidEmailFormat}</div>
                 }
                 {
-                  (errMsg.includes(`${signInErrorMsg.invalidEmail}`)) && <span className="validation">{`${signInErrorMsg.invalidEmail}`}</span>
+                  (errMsg.includes(`${signInErrorMsg.invalidEmail}`)) && <div className="validation">{`${signInErrorMsg.invalidEmail}`}</div>
                 }
               </div>
               <div>
               <input type="password"
-                placeholder="비밀번호 입력하세요"
+                placeholder="비밀번호를 입력해주세요."
                 value={password}
                 onChange={e => setPassword(e.target.value)}
               ></input>
               {
-                (submit && !passwordValid) && <span className="validation">{errorMsg.requiredField}</span>
+                (submit && !passwordValid) && <div className="validation">{errorMsg.requiredField}</div>
               }
               {
-                (errMsg.includes(`${signInErrorMsg.invalidPassword}`)) && <span className="validation">{signInErrorMsg.invalidPassword}</span>
+                (errMsg.includes(`${signInErrorMsg.invalidPassword}`)) && <div className="validation">{signInErrorMsg.invalidPassword}</div>
               }
               </div>
-              <button onClick={onClickSignIn}>로그인하기</button>
-              <div className="social-container">
+              <div>
+                <button className="signin-btn" onClick={onClickSignIn}>로그인</button>
+                <button className="signup-btn" onClick={() => onToggleModal()}>회원가입</button>
+              </div>
+              
+              {/* <div className="social-container">
                 <a href="#" className="social"><i className="fa-solid fa-n"></i></a>
                 <a href="#" className="social"><i className="fab fa-google-plus-g"></i></a>
                 <a href="#" className="social"><i className="fa-solid fa-k"></i></a>
-              </div>
+              </div> */}
             </form>
-            <span className="sub-info">아직 회원이 아니신가요? <span onClick={() => onToggleModal()}><strong>회원가입</strong></span></span>
+            {/* <span className="sub-info">아직 회원이 아니신가요? <span onClick={() => onToggleModal()}><strong>회원가입</strong></span></span> */}
           </div>
         </section>
-      : <section className="modal-back signup-section">
+      : <section className="signup-section">
           <div className="signup-modal">
           <span><i className="fa-solid fa-x" onClick={confirm}></i></span>
-            <h1 className="title">Account Book</h1>
+          <div className="title"><img className="modal-logo" src={logo}></img></div>
             <form className="user_form" onSubmit={e=> e.preventDefault()}>
               <div>
-                <input type="text" placeholder="이메일 입력하세요" value={email} onChange={e => setEmail(e.target.value)}></input>
+                <a>이메일: </a>
+                <input type="text" value={email} onChange={e => setEmail(e.target.value)}></input>
                 {
-                  (submit && !emailValid) && <span className="validation">{errorMsg.requiredField}</span>
+                  (submit && !emailValid) && <div className="validation">{errorMsg.requiredField}</div>
                 }
                 {
-                  (submit && emailValid && errMsg.includes(errorMsg.invalidEmailFormat)) && <span className="validation">{errorMsg.invalidEmailFormat}</span>
+                  (submit && emailValid && errMsg.includes(errorMsg.invalidEmailFormat)) && <div className="validation">{errorMsg.invalidEmailFormat}</div>
                 }
                 {
-                  (errMsg.includes(`${signUpErrorMsg.email[0]}`)) && <span className="validation">{signUpErrorMsg.email[0]}</span>
-                }
-              </div>
-              <div>
-                <input type="password" placeholder="비밀번호 입력하세요" value={password} onChange={e => setPassword(e.target.value)}></input>
-                {
-                  (submit && !passwordValid) && <span className="validation">{errorMsg.requiredField}</span>
-                }
-                {
-                  (errMsg.includes(`${signUpErrorMsg.password[0]}`)) && <span className="validation">{signUpErrorMsg.password[0]}</span>
+                  (errMsg.includes(`${signUpErrorMsg.email[0]}`)) && <div className="validation">{signUpErrorMsg.email[0]}</div>
                 }
               </div>
+
               <div>
-                <input type="text" placeholder="이름을 입력하세요" value={username} onChange={e => setUserName(e.target.value)}></input>
+                <a>비밀번호: </a>
+                <input type="password" value={password} onChange={e => setPassword(e.target.value)}></input>
                 {
-                  (submit && !usernameValid) && <span className="validation">{errorMsg.requiredField}</span>
+                  (submit && !passwordValid) && <div className="validation">{errorMsg.requiredField}</div>
                 }
                 {
-                  (errMsg.includes(`${signUpErrorMsg.username[0]}`)) && <span className="validation">{signUpErrorMsg.username[0]}</span>
+                  (errMsg.includes(`${signUpErrorMsg.password[0]}`)) && <div className="validation">{signUpErrorMsg.password[0]}</div>
                 }
               </div>
+
               <div>
-                <input type="text" placeholder="닉네임을 입력하세요" value={nickname} onChange={e => setNickName(e.target.value)}></input>
+                <a>이름: </a>
+                <input type="text" value={username} onChange={e => setUserName(e.target.value)}></input>
                 {
-                  (submit && !nicknameValid) && <span className="validation">{errorMsg.requiredField}</span>
+                  (submit && !usernameValid) && <div className="validation">{errorMsg.requiredField}</div>
                 }
                 {
-                  (errMsg.includes(`${signUpErrorMsg.nickname[0]}`)) && <span className="validation">{signUpErrorMsg.nickname[0]}</span>
+                  (errMsg.includes(`${signUpErrorMsg.username[0]}`)) && <div className="validation">{signUpErrorMsg.username[0]}</div>
+                }
+              </div>
+
+              <div>
+                <a>닉네임: </a>
+                <input type="text" value={nickname} onChange={e => setNickName(e.target.value)}></input>
+                {
+                  (submit && !nicknameValid) && <div className="validation">{errorMsg.requiredField}</div>
+                }
+                {
+                  (errMsg.includes(`${signUpErrorMsg.nickname[0]}`)) && <div className="validation">{signUpErrorMsg.nickname[0]}</div>
                 }
               </div>
               
-              <button onClick={onClickSignUp}>회원가입하기</button>
-              <div className="social-container">
+              <button onClick={onClickSignUp}>회원가입</button>
+              {/* <div className="social-container">
                 <a href="#" className="social"><i className="fab fa-facebook-f"></i></a>
                 <a href="#" className="social"><i className="fab fa-google-plus-g"></i></a>
                 <a href="#" className="social"><i className="fab fa-linkedin-in"></i></a>
-              </div>
+              </div> */}
             </form>
-            <span className="sub-info">이미 계정이 있으신가요? <span onClick={() => onToggleModal()}><strong>로그인</strong></span></span>
+            {/* <span className="sub-info">이미 계정이 있으신가요? <span onClick={() => onToggleModal()}><strong>로그인</strong></span></span> */}
           </div>
         </section>
     }

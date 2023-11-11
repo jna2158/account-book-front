@@ -36,7 +36,7 @@ export const Calendar = () => {
 
   return (
     <>
-      <h3 class="calendar_title">환영합니다 로그인을 통해 지출 등록과 차트 분석을 해보세요</h3>
+      <h3 className="calendar_title">환영합니다 로그인을 통해 지출 등록과 차트 분석을 해보세요</h3>
       <div className="calendar">
         <ReactCalendar
           locale='en'
