@@ -17,6 +17,11 @@ nav > div {
   float: left;
   width: 130px;
 }
+img.account-book-logo {
+  width: 80%;
+  height: 80%;
+  margin-top: 7%;
+}
 
 .gnb {
   width: calc(100% - 280px);
@@ -25,7 +30,7 @@ nav > div {
 }
 
 .gnb a {
-  padding: 4rem;
+  padding: 5%;
 }
 
 .login {
@@ -36,8 +41,7 @@ nav > div {
 
 a.link_selected.active {
   font-weight: 600;
-  /* background-color: var(--btn-light-blue); */
-  text-shadow: 2px 2px 20px var(--primary-color);
+  text-shadow: 2px 2px 20px #4267B2;
 }
 
 @media (min-width: 1024px) {
@@ -46,9 +50,9 @@ a.link_selected.active {
 
 @media (min-width: 768px) and (max-width: 1024px) {
 	/* Tablet CSS */
-  .logo {
+  /* .logo {
     width: 70px;
-  }
+  } */
   .gnb {
     width: calc(100% - 170px);
   }

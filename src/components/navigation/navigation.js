@@ -5,7 +5,8 @@ import { Chart } from '../chart/chart';
 import { Calendar } from '../mainpage/calendar';
 import MyPage from '../mypage/mypage';
 import SignInModal from '../signin/signInModal';
-import styles from './navigation.css';
+import logo from "../../source/account-book-logo.png";
+import './navigation.css';
 
 import { isModalOpen } from '../../actions/loginAction';
 import { useSelector, useDispatch } from 'react-redux';
@@ -23,18 +24,18 @@ export default function Navigation() {
       <header>
         <nav>
           <div className="logo">
-            <NavLink to="/" className="link_selected"><a className='item'>Logo</a></NavLink>
+            <NavLink to="/home"><a><img className="account-book-logo" src={logo}></img></a></NavLink>
           </div>
 
           <div className="gnb">
-            <NavLink to="/home" className="link_selected"><a className='item'>조회</a></NavLink>
-            <NavLink to="/chart" className="link_selected"><a className='item'>차트 보기</a></NavLink>
-            <NavLink to="/content" className="link_selected"><a className='item'>소비 습관</a></NavLink>
+            <NavLink to="/home" className="link_selected"><a>조회</a></NavLink>
+            <NavLink to="/chart" className="link_selected"><a>차트 보기</a></NavLink>
+            <NavLink to="/content" className="link_selected"><a>소비 습관</a></NavLink>
           </div>
 
           <div className="login">
             {
-              isLogin() ? <NavLink to="/mypage" className="link_selected"><a className='item'>{JSON.parse(localStorage.getItem('user')).nickname} 님</a></NavLink> : <a onClick={() => dispatch(isModalOpen(open))}><a className='item'>로그인</a></a> 
+              isLogin() ? <NavLink to="/mypage" className="link_selected"><a>{JSON.parse(localStorage.getItem('user')).nickname} 님</a></NavLink> : <a onClick={() => dispatch(isModalOpen(open))}><a>로그인</a></a> 
             }
           </div>
         </nav>

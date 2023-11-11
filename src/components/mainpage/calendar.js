@@ -35,17 +35,21 @@ export const Calendar = () => {
 
 
   return (
-    <div className="calendar">
-      {/* <ReactCalendar
-        locale='en'
-        next2Label={null}
-        prev2Label={null}
-        formatDay={(locale, date) => moment(date).format('D')}
-        showNeighboringMonth={false}
-        tileContent={setContent}
-        onChange={onChange}
-        value={value}
-      /> */}
-    </div>
+    <>
+      <h3 class="calendar_title">환영합니다 로그인을 통해 지출 등록과 차트 분석을 해보세요</h3>
+      <div className="calendar">
+        <ReactCalendar
+          locale='en'
+          next2Label={null}
+          prev2Label={null}
+          formatDay={(locale, date) => moment(date).format('D')}
+          showNeighboringMonth={false}
+          tileContent={setContent}
+          onChange={onChange}
+          value={value}
+          
+        />
+      </div>
+    </>
   )
 }
