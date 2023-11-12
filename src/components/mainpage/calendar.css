@@ -18,7 +18,7 @@
 /* calendar */
 .react-calendar {
   width: 70vw;
-  height: 70vh;
+  height: 77vh;
   border-radius: 2.1rem;
   background-color: rgba(255, 255, 255, 0.936);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -45,7 +45,7 @@
 
 /* month */
 .react-calendar__month-view {
-  padding: 2.5% 2.5%;
+  /* padding: 2.5% 2.5%; */
 }
 .react-calendar__month-view abbr {
   font-size: 1.4rem;

@@ -8,10 +8,10 @@ import axios from 'axios';
 import { updateRefreshToken } from '../../shared/token';
 export default function Mypage() {
   const [formData, setFormData] = useState({
-    email: 'jiwonemail',
-    id: 'jiwonid',
-    nickname: 'nickname',
-    username: 'username'
+    email: '',
+    id: '',
+    nickname: '',
+    username: ''
   });
   const [isPasswordModifyMode, setIsPasswordModifyMode] = useState(false);
   const [isClickProfileBtn, setIsClickProfieBtn] = useState(false);
@@ -25,24 +25,24 @@ export default function Mypage() {
    * 회원의 마이페이지 정보를 가져오는 함수
    */
   const getUserInfo = () => {
-  // const apiUrl = `${API_HOST}/api/accounts/detail/`;
-  // const headers = {
-  //   Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
-  // }
-  // const requestBody = {
-  //   email: JSON.parse(localStorage.getItem('user')).email
-  // }
+  const apiUrl = `${API_HOST}/api/accounts/detail/`;
+  const headers = {
+    Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
+  }
+  const requestBody = {
+    email: JSON.parse(localStorage.getItem('user')).email
+  }
 
-  // axios.get(apiUrl, {
-  //   headers: headers,
-  //   params: requestBody
-  // })
-  // .then(res => {
-  //   setFormData(res.data);
-  // })
-  // .catch(err => {
-  //   throw err
-  // })
+  axios.get(apiUrl, {
+    headers: headers,
+    params: requestBody
+  })
+  .then(res => {
+    setFormData(res.data);
+  })
+  .catch(err => {
+    throw err
+  })
 }
 
   /**
