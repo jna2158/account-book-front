@@ -37,7 +37,8 @@
   outline: none;
 }
 .profile {
-  width: 8%;
+  position: absolute;
+  width: 5vw;
 }
 
 /* password */
@@ -56,4 +57,14 @@
 .button_section {
   display: flex;
   justify-content: flex-end;
+}
+.button_section button {
+  cursor: pointer;
+  padding: .5rem;
+  margin-left: .5rem;
+  border-radius: .5rem;
+  border: none;
+  background-color: var(--primary-color);
+  color: var(--white);
+  outline: none;
 }
