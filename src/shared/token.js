@@ -4,9 +4,7 @@ import { API_HOST } from '../constant';
 export const updateRefreshToken = () => {
   axios.post(`${API_HOST}/api/accounts/login/refresh/`)
   .then(res => {
-    console.log(res);
-
-    return res.data.access;
+    return res.data.access_token;
   })
   .catch(err => {
     throw err;
