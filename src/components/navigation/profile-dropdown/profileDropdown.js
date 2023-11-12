@@ -32,7 +32,7 @@ export default function ProfileDropdown({setClickProfile}) {
       if (err.response.status === 401) {
         const newToken = updateRefreshToken();
         if (newToken) {
-          localStorage.setItem('ACCESS_TOKEN');
+          localStorage.setItem('ACCESS_TOKEN', newToken);
           logoutUser();
         }
       }
