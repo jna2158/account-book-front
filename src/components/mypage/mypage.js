@@ -9,12 +9,12 @@ import { updateRefreshToken } from '../../shared/token';
 export default function Mypage() {
   const [formData, setFormData] = useState({
     email: '',
-    id: '',
     nickname: '',
     username: ''
   });
   const [isPasswordModifyMode, setIsPasswordModifyMode] = useState(false);
   const [isClickProfileBtn, setIsClickProfieBtn] = useState(false);
+  const [profile, setProfile] = useState(logo);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -126,10 +126,10 @@ export default function Mypage() {
       <form onSubmit={handleSubmit}>
         <div onClick={() => changeMyProfile()}>
           <a>프로필 사진</a>
-          <img className="profile" src={logo}></img>
+          <img className="profile" src={profile}></img>
         </div>
         {
-          isClickProfileBtn ? <Profile /> : ''
+          isClickProfileBtn ? <Profile setProfile={setProfile} setIsClickProfieBtn={setIsClickProfieBtn}/> : ''
         }
 
         <div>
@@ -149,9 +149,9 @@ export default function Mypage() {
           <a>아이디</a>
           <input
                 type="text"
-                id="id"
-                name="id"
-                value={formData.id}
+                id="username"
+                name="username"
+                value={formData.username}
                 onChange={handleInputChange}
                 required
               />
@@ -175,24 +175,24 @@ export default function Mypage() {
             <span>
               <input
                 type="password"
-                id="username"
-                name="username"
+                id="password"
+                name="password"
                 placeholder='현재 비밀번호'
                 onChange={handleInputChange}
                 required
               />
               <input
                 type="password"
-                id="username"
-                name="username"
+                id="newPassword"
+                name="newPassword"
                 placeholder='새 비밀번호'
                 onChange={handleInputChange}
                 required
               />
               <input
                 type="password"
-                id="username"
-                name="username"
+                id="confirmPassword"
+                name="confirmPassword"
                 placeholder='새 비밀번호 확인'
                 onChange={handleInputChange}
                 required
@@ -236,9 +236,8 @@ export default function Mypage() {
         } */}
         </div>
         <section className='button_section'>
-          <button type="submit">확인</button>
+          <button type="submit">저장</button>
           <button type="button" onClick={() => deleteUser()}>회원탈퇴</button>
-          <button type="button" onClick={() => logoutUser()}>로그아웃</button>
         </section>
       </form>
     </div>

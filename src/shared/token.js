@@ -1,10 +1,12 @@
 import axios from 'axios';
+import { API_HOST } from '../constant';
 
 export const updateRefreshToken = () => {
-  axios.post('https://account-book.store/api/accounts/login/refresh/')
+  axios.post(`${API_HOST}/api/accounts/login/refresh/`)
   .then(res => {
     console.log(res);
-    return res;
+
+    return res.data.access;
   })
   .catch(err => {
     throw err;

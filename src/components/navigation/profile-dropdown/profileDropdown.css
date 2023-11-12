@@ -1,0 +1,15 @@
+.profile_dropdown_section {
+  position: absolute;
+  background-color: rgb(97, 96, 96);
+  border-radius: 5px;
+  top: 8%;
+  right: 1%;
+  width: 150px;
+}
+.profile_dropdown_section li {
+  list-style-type: none;
+  cursor: pointer;
+  color: var(--white);
+  padding: 3%;
+  padding-left: 18px;
+}
