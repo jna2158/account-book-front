@@ -1,6 +1,6 @@
 import React, { useEffect, useState, } from 'react';
 import { API_HOST } from '../../constant';
-import logo from "../../source/account-book-logo.png";
+import logo from "../../source/account_baby.png";
 import Profile from './profile';
 import './mypage.css';
 import { useNavigate } from 'react-router-dom';
