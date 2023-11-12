@@ -6,11 +6,17 @@ import './mypage.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { updateRefreshToken } from '../../shared/token';
+import { signUpErrorMsg } from '../../shared/errorMsgConstant';
+
+
 export default function Mypage() {
   const [formData, setFormData] = useState({
     email: '',
     nickname: '',
-    username: ''
+    username: '',
+    current_password: '',
+	  password: '',
+    password_check: ''
   });
   const [isPasswordModifyMode, setIsPasswordModifyMode] = useState(false);
   const [isClickProfileBtn, setIsClickProfieBtn] = useState(false);
@@ -76,43 +82,39 @@ export default function Mypage() {
     })
   }
 
-  /**
-   * 회원의 로그아웃 요청을 보내는 함수
-   */
-  const logoutUser = () => {
-    const apiUrl = `${API_HOST}/api/accounts/logout/`;
-    const headers = {
-      Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
-    }
-
-    axios.post(apiUrl, null, {
-      headers: headers
-    })
-    .then(res => {
-      localStorage.removeItem('ACCESS_TOKEN');
-      localStorage.removeItem('user');
-      navigate('/');
-      window.location.reload();
-    })
-    .catch(err => {
-      console.log(err);
-      if (err.response.status === 401) {
-        const newToken = updateRefreshToken();
-        console.log('newToken');
-        console.log(newToken);
-      }
-      throw err
-    })
-  }
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
+
+    console.log('handleInputChange');
+    console.log(formData);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
   };
+
+  const saveUserInfo = () => {
+    console.log('saveUserInfo');
+    console.log(formData);
+
+    delete formData.nickname;
+
+    const apiUrl = `${API_HOST}/api/accounts/detail/`;
+    const headers = {
+      Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
+    }
+ 
+    axios.patch(apiUrl, formData, {
+      headers: headers
+    })
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => {
+      throw err
+    })
+  }
 
   /**
    * 프로필 변경
@@ -175,24 +177,24 @@ export default function Mypage() {
             <span>
               <input
                 type="password"
-                id="password"
-                name="password"
+                id="current_password"
+                name="current_password"
                 placeholder='현재 비밀번호'
                 onChange={handleInputChange}
                 required
               />
               <input
                 type="password"
-                id="newPassword"
-                name="newPassword"
+                id="password"
+                name="password"
                 placeholder='새 비밀번호'
                 onChange={handleInputChange}
                 required
               />
               <input
                 type="password"
-                id="confirmPassword"
-                name="confirmPassword"
+                id="password_check"
+                name="password_check"
                 placeholder='새 비밀번호 확인'
                 onChange={handleInputChange}
                 required
@@ -236,7 +238,7 @@ export default function Mypage() {
         } */}
         </div>
         <section className='button_section'>
-          <button type="submit">저장</button>
+          <button type="submit" onClick={() => saveUserInfo()}>저장</button>
           <button type="button" onClick={() => deleteUser()}>회원탈퇴</button>
         </section>
       </form>

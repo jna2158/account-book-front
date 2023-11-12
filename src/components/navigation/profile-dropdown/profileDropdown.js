@@ -15,8 +15,7 @@ export default function ProfileDropdown({setClickProfile}) {
   const logoutUser = () => {
     const apiUrl = `${API_HOST}/api/accounts/logout/`;
     const headers = {
-      // Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
-      Authorization: `Bearer asdfg`
+      Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
     }
 
     axios.post(apiUrl, null, {
@@ -34,6 +33,7 @@ export default function ProfileDropdown({setClickProfile}) {
         const newToken = updateRefreshToken();
         if (newToken) {
           localStorage.setItem('ACCESS_TOKEN');
+          logoutUser();
         }
       }
       throw err
