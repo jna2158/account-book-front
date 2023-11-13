@@ -18,7 +18,7 @@ export default function ProfileDropdown({setClickProfile}) {
       Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
     }
 
-    axios.post(apiUrl, null, {
+    axios.post(apiUrl, null, {  
       headers: headers
     })
     .then(res => {
@@ -30,15 +30,26 @@ export default function ProfileDropdown({setClickProfile}) {
     .catch(err => {
       console.log(err);
       if (err.response.status === 401) {
-        const newToken = updateRefreshToken();
-        if (newToken) {
-          localStorage.setItem('ACCESS_TOKEN', newToken);
-          logoutUser();
-        }
+        updateRefreshToken();
       }
       throw err
     })
   }
+
+  /**
+   * refresh token 재발급하는 함수
+   */
+  const updateRefreshToken = () => {
+    axios.post(`${API_HOST}/api/accounts/login/refresh/`)
+    .then(res => {
+      localStorage.setItem('ACCESS_TOKEN', JSON.stringify(res.data.access_token));
+      logoutUser();
+    })
+    .catch(err => {
+      throw err;
+    })
+  }
+
 
   return (
     <section className="profile_dropdown_section">
