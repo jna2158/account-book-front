@@ -68,3 +68,8 @@
   color: var(--white);
   outline: none;
 }
+
+/* validation */
+.mypage_section .validation {
+  margin-left: 0;
+}

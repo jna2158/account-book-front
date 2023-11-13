@@ -21,6 +21,8 @@ export default function Mypage() {
   const [isPasswordModifyMode, setIsPasswordModifyMode] = useState(false);
   const [isClickProfileBtn, setIsClickProfieBtn] = useState(false);
   const [profile, setProfile] = useState(logo);
+  const [errMsg, setErrMsg] = useState([]);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -85,9 +87,6 @@ export default function Mypage() {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
-
-    console.log('handleInputChange');
-    console.log(formData);
   };
 
   const handleSubmit = (event) => {
@@ -95,9 +94,6 @@ export default function Mypage() {
   };
 
   const saveUserInfo = () => {
-    console.log('saveUserInfo');
-    console.log(formData);
-
     delete formData.nickname;
 
     const apiUrl = `${API_HOST}/api/accounts/detail/`;
@@ -111,8 +107,17 @@ export default function Mypage() {
     .then(res => {
       console.log(res);
     })
-    .catch(err => {
-      throw err
+    .catch(e => {
+      if (e && e.response && e.response.data.password) {
+        const err = errMsg;
+        err.push(e.response.data.password[0]);
+        setErrMsg(err)
+      }
+      if (e && e.response && e.response.data.username) {
+        const err = errMsg;
+        err.push(e.response.data.username[0]);
+        setErrMsg(err)
+      }
     })
   }
 
@@ -237,6 +242,12 @@ export default function Mypage() {
           )
         } */}
         </div>
+        {
+          (errMsg.includes(`${signUpErrorMsg.password[0]}`)) && <span className="validation">{`${signUpErrorMsg.password[0]}`}</span>
+        }
+        {
+          (errMsg.includes(`${signUpErrorMsg.username[0]}`)) && <span className="validation">{`${signUpErrorMsg.username[0]}`}</span>
+        }
         <section className='button_section'>
           <button type="submit" onClick={() => saveUserInfo()}>저장</button>
           <button type="button" onClick={() => deleteUser()}>회원탈퇴</button>
