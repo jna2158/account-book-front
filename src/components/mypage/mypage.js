@@ -80,7 +80,7 @@ export default function Mypage() {
       window.location.reload();
     })
     .catch(err => {
-      throw err
+        alert('비밀번호가 일치하지 않습니다.');
     })
   }
 
