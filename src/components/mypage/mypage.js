@@ -96,6 +96,12 @@ export default function Mypage() {
   const saveUserInfo = () => {
     delete formData.nickname;
 
+    if (!formData.current_password || !formData.password || !formData.password_check) {
+      delete formData.current_password;
+      delete formData.password;
+      delete formData.password_check;
+    }
+
     const apiUrl = `${API_HOST}/api/accounts/detail/`;
     const headers = {
       Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
@@ -105,7 +111,15 @@ export default function Mypage() {
       headers: headers
     })
     .then(res => {
-      console.log(res);
+      setFormData({
+        email: '',
+        nickname: '',
+        username: '',
+        current_password: '',
+        password: '',
+        password_check: ''
+      })
+      getUserInfo();
     })
     .catch(e => {
       if (e && e.response && e.response.data.password) {
@@ -148,7 +162,6 @@ export default function Mypage() {
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                required
               />
         </div>
 
@@ -160,7 +173,6 @@ export default function Mypage() {
                 name="username"
                 value={formData.username}
                 onChange={handleInputChange}
-                required
               />
         </div>
 
@@ -173,7 +185,6 @@ export default function Mypage() {
                 name="nickname"
                 value={formData.nickname}
                 onChange={handleInputChange}
-                required
               />
         </div>
         
@@ -186,7 +197,6 @@ export default function Mypage() {
                 name="current_password"
                 placeholder='현재 비밀번호'
                 onChange={handleInputChange}
-                required
               />
               <input
                 type="password"
@@ -194,7 +204,6 @@ export default function Mypage() {
                 name="password"
                 placeholder='새 비밀번호'
                 onChange={handleInputChange}
-                required
               />
               <input
                 type="password"
@@ -202,7 +211,6 @@ export default function Mypage() {
                 name="password_check"
                 placeholder='새 비밀번호 확인'
                 onChange={handleInputChange}
-                required
               />
           </span>
           {/* <button type="submit" onClick={() => setIsPasswordModifyMode(!isPasswordModifyMode)}>취소</button> */}
