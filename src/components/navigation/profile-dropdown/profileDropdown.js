@@ -33,7 +33,6 @@ export default function ProfileDropdown({setClickProfile}) {
       if (err.response.status === 401) {
         updateRefreshToken();
       }
-      throw err
     })
   }
 
@@ -47,7 +46,7 @@ export default function ProfileDropdown({setClickProfile}) {
       logoutUser();
     })
     .catch(err => {
-      throw err;
+      console.log(err);
     })
   }
 

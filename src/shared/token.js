@@ -7,6 +7,6 @@ export const updateRefreshToken = () => {
     localStorage.setItem('ACCESS_TOKEN', res.data.access_token);
   })
   .catch(err => {
-    throw err;
+    console.log(err);
   })
 }

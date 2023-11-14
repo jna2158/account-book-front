@@ -48,7 +48,7 @@ export default function Mypage() {
     setFormData(res.data);
   })
   .catch(err => {
-    throw err
+    console.log(err);
   })
 }
 
@@ -92,6 +92,9 @@ export default function Mypage() {
     event.preventDefault();
   };
 
+  /**
+   * 회원 정보를 변경하는 함수
+   */
   const saveUserInfo = () => {
     delete formData.username;
 
