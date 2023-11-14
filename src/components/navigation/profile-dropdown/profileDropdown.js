@@ -42,7 +42,7 @@ export default function ProfileDropdown({setClickProfile}) {
   const updateRefreshToken = () => {
     axios.post(`${API_HOST}/api/accounts/login/refresh/`)
     .then(res => {
-      localStorage.setItem('ACCESS_TOKEN', JSON.stringify(res.data.access_token));
+      localStorage.setItem('ACCESS_TOKEN', res.data.access_token);
       logoutUser();
     })
     .catch(err => {
