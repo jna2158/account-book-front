@@ -19,7 +19,8 @@ export default function ProfileDropdown({setClickProfile}) {
     }
 
     axios.post(apiUrl, null, {  
-      headers: headers
+      headers: headers,
+      withCredentials: true
     })
     .then(res => {
       localStorage.removeItem('ACCESS_TOKEN');

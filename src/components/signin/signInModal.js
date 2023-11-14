@@ -107,7 +107,7 @@ export default function LoginModal () {
       axios.post(`https://account-book.store/api/accounts/login/`, {
         "email": email,
         "password": password
-      })
+      }, {withCredentials: true})
       .then(res => {
         // 로그인 성공했을 때
         if (res.status === 200) {

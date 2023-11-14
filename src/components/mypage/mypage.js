@@ -5,8 +5,7 @@ import Profile from './profile';
 import './mypage.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { updateRefreshToken } from '../../shared/token';
-import { signUpErrorMsg } from '../../shared/errorMsgConstant';
+import { signInErrorMsg, signUpErrorMsg } from '../../shared/errorMsgConstant';
 
 
 export default function Mypage() {
@@ -94,7 +93,7 @@ export default function Mypage() {
   };
 
   const saveUserInfo = () => {
-    delete formData.nickname;
+    delete formData.username;
 
     if (!formData.current_password || !formData.password || !formData.password_check) {
       delete formData.current_password;
@@ -111,14 +110,6 @@ export default function Mypage() {
       headers: headers
     })
     .then(res => {
-      setFormData({
-        email: '',
-        nickname: '',
-        username: '',
-        current_password: '',
-        password: '',
-        password_check: ''
-      })
       getUserInfo();
     })
     .catch(e => {
@@ -132,6 +123,12 @@ export default function Mypage() {
         err.push(e.response.data.username[0]);
         setErrMsg(err)
       }
+      if (e && e.response && e.response.data.message) {
+        const err = errMsg;
+        err.push(e.response.data.message);
+        setErrMsg(err);
+      }
+      getUserInfo();
     })
   }
 
@@ -166,8 +163,9 @@ export default function Mypage() {
         </div>
 
         <div>
-          <a>아이디</a>
+          <a>이름</a>
           <input
+                disabled
                 type="text"
                 id="username"
                 name="username"
@@ -179,7 +177,6 @@ export default function Mypage() {
         <div>
           <a>닉네임</a>
           <input
-                disabled
                 type="text"
                 id="nickname"
                 name="nickname"
@@ -213,48 +210,15 @@ export default function Mypage() {
                 onChange={handleInputChange}
               />
           </span>
-          {/* <button type="submit" onClick={() => setIsPasswordModifyMode(!isPasswordModifyMode)}>취소</button> */}
-          {/* {
-          !isPasswordModifyMode
-          ? <button type="submit" onClick={() => setIsPasswordModifyMode(!isPasswordModifyMode)}>수정</button>
-          : (
-            <>
-            <span>
-              <input
-                type="password"
-                id="username"
-                name="username"
-                placeholder='현재 비밀번호'
-                onChange={handleInputChange}
-                required
-              />
-              <input
-                type="password"
-                id="username"
-                name="username"
-                placeholder='새 비밀번호'
-                onChange={handleInputChange}
-                required
-              />
-              <input
-                type="password"
-                id="username"
-                name="username"
-                placeholder='새 비밀번호 확인'
-                onChange={handleInputChange}
-                required
-              />
-            </span>
-            <button type="submit" onClick={() => setIsPasswordModifyMode(!isPasswordModifyMode)}>취소</button>
-            </>
-          )
-        } */}
         </div>
         {
           (errMsg.includes(`${signUpErrorMsg.password[0]}`)) && <span className="validation">{`${signUpErrorMsg.password[0]}`}</span>
         }
         {
           (errMsg.includes(`${signUpErrorMsg.username[0]}`)) && <span className="validation">{`${signUpErrorMsg.username[0]}`}</span>
+        }
+        {
+          (errMsg.includes(`${signInErrorMsg.invalidPassword}`)) && <span className="validation">{`${signInErrorMsg.invalidPassword}`}</span>
         }
         <section className='button_section'>
           <button type="submit" onClick={() => saveUserInfo()}>저장</button>
