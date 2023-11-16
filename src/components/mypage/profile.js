@@ -8,14 +8,16 @@ import profile7 from "../../source/account_soon.png";
 import "./profile.css";
 import { S3 } from "aws-sdk";
 import { useEffect, useState } from "react";
-import { accessKeyId, secretAccessKey, bucketName, region } from "../../aws_key";
-
 
 export default function Profile({setProfile, setIsClickProfieBtn}) {
   const handleClickProfile = (profile) => {
     setProfile(profile)
     setIsClickProfieBtn(false);
   }
+  const accessKeyId = process.env.accessKeyId;
+  const secretAccessKey = process.env.secretAccessKey;
+  const bucketName = process.env.bucketName;
+  const region = process.env.region;
 
   const s3 = new S3({
     credentials: {
