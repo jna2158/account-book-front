@@ -14,10 +14,10 @@ export default function Profile({setProfile, setIsClickProfieBtn}) {
     setProfile(profile)
     setIsClickProfieBtn(false);
   }
-  const accessKeyId = process.env.accessKeyId;
-  const secretAccessKey = process.env.secretAccessKey;
-  const bucketName = process.env.bucketName;
-  const region = process.env.region;
+  const accessKeyId = process.env.REACT_APP_ACCESS_KEY_ID;
+  const secretAccessKey = process.env.REACT_APP_SECRET_ACCESS_KEY;
+  const bucketName = process.env.REACT_APP_BUCKET_NAME;
+  const region = process.env.REACT_APP_REGION;
 
   const s3 = new S3({
     credentials: {
