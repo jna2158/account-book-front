@@ -1,4 +1,5 @@
 .env
+aws_key.js
 
 # dependencies
 /node_modules
