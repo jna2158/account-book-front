@@ -1,10 +1,3 @@
-import profile1 from "../../source/account_baby.png";
-import profile2 from "../../source/account_basic.png";
-import profile3 from "../../source/account_dog.png";
-import profile4 from "../../source/account_man.png";
-import profile5 from "../../source/account_seal.png";
-import profile6 from "../../source/account_girl.png";
-import profile7 from "../../source/account_soon.png";
 import "./profile.css";
 import { S3 } from "aws-sdk";
 import { useEffect, useState } from "react";
@@ -71,13 +64,13 @@ export default function Profile({setProfile, setIsClickProfieBtn}) {
   return(
     isLoading && (
       <section className="profile_section">
-        <img src={imageUrl[0]} onClick={() =>handleClickProfile(profile1)}></img>
-        <img src={imageUrl[1]} onClick={() =>handleClickProfile(profile2)}></img>
-        <img src={imageUrl[2]} onClick={() =>handleClickProfile(profile3)}></img>
-        <img src={imageUrl[3]} onClick={() =>handleClickProfile(profile4)}></img>
-        <img src={imageUrl[4]} onClick={() =>handleClickProfile(profile5)}></img>
-        <img src={imageUrl[5]} onClick={() =>handleClickProfile(profile6)}></img>
-        <img src={imageUrl[6]} onClick={() =>handleClickProfile(profile7)}></img>
+        <img src={imageUrl[0]} onClick={() =>handleClickProfile(imageUrl[0])}></img>
+        <img src={imageUrl[1]} onClick={() =>handleClickProfile(imageUrl[1])}></img>
+        <img src={imageUrl[2]} onClick={() =>handleClickProfile(imageUrl[2])}></img>
+        <img src={imageUrl[3]} onClick={() =>handleClickProfile(imageUrl[3])}></img>
+        <img src={imageUrl[4]} onClick={() =>handleClickProfile(imageUrl[4])}></img>
+        <img src={imageUrl[5]} onClick={() =>handleClickProfile(imageUrl[5])}></img>
+        <img src={imageUrl[6]} onClick={() =>handleClickProfile(imageUrl[6])}></img>
       </section>
     )
   )

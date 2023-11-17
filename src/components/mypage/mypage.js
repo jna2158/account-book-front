@@ -13,10 +13,13 @@ export default function Mypage() {
     email: '',
     nickname: '',
     username: '',
+    profileImage: '',
     current_password: '',
 	  password: '',
     password_check: ''
   });
+  const [originForm, setOriginForm] = useState({});
+
   const [isPasswordModifyMode, setIsPasswordModifyMode] = useState(false);
   const [isClickProfileBtn, setIsClickProfieBtn] = useState(false);
   const [profile, setProfile] = useState(logo);
@@ -46,6 +49,7 @@ export default function Mypage() {
   })
   .then(res => {
     setFormData(res.data);
+    setOriginForm(res.data);
   })
   .catch(err => {
     console.log(err);
@@ -102,6 +106,11 @@ export default function Mypage() {
       delete formData.current_password;
       delete formData.password;
       delete formData.password_check;
+    }
+
+    formData.imageUrl = profile;
+    if (formData.nickname === originForm.nickname) {
+      delete formData.nickname;
     }
 
     const apiUrl = `${API_HOST}/api/accounts/detail/`;
