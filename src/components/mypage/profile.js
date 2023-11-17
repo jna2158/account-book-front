@@ -39,12 +39,16 @@ export default function Profile({setProfile, setIsClickProfieBtn}) {
         try {
           const params = {
             Bucket: bucketName,
-            Key: `images/basic_profile/account_profile_${idx}.png`, // 이미지 파일의 키
+            Key: `images/basic_profile/account_profile_${idx}.png`,
           };
-  
+
+          // 이미지를 요청해서 가져오기
+          // await: 비동기 함수에서 결과를 기다림
+          // promise(): 비동기 작업이 완료될 때까지 기다림
           const response = await s3.getObject(params).promise();
   
           // 이미지 데이터를 Blob으로 변환
+          // s3에서 가져온 이미지 데이터를 브라우저에서 표시할 수 있는 형식으로 변환함
           const blob = new Blob([response.Body], { type: response.ContentType });
   
           // Blob을 이용하여 이미지 URL 생성
