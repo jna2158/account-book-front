@@ -14,6 +14,7 @@ export default function Profile({setProfile, setIsClickProfieBtn}) {
     setProfile(profile)
     setIsClickProfieBtn(false);
   }
+  const imageList = ['account_baby'];
   const accessKeyId = process.env.REACT_APP_ACCESS_KEY_ID;
   const secretAccessKey = process.env.REACT_APP_SECRET_ACCESS_KEY;
   const bucketName = process.env.REACT_APP_BUCKET_NAME;
@@ -26,27 +27,29 @@ export default function Profile({setProfile, setIsClickProfieBtn}) {
     },
     region,
   });
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState('');
 
   useEffect(() => {
     // S3에서 이미지 가져오기
     const getImageFromS3 = async () => {
       try {
-        const params = {
-          Bucket: bucketName,
-          Key: "account_baby.png", // 이미지 파일의 키
-        };
-
-        const response = await s3.getObject(params).promise();
-
-        // 이미지 데이터를 Blob으로 변환
-        const blob = new Blob([response.Body], { type: response.ContentType });
-
-        // Blob을 이용하여 이미지 URL 생성
-        const url = URL.createObjectURL(blob);
-
-        // 이미지 URL 상태 업데이트
-        setImageUrl(url);
+        imageList.forEach(async (image) => {
+          const params = {
+            Bucket: bucketName,
+            Key: `images/basic_profile/${image}.png`, // 이미지 파일의 키
+          };
+  
+          const response = await s3.getObject(params).promise();
+  
+          // 이미지 데이터를 Blob으로 변환
+          const blob = new Blob([response.Body], { type: response.ContentType });
+  
+          // Blob을 이용하여 이미지 URL 생성
+          const url = URL.createObjectURL(blob);
+  
+          // 이미지 URL 상태 업데이트
+          setImageUrl(url);
+        });
       } catch (error) {
         console.error('Error fetching image from S3:', error);
       }
