@@ -7,9 +7,7 @@ import moment from 'moment';
 export const Calendar = () => {
   const [value, onChange] = useState(new Date());
 
-  /**
-   * 각 날짜에 들어갈 아이콘
-   */
+  /** 각 날짜에 들어갈 아이콘 */
   const setContent = () => {
     // const addContent = ({ date }: any) => {
     //  해당 날짜(하루)에 추가할 컨텐츠의 배열

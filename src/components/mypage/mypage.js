@@ -19,8 +19,6 @@ export default function Mypage() {
     password_check: ''
   });
   const [originForm, setOriginForm] = useState({});
-
-  const [isPasswordModifyMode, setIsPasswordModifyMode] = useState(false);
   const [isClickProfileBtn, setIsClickProfieBtn] = useState(false);
   const [profile, setProfile] = useState(logo);
   const [errMsg, setErrMsg] = useState([]);
@@ -29,36 +27,33 @@ export default function Mypage() {
 
   useEffect(() => {
     getUserInfo();
+    getProfileList();
   }, []);
 
-  /**
-   * 회원의 마이페이지 정보를 가져오는 함수
-   */
+  /** 마이페이지 정보 get */
   const getUserInfo = () => {
-  const apiUrl = `${API_HOST}/api/accounts/detail/`;
-  const headers = {
-    Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
-  }
-  const requestBody = {
-    email: JSON.parse(localStorage.getItem('user')).email
+    const apiUrl = `${API_HOST}/api/accounts/detail/`;
+    const headers = {
+      Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
+    }
+    const requestBody = {
+      email: JSON.parse(localStorage.getItem('user')).email
+    }
+
+    axios.get(apiUrl, {
+      headers: headers,
+      params: requestBody
+    })
+    .then(res => {
+      setFormData(res.data);
+      setOriginForm(res.data);
+    })
+    .catch(err => {
+      console.log(err);
+    })
   }
 
-  axios.get(apiUrl, {
-    headers: headers,
-    params: requestBody
-  })
-  .then(res => {
-    setFormData(res.data);
-    setOriginForm(res.data);
-  })
-  .catch(err => {
-    console.log(err);
-  })
-}
-
-  /**
-   * 회원의 탈퇴 요청을 보내는 함수
-   */
+  /** 탈퇴 요청 */
   const deleteUser = () => {
     const password = prompt("비밀번호를 입력하세요", "");
     if (!password) {
@@ -87,18 +82,13 @@ export default function Mypage() {
     })
   }
 
+  /** input 변경되었을 때 form 업데이트 */
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-  };
-
-  /**
-   * 회원 정보를 변경하는 함수
-   */
+  /** 회원정보 변경 */
   const saveUserInfo = () => {
     delete formData.username;
 
@@ -144,16 +134,14 @@ export default function Mypage() {
     })
   }
 
-  /**
-   * 프로필 변경
-   */
+  /** 프로필 변경 */
   const changeMyProfile = () => {
     setIsClickProfieBtn(!isClickProfileBtn);
   }
 
   return (
     <div className='mypage_section'>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={(event) => event.preventDefault()}>
         <div onClick={() => changeMyProfile()}>
           <a>프로필 사진</a>
           <img className="profile" src={profile}></img>

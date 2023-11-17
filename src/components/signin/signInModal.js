@@ -68,16 +68,13 @@ export default function LoginModal () {
     }
   }, [email, password, username, nickname]);
 
-  /**
-   * 로그인, 회원가입 모달 open 여부
-   */
+
+  /** 로그인, 회원가입 모달 open 여부 */
   const confirm = () => {
     dispatch(isModalOpen(open));
   }
 
-  /**
-   * 로그인,회원가입 페이지 전환
-   */
+  /** 로그인,회원가입 페이지 전환 시 변수 초기화 */
   const onToggleModal = () => {
     setEmail('');
     setPassword('');
@@ -90,9 +87,7 @@ export default function LoginModal () {
     setIsSignIn(!isSignIn);
   }
 
-  /**
-   * 로그인 버튼 눌렀을 때 호출되는 함수
-   */
+  /** 로그인 */
   const onClickSignIn = () => {
     setSubmit(true);
 
@@ -130,9 +125,7 @@ export default function LoginModal () {
     }
   }
 
-  /**
-   * 회원가입 버튼 눌렀을 때 호출되는 함수
-   */
+  /** 회원가입 */
   const onClickSignUp = () => {
     setSubmit(true);
 

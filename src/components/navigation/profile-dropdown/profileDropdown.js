@@ -9,9 +9,7 @@ import "./profileDropdown.css";
 export default function ProfileDropdown({setClickProfile}) {
   const navigate = useNavigate();
 
-  /**
-     * 회원의 로그아웃 요청을 보내는 함수
-     */
+  /** 로그아웃 */
   const logoutUser = () => {
     const apiUrl = `${API_HOST}/api/accounts/logout/`;
     const headers = {
@@ -36,9 +34,7 @@ export default function ProfileDropdown({setClickProfile}) {
     })
   }
 
-  /**
-   * refresh token 재발급하는 함수
-   */
+  /** refresh token 재발급 */
   const updateRefreshToken = () => {
     axios.post(`${API_HOST}/api/accounts/login/refresh/`)
     .then(res => {
