@@ -15,7 +15,7 @@ export default function Mypage() {
     email: '',
     nickname: '',
     username: '',
-    profileImage: '',
+    profile: '',
     current_password: '',
 	  password: '',
     password_check: ''
@@ -64,8 +64,12 @@ export default function Mypage() {
       params: requestBody
     })
     .then(res => {
-      // getImageListFromS3(res.data.profileImage);
-      getImageFromS3('images/basic_profile/account_profile_0.png').then(result => {
+      // getImageListFromS3(res.data.profile);
+      let imageKey = 'images/basic_profile/account_profile_0.png';
+      if (res.data && res.data.profile) {
+        imageKey = res.data.profile;
+      }
+      getImageFromS3(imageKey).then(result => {
         setProfile(result);
         setFormData(res.data);
         setOriginForm(res.data);
@@ -101,7 +105,6 @@ export default function Mypage() {
         const url = URL.createObjectURL(blob);
 
         obj[url] = params.Key;
-
         setObj({...obj, [url]: params.Key});
 
         const newUrlArr = profileList;
@@ -158,10 +161,7 @@ export default function Mypage() {
       delete formData.password;
       delete formData.password_check;
     }
-
-    console.log(">>>>>>>>>>>>>>>");
-    console.log(obj);
-    console.log(profile)
+    
     formData.profile = obj[profile];
     if (formData.nickname === originForm.nickname) {
       delete formData.nickname;
