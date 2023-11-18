@@ -2,6 +2,7 @@ import React, { useEffect, useState, } from 'react';
 import { API_HOST } from '../../constant';
 import logo from "../../source/account_baby.png";
 import Profile from './profile';
+import { getImageFromS3 } from '../../shared/s3';
 import './mypage.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -23,6 +24,8 @@ export default function Mypage() {
   const [isClickProfileBtn, setIsClickProfieBtn] = useState(false);
   const [profile, setProfile] = useState(logo);
   const [errMsg, setErrMsg] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [obj, setObj] = useState({});
 
   const navigate = useNavigate();
 
@@ -42,11 +45,12 @@ export default function Mypage() {
 
   useEffect(() => {
     getUserInfo();
-    getImageFromS3();
+    getImageListFromS3();
   }, []);
 
   /** 마이페이지 정보 get */
   const getUserInfo = () => {
+    setIsLoading(true);
     const apiUrl = `${API_HOST}/api/accounts/detail/`;
     const headers = {
       Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
@@ -60,16 +64,22 @@ export default function Mypage() {
       params: requestBody
     })
     .then(res => {
-      setFormData(res.data);
-      setOriginForm(res.data);
+      // getImageListFromS3(res.data.profileImage);
+      getImageFromS3('images/basic_profile/account_profile_0.png').then(result => {
+        setProfile(result);
+        setFormData(res.data);
+        setOriginForm(res.data);
+        setIsLoading(false);
+      });
     })
     .catch(err => {
       console.log(err);
+      setIsLoading(false);
     })
   }
 
   /** 프로필 리스트 get */
-  const getImageFromS3 = async () => {
+  const getImageListFromS3 = async () => {
     let idx = 0;
     while(1) {
       try {
@@ -89,6 +99,10 @@ export default function Mypage() {
 
         // Blob을 이용하여 이미지 URL 생성
         const url = URL.createObjectURL(blob);
+
+        obj[url] = params.Key;
+
+        setObj({...obj, [url]: params.Key});
 
         const newUrlArr = profileList;
         newUrlArr.push(url);
@@ -145,7 +159,10 @@ export default function Mypage() {
       delete formData.password_check;
     }
 
-    formData.profileList = profile;
+    console.log(">>>>>>>>>>>>>>>");
+    console.log(obj);
+    console.log(profile)
+    formData.profile = obj[profile];
     if (formData.nickname === originForm.nickname) {
       delete formData.nickname;
     }
@@ -187,7 +204,8 @@ export default function Mypage() {
   }
 
   return (
-    <div className='mypage_section'>
+    !isLoading && (
+      <div className='mypage_section'>
       <form onSubmit={(event) => event.preventDefault()}>
         <div onClick={() => changeMyProfile()}>
           <a>프로필 사진</a>
@@ -273,5 +291,6 @@ export default function Mypage() {
         </section>
       </form>
     </div>
+    )
   );
 }
