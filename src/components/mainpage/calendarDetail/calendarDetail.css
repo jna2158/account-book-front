@@ -1,0 +1,8 @@
+.calendar_detail_section {
+  padding: 2%;
+}
+
+.fa-solid.fa-angles-right {
+  font-size: 3rem;
+  cursor: pointer;
+}
