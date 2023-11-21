@@ -122,9 +122,14 @@
 }
  
 /* validation */
-.validation {
+.signup-section .validation {
   font-size: .7rem;
   color: #E00000;
   text-align: left;
-  margin-left: 75px;
+  margin-left: 27%;
+}
+.signin-section .validation {
+  font-size: .7rem;
+  color: #E00000;
+  text-align: left;
 }
