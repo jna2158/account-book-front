@@ -96,7 +96,8 @@
   z-index: 1;
   top: 0;
   right: -100%;
-  background-color: var(--gray);
+  background-color: rgb(249, 252, 254);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   overflow-x: hidden;
   transition: right 0.5s;
   padding-top: 20px;

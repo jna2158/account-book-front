@@ -1,8 +1,88 @@
-.calendar_detail_section {
-  padding: 2%;
-}
-
 .fa-solid.fa-angles-right {
   font-size: 3rem;
   cursor: pointer;
+  margin-left: 3%;
+
+}
+.content_table input {
+  border: 0.12rem solid var(--gray2);
+  outline: none;
+  padding: 3px;
+}
+
+/* CalendarContent */
+.calendar_content_section {
+  padding: 2%;
+}
+.calendar_content_section h3 {
+  font-size: 2.5rem;
+  text-align: center;
+  padding-bottom: 5%;
+}
+.calendar_content_section h3 span {
+  background-color: rgba(169, 20, 243, 0.05);
+  border-radius: 12px;
+  padding: .5%;
+}
+.summary_section {
+  font-size: 1.5rem;
+  padding-left: 8vw;
+  padding-top: 3%;
+}
+.summary_section div {
+  margin: 2%;
+}
+.content_button {
+  text-align: center;
+}
+.content_button button {
+  cursor: pointer;
+  width: 30%;
+  padding: .6rem 0;
+  margin-top: 25px;
+  border-radius: .5rem;
+  border: none;
+  background-color: var(--primary-color);
+  color: var(--white);
+  font-size: 1.2rem;
+  outline: none;
+}
+
+/* SpendingContent */
+.spend_button {
+  text-align: center;
+}
+.spend_button button {
+  cursor: pointer;
+  width: 15%;
+  padding: .6rem 0;
+  margin-top: 25px;
+  border-radius: .5rem;
+  border: none;
+  background-color: var(--primary-color);
+  color: var(--white);
+  font-size: 1.1rem;
+  outline: none;
+}
+.spend_button button:nth-child(1) {
+  margin-right: 1%;
+}
+.spend_button button:nth-child(2) {
+  margin-left: 1%;
+}
+.fa-solid.fa-circle-plus,
+.fa-solid.fa-circle-minus {
+  font-size: 3rem;
+  color: var(--gray3);
+}
+.row_button {
+  text-align: center;
+}
+.row_button i {
+  margin: 2%;
+}
+.row_button i:hover {
+  transform: scale(1.2);
+  cursor: pointer;
+  transition: 0.25s;
 }
