@@ -1,59 +1,98 @@
 import React, { useEffect, useState } from 'react';
 import { useTable } from 'react-table';
 import './calendarDetail.css';
+import { API_HOST } from '../../../constant';
+import axios from "axios";
 
-export default function CalendarIncomeContent({date, setCurrentMode}) {
-
+export default function CalendarIncomeContent({date, setCurrentMode, spendList}) {
   const [data, setData] = useState([
-    { id: 0, time: '01', pay: 35000, tag: 'tag___', content: 'content___'},
-    { id: 1, time: '01', pay: 35000, tag: 'tag___', content: 'content___'},
-    { id: 2, time: '01', pay: 35000, tag: 'tag___', content: 'content___'},
-    { id: 3, time: '01', pay: 35000, tag: 'tag___', content: 'content___'},
-    { id: 4, time: '01', pay: 35000, tag: 'tag___', content: 'content___'}
+    { id: 0, time: '0', income: 0, tag: [], content: ''}
   ]);
-
   const columns = [
     { Header: '시간', accessor: 'time' },
-    { Header: '금액', accessor: 'pay' },
+    { Header: '금액', accessor: 'income' },
     { Header: '태그', accessor: 'tag' },
     { Header: '내용', accessor: 'content' },
   ];
+  const [tag, setTag] = useState(Array.from({ length: data.length}, (v, i) => []));
 
+  /** row 한 줄 추가 */
   const addRow = () => {
     setData([
       ...data, {
         id: data.length,
         time: '',
-        pay: '',
-        tag: '',
+        income: '',
+        tag: [],
         content: ''
       }
     ]);
+    setTag([
+      ...tag,
+      []
+    ]);
   }
 
+  /** row 한 줄 삭제
+   * 
+   * @param id 삭제 대상
+  */
   const removeRow = (id) => {
     setData(data.filter(el => el.id !== id));
+    setTag(tag.filter((el, idx) => idx !== tag.length - 1));
+  }
+
+  const btnClick = () => {
+    data.forEach((el, idx) => {
+      data[idx].tag = tag[idx];
+    });
+    const result = spendList.concat(data);
+
+    result.forEach(el => {
+      el.date = date;
+      el.spending ? el.income = "0" : el.spending = "0";
+    });
+    saveContent(result);
+  }
+
+  const saveContent = (result) => {
+    const apiUrl = `${API_HOST}/api/budget/datedetail/`;
+    const headers = {
+      Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
+    }
+
+    axios.put(apiUrl, {
+      result
+    }, {
+      headers
+    })
+    .then(res => {
+      console.log('결과');
+      console.log(res);
+      setCurrentMode('content')
+    })
+    .catch(err => {})
   }
 
   return (
     <>
       <section className='calendar_content_section'>
         <h3><span>{date}</span> 수입 목록</h3>
-        <Table columns={columns} data={data} setData={setData}/>
+        <Table columns={columns} data={data} setData={setData} tag={tag} setTag={setTag}/>
         <section className='row_button'>
-          <i class="fa-solid fa-circle-plus" onClick={() => addRow()}></i>
-          <i class="fa-solid fa-circle-minus" onClick={() => removeRow(data[data.length - 1].id)}></i>
+          <i className="fa-solid fa-circle-plus" onClick={() => addRow()}></i>
+          <i className="fa-solid fa-circle-minus" onClick={() => removeRow(data[data.length - 1].id)}></i>
         </section>
       </section>
       <section className='spend_button'>
         <button onClick={() => setCurrentMode('spending')}>이전</button>
-        <button onClick={() => setCurrentMode('income')}>다음 (수입 작성하기)</button>
+        <button onClick={() => btnClick()}>저장</button>
       </section>
     </>
   )
 }
 
-const Table = ({ columns, data, setData }) => {
+const Table = ({ columns, data, setData, tag, setTag }) => {
   const {
     getTableProps,
     getTableBodyProps,
@@ -62,12 +101,42 @@ const Table = ({ columns, data, setData }) => {
     prepareRow,
   } = useTable({ columns, data });
 
+  /** input 영역에 내용 입력했을 때 */
   const handleChangeContent = (event, cell) => {
     const updatedData = [...data];
     const updatedRow = { ...updatedData[cell.row.index] };
     updatedRow[cell.column.id] = event.target.value;
     updatedData[cell.row.index] = updatedRow;
     setData(updatedData);
+  };
+
+  /** 태그 입력하고 enter 눌렀을 때 추가 */
+  const handleChangeTagContent = (event, cell) => {
+    if (event.key !== 'Enter' || event.target.value.trim() === '') {
+      return;
+    }
+  
+    const updatedData = [...data];
+    const updatedRow = { ...updatedData[cell.row.index] };
+    const indexToUpdate = updatedRow.id;
+    const newItem = event.target.value;
+
+    setTag(prevArr => {
+      const newArr = [...prevArr];
+      newArr[indexToUpdate] = [...newArr[indexToUpdate], newItem];
+      return newArr;
+    });
+    event.target.value = '';
+  };
+
+  const getRandomColor = () => {
+    return '#'+Math.floor(Math.random()*16777215).toString(16);
+  }
+
+  const [selectedValue, setSelectedValue] = useState('');
+
+  const handleDropdownChange = (event) => {
+    setSelectedValue(event.target.value);
   };
 
   return (
@@ -91,21 +160,64 @@ const Table = ({ columns, data, setData }) => {
         ))}
       </thead>
       <tbody {...getTableBodyProps()}>
-        {rows.map(row => {
+        {rows.map((row, idx) => {
           prepareRow(row);
           return (
             <tr {...row.getRowProps()}>
-              {row.cells.map(cell => (
+              {row.cells.map((cell) => (
                 <td
                   {...cell.getCellProps()}
                   style={{
                     border: '1px solid #ddd',
                     padding: '10px',
                     textAlign: 'left',
-                    height: '45px'
+                    height: '50px'
                   }}
                 >
-                  <input type="text" value={cell.value} onChange={(event) => handleChangeContent(event, cell)} />
+                  {
+                    cell.column.Header === '태그'
+                    ? (
+                      <>
+                        <input disabled={tag[idx].length >= 5} type="text" className="tag_input" placeholder="입력 후 Enter" onChange={(event) => handleChangeContent(event, cell)} onKeyPress={(event) => handleChangeTagContent(event, cell)}/>
+                        <div>
+                          {
+                            tag[idx].map((value, key) => <span key={key} className="tag">{value}</span>)
+                          }
+                        </div>
+                      </>
+                    )
+                    :
+                    cell.column.Header === '시간'
+                    ? (
+                      <select id="dropdown" value={data.time} onChange={(event) => handleChangeContent(event, cell)}>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+                      </select>
+                    )
+                    :  <input type="text" value={cell.value} onChange={(event) => handleChangeContent(event, cell)} />
+                  }
                 </td>
               ))}
             </tr>

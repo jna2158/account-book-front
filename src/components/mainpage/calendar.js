@@ -39,12 +39,7 @@ export const Calendar = () => {
   const handleClickDay = (value) => {
     setSidebarOpen(true);
     const formatDate = dayjs(new Date(value)).format('YYYY-MM-DD');
-    console.log(formatDate);
-
     setDate(formatDate);
-    console.log(date);
-    // onChange(day);
-    // console.log(value);
 
   }
 

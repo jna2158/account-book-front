@@ -86,3 +86,14 @@
   cursor: pointer;
   transition: 0.25s;
 }
+.tag_input {
+  margin-bottom: 2%;
+}
+.tag {
+  margin: 3%;
+  padding: 1%;
+  border-radius: 50%;
+  padding-left: 2%;
+  padding-right: 2%;
+  background-color: rgba(255, 192, 203, 0.7);
+}

@@ -11,8 +11,6 @@ const userReducer = (state = {}, action) => {
       Object.assign({}, state, {
         nickname: action.state.nickname
       })
-      console.log('set user!!');
-      console.log(action);
       return (
         Object.assign({}, state, {
           nickname: action.state.nickname

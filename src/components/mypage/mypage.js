@@ -64,8 +64,6 @@ export default function Mypage() {
       params: requestBody
     })
     .then(res => {
-      console.log('res >>> ');
-      console.log(res);
       let imageKey = 'images/basic_profile/account_profile_0.png';
       if (res.data && res.data.profile_image) {
         imageKey = res.data.profile_image;

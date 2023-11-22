@@ -3,7 +3,6 @@ import { useTable } from 'react-table';
 import './calendarDetail.css';
 
 export default function CalendarContent({date, setCurrentMode}) {
-
   const data = [
     { id: 0, time: '09', type: '소비', pay: 15000, tag: 'tag', content: 'content'},
     { id: 1, time: '09', type: '소비', pay: 15000, tag: 'tag', content: 'content'},
@@ -66,8 +65,6 @@ const Table = ({ columns, data }) => {
       </thead>
       <tbody {...getTableBodyProps()}>
         {rows.map(row => {
-          console.log('row >> ');
-          console.log(row);
           prepareRow(row);
           return (
             <tr {...row.getRowProps()}>
