@@ -51,6 +51,8 @@ export default function CalendarIncomeContent({date, setCurrentMode, spendList})
     result.forEach(el => {
       el.date = date;
       el.spending ? el.income = "0" : el.spending = "0";
+      el.time = Number(el.time);
+      delete el.id;
     });
     saveContent(result);
   }
@@ -61,9 +63,16 @@ export default function CalendarIncomeContent({date, setCurrentMode, spendList})
       Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
     }
 
-    axios.put(apiUrl, {
-      result
-    }, {
+    // axios.put(apiUrl, result, {
+    //   headers
+    // })
+    // .then(res => {
+    //   console.log('결과');
+    //   console.log(res);
+    //   setCurrentMode('content')
+    // })
+    // .catch(err => {})
+    axios.post(apiUrl, result, {
       headers
     })
     .then(res => {
