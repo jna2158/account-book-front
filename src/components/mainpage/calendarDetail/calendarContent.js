@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useTable } from 'react-table';
 import './calendarDetail.css';
+import axios from 'axios';
+import { API_HOST } from '../../../constant';
 
 export default function CalendarContent({date, setCurrentMode}) {
   const data = [
@@ -16,6 +18,23 @@ export default function CalendarContent({date, setCurrentMode}) {
     { Header: '태그', accessor: 'tag' },
     { Header: '내용', accessor: 'content' },
   ];
+
+  useEffect(() => {
+    const apiUrl = `${API_HOST}/api/budget/datedetail?date=${date}`;
+    const headers = {
+      Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
+    }
+    axios.get(apiUrl, {
+      headers: headers
+    })
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => {
+      console.log(err);
+    })
+
+  });
 
   return (
     <section className='calendar_content_section'>
