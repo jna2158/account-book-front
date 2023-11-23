@@ -5,16 +5,53 @@ import { API_HOST } from '../../../constant';
 import axios from "axios";
 
 export default function CalendarIncomeContent({date, setCurrentMode, spendList}) {
-  const [data, setData] = useState([
-    { id: 0, time: '0', income: 0, tag: [], content: ''}
-  ]);
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   const columns = [
     { Header: '시간', accessor: 'time' },
     { Header: '금액', accessor: 'income' },
     { Header: '태그', accessor: 'tag' },
     { Header: '내용', accessor: 'content' },
   ];
-  const [tag, setTag] = useState(Array.from({ length: data.length}, (v, i) => []));
+  const [tag, setTag] = useState([]);
+
+  useEffect(() => {
+    setIsLoading(true);
+    const apiUrl = `${API_HOST}/api/budget/datedetail/`;
+    const headers = {
+      Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
+    }
+    const requestBody = {
+      date: date
+    }
+    axios.get(apiUrl, {
+      headers: headers,
+      params: requestBody
+    })
+    .then(res => {
+      // 시간을 원하는 형태로
+      let result = res.data;
+      result.forEach(el => {
+        el.time = Number(el.time.slice(0, 2));
+        if (el.income === "0") {
+          el.type = "지출";
+          el.pay = el.spending;
+        } else {
+          el.type = "수입";
+          el.pay = el.income;
+        }
+        setTag([...tag, el.tag]);
+      })
+      result = result.filter(el => el.type === "수입");
+      setData(result);
+      console.log(result);
+      setIsLoading(false);
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }, []);
 
   /** row 한 줄 추가 */
   const addRow = () => {
@@ -85,18 +122,24 @@ export default function CalendarIncomeContent({date, setCurrentMode, spendList})
 
   return (
     <>
-      <section className='calendar_content_section'>
-        <h3><span>{date}</span> 수입 목록</h3>
-        <Table columns={columns} data={data} setData={setData} tag={tag} setTag={setTag}/>
-        <section className='row_button'>
-          <i className="fa-solid fa-circle-plus" onClick={() => addRow()}></i>
-          <i className="fa-solid fa-circle-minus" onClick={() => removeRow(data[data.length - 1].id)}></i>
-        </section>
-      </section>
-      <section className='spend_button'>
-        <button onClick={() => setCurrentMode('spending')}>이전</button>
-        <button onClick={() => btnClick()}>저장</button>
-      </section>
+      {
+        !isLoading && (
+          <>
+          <section className='calendar_content_section'>
+            <h3><span>{date}</span> 수입 목록</h3>
+            <Table columns={columns} data={data} setData={setData} tag={tag} setTag={setTag}/>
+            <section className='row_button'>
+              <i className="fa-solid fa-circle-plus" onClick={() => addRow()}></i>
+              <i className="fa-solid fa-circle-minus" onClick={() => removeRow(data[data.length - 1].id)}></i>
+            </section>
+          </section>
+          <section className='spend_button'>
+            <button onClick={() => setCurrentMode('spending')}>이전</button>
+            <button onClick={() => btnClick()}>저장</button>
+          </section>
+          </>
+        )
+      }
     </>
   )
 }
@@ -187,10 +230,10 @@ const Table = ({ columns, data, setData, tag, setTag }) => {
                     cell.column.Header === '태그'
                     ? (
                       <>
-                        <input disabled={tag[idx].length >= 5} type="text" className="tag_input" placeholder="입력 후 Enter" onChange={(event) => handleChangeContent(event, cell)} onKeyPress={(event) => handleChangeTagContent(event, cell)}/>
+                        <input disabled={tag[idx] && tag[idx].length >= 5} type="text" className="tag_input" placeholder="입력 후 Enter" onChange={(event) => handleChangeContent(event, cell)} onKeyPress={(event) => handleChangeTagContent(event, cell)}/>
                         <div>
                           {
-                            tag[idx].map((value, key) => <span key={key} className="tag">{value}</span>)
+                            tag[idx] && tag[idx].map((value, key) => <span key={key} className="tag">{value}</span>)
                           }
                         </div>
                       </>
