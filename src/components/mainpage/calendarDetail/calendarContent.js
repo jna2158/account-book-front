@@ -4,7 +4,7 @@ import './calendarDetail.css';
 import axios from 'axios';
 import { API_HOST } from '../../../constant';
 
-export default function CalendarContent({date, setCurrentMode, setIsEditMode}) {
+export default function CalendarContent({date, setCurrentMode, setIsEditMode, editComplete, setEditComplete}) {
   const [data, setData] = useState([]);
 
   const columns = [
@@ -29,6 +29,7 @@ export default function CalendarContent({date, setCurrentMode, setIsEditMode}) {
     })
     .then(res => {
       setIsEditMode(true);
+      setEditComplete(!editComplete);
       // 시간을 원하는 형태로
       let result = res.data;
       result = result.filter(el => (el.income !== "0" && el.spending === "0") || (el.income === "0" && el.spending !== "0"));

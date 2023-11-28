@@ -122,9 +122,6 @@ export default function CalendarIncomeContent({date, setCurrentMode, spendList, 
   }
 
   const saveContent = (result) => {
-    console.log('saveContent >>> ');
-    console.log(result);
-
     const apiUrl = `${API_HOST}/api/budget/datedetail/`;
     const headers = {
       Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
@@ -201,10 +198,6 @@ const Table = ({ columns, data, setData, tag, setTag }) => {
     const updatedRow = { ...updatedData[cell.row.index] };
     const indexToUpdate = updatedRow.id;
     const newItem = event.target.value;
-
-    console.log('여기여기 > ');
-    console.log(updatedRow);
-    console.log(indexToUpdate);
 
     setTag(prevArr => {
       const newArr = [...prevArr];

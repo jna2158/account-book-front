@@ -109,6 +109,12 @@
   padding: 1px 16px;
   height: 1000px;
 }
+span.spending_summary {
+  color: red;
+}
+span.income_summary {
+  color: blue
+}
 
 
 /* 미디어 쿼리 - 600px 이하인 경우 */
