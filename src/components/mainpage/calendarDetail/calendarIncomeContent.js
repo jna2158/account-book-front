@@ -4,7 +4,7 @@ import './calendarDetail.css';
 import { API_HOST } from '../../../constant';
 import axios from "axios";
 
-export default function CalendarIncomeContent({date, setCurrentMode, spendList}) {
+export default function CalendarIncomeContent({date, setCurrentMode, spendList, idEditMode}) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -32,24 +32,31 @@ export default function CalendarIncomeContent({date, setCurrentMode, spendList})
     .then(res => {
       // 시간을 원하는 형태로
       let result = res.data;
+      result = result.filter(el => (el.income !== "0" && el.spending === "0") || (el.income === "0" && el.spending !== "0"));
       result.forEach(el => {
         el.time = Number(el.time.slice(0, 2));
-        if (el.income === "0") {
+        if (el.income === "0" && el.spending !== "0") {
           el.type = "지출";
           el.pay = el.spending;
-        } else {
+        } else if (el.income !== "0" && el.spending === "0") {
           el.type = "수입";
           el.pay = el.income;
         }
-        setTag([...tag, el.tag]);
       })
       result = result.filter(el => el.type === "수입");
+      const tagArr = [];
+      result.forEach((el, idx) => {
+        el.id = idx;
+        tagArr.push(el.tag);
+      });
+
+      setTag(tagArr);
       setData(result);
-      console.log(result);
       setIsLoading(false);
     })
     .catch(err => {
       console.log(err);
+      setIsLoading(false);
     })
   }, []);
 
@@ -84,40 +91,62 @@ export default function CalendarIncomeContent({date, setCurrentMode, spendList})
       data[idx].tag = tag[idx];
     });
     const result = spendList.concat(data);
-
     result.forEach(el => {
       el.date = date;
-      el.spending ? el.income = "0" : el.spending = "0";
+      // el.spending !== "0" ? el.income = "0" : el.spending = "0";
+      if (!el.spending) {
+        el.spending = "0";
+      }
+      
+      if (!el.income) {
+        el.income = "0";
+      }
+
       el.time = Number(el.time);
       delete el.id;
     });
+
+    if (result.length === 0) {
+      result.push(
+        {
+          date: date,   
+          tag: [""],
+          time: "00",          
+          income: "0",    
+          spending: "0",       
+          content: ""
+        });
+    }
+
     saveContent(result);
   }
 
   const saveContent = (result) => {
+    console.log('saveContent >>> ');
+    console.log(result);
+
     const apiUrl = `${API_HOST}/api/budget/datedetail/`;
     const headers = {
       Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
     }
 
-    // axios.put(apiUrl, result, {
-    //   headers
-    // })
-    // .then(res => {
-    //   console.log('결과');
-    //   console.log(res);
-    //   setCurrentMode('content')
-    // })
-    // .catch(err => {})
-    axios.post(apiUrl, result, {
-      headers
-    })
-    .then(res => {
-      console.log('결과');
-      console.log(res);
-      setCurrentMode('content')
-    })
-    .catch(err => {})
+    if (idEditMode) {
+      axios.put(apiUrl, result, {
+        headers
+      })
+      .then(res => {
+        setCurrentMode('content')
+      })
+      .catch(err => {})
+    } else {
+      axios.post(apiUrl, result, {
+        headers
+      })
+      .then(res => {
+        setCurrentMode('content')
+      })
+      .catch(err => {})
+    }
   }
 
   return (
@@ -134,7 +163,7 @@ export default function CalendarIncomeContent({date, setCurrentMode, spendList})
             </section>
           </section>
           <section className='spend_button'>
-            <button onClick={() => setCurrentMode('spending')}>이전</button>
+            <button onClick={() => setCurrentMode('content')}>취소</button>
             <button onClick={() => btnClick()}>저장</button>
           </section>
           </>
@@ -172,6 +201,10 @@ const Table = ({ columns, data, setData, tag, setTag }) => {
     const updatedRow = { ...updatedData[cell.row.index] };
     const indexToUpdate = updatedRow.id;
     const newItem = event.target.value;
+
+    console.log('여기여기 > ');
+    console.log(updatedRow);
+    console.log(indexToUpdate);
 
     setTag(prevArr => {
       const newArr = [...prevArr];

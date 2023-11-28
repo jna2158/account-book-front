@@ -32,24 +32,29 @@ export default function CalendarSpendingContent({date, setCurrentMode, setSpendL
     .then(res => {
       // 시간을 원하는 형태로
       let result = res.data;
+      result = result.filter(el => (el.income !== "0" && el.spending === "0") || (el.income === "0" && el.spending !== "0"));
       result.forEach(el => {
         el.time = Number(el.time.slice(0, 2));
-        if (el.income === "0") {
+        if (el.income === "0" && el.spending !== "0") {
           el.type = "지출";
           el.pay = el.spending;
-        } else {
+        } else if (el.income !== "0" && el.spending === "0") {
           el.type = "수입";
           el.pay = el.income;
         }
-        setTag([...tag, el.tag]);
       })
       result = result.filter(el => el.type === "지출");
+      result.forEach((el, idx) => {
+        el.id = idx;
+        setTag([...tag, el.tag]);
+      });
+
       setData(result);
-      console.log(result);
       setIsLoading(false);
     })
     .catch(err => {
       console.log(err);
+      setIsLoading(false);
     })
   }, []);
 
@@ -133,8 +138,7 @@ const Table = ({ columns, data, setData, tag, setTag }) => {
   const handleChangeTagContent = (event, cell) => {
     if (event.key !== 'Enter' || event.target.value.trim() === '') {
       return;
-    }
-  
+    }  
     const updatedData = [...data];
     const updatedRow = { ...updatedData[cell.row.index] };
     const indexToUpdate = updatedRow.id;

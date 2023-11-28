@@ -4,12 +4,7 @@ import './calendarDetail.css';
 import axios from 'axios';
 import { API_HOST } from '../../../constant';
 
-export default function CalendarContent({date, setCurrentMode}) {
-  // const data = [
-  //   { id: 0, time: '09', type: '소비', pay: 15000, tag: 'tag', content: 'content'},
-  //   { id: 1, time: '09', type: '소비', pay: 15000, tag: 'tag', content: 'content'},
-  //   { id: 2, time: '09', type: '지출', pay: 15000, tag: 'tag', content: 'content'}
-  // ];
+export default function CalendarContent({date, setCurrentMode, setIsEditMode}) {
   const [data, setData] = useState([]);
 
   const columns = [
@@ -33,22 +28,23 @@ export default function CalendarContent({date, setCurrentMode}) {
       params: requestBody
     })
     .then(res => {
+      setIsEditMode(true);
       // 시간을 원하는 형태로
       let result = res.data;
+      result = result.filter(el => (el.income !== "0" && el.spending === "0") || (el.income === "0" && el.spending !== "0"));
       result.forEach(el => {
         el.time = el.time.slice(0, 2);
-        if (el.income === "0") {
+        if (el.income === "0" && el.spending !== "0") {
           el.type = "지출";
           el.pay = el.spending;
           el.tag = el.tag.join(', ');
-        } else {
+        } else if (el.income !== "0" && el.spending === "0") {
           el.type = "수입";
           el.pay = el.income;
           el.tag = el.tag.join(', ');
         }
       })
       setData(result);
-      console.log(result);
     })
     .catch(err => {
       console.log(err);

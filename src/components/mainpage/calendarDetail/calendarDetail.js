@@ -7,16 +7,17 @@ import './calendarDetail.css';
 export const CalendarDetail = ({setSidebarOpen, date}) => {
   const [currentMode, setCurrentMode] = useState('content'); // content or spending or income
   const [spendList, setSpendList] = useState([]);
+  const [idEditMode, setIsEditMode] = useState(false);
 
   return (
     <>
       <i className="fa-solid fa-angles-right" onClick={() => setSidebarOpen(false)}></i>
       {
         currentMode === 'content'
-        ? <CalendarContent date={date} setCurrentMode={setCurrentMode}/>
+        ? <CalendarContent date={date} setCurrentMode={setCurrentMode} setIsEditMode={setIsEditMode}/>
         : currentMode === 'spending'
         ? <CalendarSpendingContent date={date} setCurrentMode={setCurrentMode} setSpendList={setSpendList}/>
-        : <CalendarIncomeContent date={date} setCurrentMode={setCurrentMode} spendList={spendList}/>
+        : <CalendarIncomeContent date={date} setCurrentMode={setCurrentMode} spendList={spendList} idEditMode={idEditMode}/>
       }
     </>
   )
