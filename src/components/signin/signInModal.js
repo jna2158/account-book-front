@@ -110,6 +110,7 @@ export default function LoginModal () {
           const ACCESS_TOKEN = res.data.jwt_token.access_token;
           localStorage.setItem('ACCESS_TOKEN', ACCESS_TOKEN);
           localStorage.setItem('user', JSON.stringify(res.data.user));
+          window.location.reload();
         }
         setSubmit(false);
       })
