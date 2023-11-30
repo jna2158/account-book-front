@@ -1,0 +1,145 @@
+.chart_title {
+  font-size: 2rem;
+  line-height: 60px;
+  margin: 3%;
+}
+/* 달력 전체 스타일 */
+.react-datepicker {
+  font-family: 'Arial', sans-serif;
+}
+
+/* 달력 헤더 스타일 */
+.react-datepicker__header {
+  background-color: #61dafb;
+  color: #fff;
+  border-bottom: none;
+}
+
+/* 달력 날짜 스타일 */
+.react-datepicker__day {
+  color: #333;
+}
+
+/* 선택된 날짜 스타일 */
+.react-datepicker__day--selected {
+  background-color: #61dafb;
+  color: #fff;
+}
+
+/* 오늘 날짜 스타일 */
+.react-datepicker__day--today {
+  font-weight: bold;
+}
+
+/* 달력 화살표 스타일 */
+.react-datepicker__navigation {
+  color: #61dafb;
+}
+
+/* 달력 화살표 호버 스타일 */
+.react-datepicker__navigation:hover {
+  color: #2680c2;
+}
+
+/* 달력 화살표 비활성화 스타일 */
+.react-datepicker__navigation--disabled {
+  color: #ccc;
+}
+
+/* 달력 월/년 선택 스타일 */
+.react-datepicker__current-month, .react-datepicker-time__header, .react-datepicker-year-header {
+  color: #333;
+}
+
+/* 달력 날짜 목록 스타일 */
+.react-datepicker__month {
+  margin: 8px;
+}
+
+/* 날짜 선택 영역 스타일 */
+.react-datepicker__day--keyboard-selected, .react-datepicker__month-text--keyboard-selected {
+  background-color: #61dafb;
+  color: #fff;
+}
+
+/* 날짜 피커 높이 조정 */
+.react-datepicker__day {
+  line-height: 36px;
+  height: 36px;
+}
+.date_select {
+  font-size: 1.3rem;
+  margin: 3.2%;
+  display: flex;
+  gap: 3%;
+}
+.date_select .chart-calendar input[type="text"] {
+  font-size: 1.3rem;
+}
+ 
+.tooltip {
+  position: relative;
+  display: block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 250px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.tooltip .tooltiptext::after {
+  content: " ";
+  position: absolute;
+  border-style: solid;
+  border-width: 5px;
+}
+
+.tooltip .tooltip-right {
+  top: -5px;
+  left: 105%;
+}
+
+.tooltip .tooltip-right::after {
+  top: 50%;
+  right: 100%;
+  margin-top: -5px;
+
+  /* 사각형의 테두리에서 왼쪽만 노출 */
+  border-color: transparent transparent transparent black;
+  
+}
+
+.graph {
+  display: flex;
+  gap: 2%;
+}
+.graph .graph-select {
+  margin-top: 1%;
+  margin-left: 3%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.chart-graph {
+  margin-top: 1%;
+  background-color: rgb(231, 184, 184);
+  width: 80%;
+}
+
+.circle {
+  width: 30px;
+  height: 30px;
+  background-color: #3498db; /* 배경 색상 지정 */
+  border-radius: 50%; /* 반지름이 박스 크기의 절반과 같게 설정 */
+}
