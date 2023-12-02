@@ -133,8 +133,8 @@
 }
 .chart-graph {
   margin-top: 1%;
-  background-color: rgb(231, 184, 184);
   width: 80%;
+  height: 40vh;
 }
 
 .circle {
