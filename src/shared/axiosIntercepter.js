@@ -21,7 +21,7 @@ axios.interceptors.response.use(
   },
   (error) => {
     if (error.response && error.response.status === 401) {
-      const originalrequest = error.config;
+      const originalRequest = error.config;
       updateRefreshToken();
       setTimeout(() => {
         return axios(originalRequest);
