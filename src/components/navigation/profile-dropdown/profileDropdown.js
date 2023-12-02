@@ -30,21 +30,22 @@ export default function ProfileDropdown({setClickProfile}) {
       console.log(err);
       if (err.response.status === 401) {
         updateRefreshToken();
+        logoutUser();
       }
     })
   }
 
   /** refresh token 재발급 */
-  const updateRefreshToken = () => {
-    axios.post(`${API_HOST}/api/accounts/login/refresh/`)
-    .then(res => {
-      localStorage.setItem('ACCESS_TOKEN', res.data.access_token);
-      logoutUser();
-    })
-    .catch(err => {
-      console.log(err);
-    })
-  }
+  // const updateRefreshToken = () => {
+  //   axios.post(`${API_HOST}/api/accounts/login/refresh/`)
+  //   .then(res => {
+  //     localStorage.setItem('ACCESS_TOKEN', res.data.access_token);
+  //     logoutUser();
+  //   })
+  //   .catch(err => {
+  //     console.log(err);
+  //   })
+  // }
 
 
   return (

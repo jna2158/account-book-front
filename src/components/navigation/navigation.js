@@ -22,20 +22,6 @@ export default function Navigation() {
     return localStorage.getItem("ACCESS_TOKEN");
   }
 
-  useEffect(() => {
-    // const handleOutsideClick = (event) => {
-    //   if (profileRef.current && !profileRef.current.contains(event.target) && event.target !== <li>마이페이지</li>) {
-    //     setClickProfile(false);
-    //   }
-    // };
-
-    // document.addEventListener('mousedown', handleOutsideClick);
-
-    // return () => {
-    //   document.removeEventListener('mousedown', handleOutsideClick);
-    // };
-  }, [profileRef]);
-
   return (
     <section>
       <header>
