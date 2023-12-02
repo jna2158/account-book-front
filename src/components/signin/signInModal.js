@@ -6,15 +6,10 @@ import logo from "../../source/account-book-logo.png";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import { Cookies } from "react-cookie";
-
 
 export default function LoginModal () {
   const open = useSelector((state) => state.loginReducer.state);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const cookie = new Cookies();
 
   const [isSignIn, setIsSignIn] = useState(false);
   const [submit, setSubmit] = useState(false);
@@ -28,8 +23,6 @@ export default function LoginModal () {
   const [nickname, setNickName] = useState('');
   const [nicknameValid, isNickNameValid] = useState(true);
   const [errMsg, setErrMsg] = useState([]);
-
-  const cookies = new Cookies();
 
   useEffect(() => {
     if (!email.length) {
@@ -103,10 +96,8 @@ export default function LoginModal () {
         "password": password
       }, {withCredentials: true})
       .then(res => {
-        // 로그인 성공했을 때
         if (res.status === 200) {
           confirm();
-          // access token은 local storage에, refresh token은 cookie에 저장
           const ACCESS_TOKEN = res.data.jwt_token.access_token;
           localStorage.setItem('ACCESS_TOKEN', ACCESS_TOKEN);
           localStorage.setItem('user', JSON.stringify(res.data.user));
@@ -237,14 +228,7 @@ export default function LoginModal () {
                 <button className="signin-btn" onClick={onClickSignIn}>로그인</button>
                 <button className="signup-btn" onClick={() => onToggleModal()}>회원가입</button>
               </div>
-              
-              {/* <div className="social-container">
-                <a href="#" className="social"><i className="fa-solid fa-n"></i></a>
-                <a href="#" className="social"><i className="fab fa-google-plus-g"></i></a>
-                <a href="#" className="social"><i className="fa-solid fa-k"></i></a>
-              </div> */}
             </form>
-            {/* <span className="sub-info">아직 회원이 아니신가요? <span onClick={() => onToggleModal()}><strong>회원가입</strong></span></span> */}
           </div>
         </section>
       : <section className="signup-section">
@@ -300,13 +284,7 @@ export default function LoginModal () {
               </div>
               
               <button onClick={onClickSignUp}>회원가입</button>
-              {/* <div className="social-container">
-                <a href="#" className="social"><i className="fab fa-facebook-f"></i></a>
-                <a href="#" className="social"><i className="fab fa-google-plus-g"></i></a>
-                <a href="#" className="social"><i className="fab fa-linkedin-in"></i></a>
-              </div> */}
             </form>
-            {/* <span className="sub-info">이미 계정이 있으신가요? <span onClick={() => onToggleModal()}><strong>로그인</strong></span></span> */}
           </div>
         </section>
     }
