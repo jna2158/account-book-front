@@ -25,14 +25,10 @@ export const Calendar = () => {
       return;
     }
     const apiUrl = `${API_HOST}/api/budget/datesummary/`;
-    const headers = {
-      Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
-    }
     const requestBody = {
       date: activeMonth
     }
     axios.get(apiUrl, {
-      headers: headers,
       params: requestBody
     })
     .then(res => {
@@ -41,9 +37,6 @@ export const Calendar = () => {
     })
     .catch(err => {
       console.log(err);
-      if (err.response.status === 401) {
-        updateRefreshToken();
-      } 
     })
   }, [editComplete, activeMonth]);
 
