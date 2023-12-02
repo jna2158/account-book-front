@@ -77,7 +77,7 @@ export const Chart = () => {
         </section>
 
         <section className="chart-graph">
-          <GraphRemainByDay />
+          <GraphRemainByDay startDate={startDate} endDate={endDate}/>
         </section>
       </section>
     </section>
