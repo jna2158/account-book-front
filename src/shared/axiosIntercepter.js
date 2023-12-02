@@ -20,8 +20,8 @@ axios.interceptors.response.use(
     return response;
   },
   (error) => {
-    // 응답이 에러인 경우에 대한 처리
     if (error.response && error.response.status === 401) {
+      const originalrequest = error.config;
       updateRefreshToken();
       setTimeout(() => {
         return axios(originalRequest);
