@@ -21,7 +21,7 @@ export default function CalendarContent({date, setCurrentMode, setIsEditMode, ed
       Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
     }
     const requestBody = {
-      date: date
+      date: date.date
     }
     axios.get(apiUrl, {
       headers: headers,
@@ -54,14 +54,20 @@ export default function CalendarContent({date, setCurrentMode, setIsEditMode, ed
 
   return (
     <section className='calendar_content_section'>
-      <h3><span>{date}</span> 가계부</h3>
+      <h3><span>{date.date}</span> 가계부</h3>
       <Table columns={columns} data={data} />
       <section className='summary_section'>
-        <div className='summry_title'>요약</div>
-        <div>수입: <span>0000원</span></div>
-        <div>지출: <span>0000원</span></div>
-        <div>남은 총액: <span>0000원</span></div>
-      </section>
+        {
+          date && (date.income_summary || date.spending_summary) && (
+            <>
+              <div className='summry_title'>요약</div>
+              <div>수입: <span>{date.income_summary.toLocaleString()} 원</span></div>
+              <div>지출: <span>{date.spending_summary.toLocaleString()} 원</span></div>
+              <div>남은 총액: <span>{date.left_money.toLocaleString()} 원</span></div>
+            </>
+          ) 
+        }
+        </section>
       <section className='content_button'>
         <button onClick={() => setCurrentMode('spending')}>오늘의 하루 작성/편집하기</button>
       </section>

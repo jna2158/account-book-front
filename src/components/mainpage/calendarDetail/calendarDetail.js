@@ -16,8 +16,8 @@ export const CalendarDetail = ({setSidebarOpen, date, editComplete, setEditCompl
         currentMode === 'content'
         ? <CalendarContent date={date} setCurrentMode={setCurrentMode} setIsEditMode={setIsEditMode} setEditComplete={setEditComplete} editComplete={editComplete}/>
         : currentMode === 'spending'
-        ? <CalendarSpendingContent date={date} setCurrentMode={setCurrentMode} setSpendList={setSpendList}/>
-        : <CalendarIncomeContent date={date} setCurrentMode={setCurrentMode} spendList={spendList} idEditMode={idEditMode}/>
+        ? <CalendarSpendingContent date={date.date} setCurrentMode={setCurrentMode} setSpendList={setSpendList}/>
+        : <CalendarIncomeContent date={date.date} setCurrentMode={setCurrentMode} spendList={spendList} idEditMode={idEditMode}/>
       }
     </>
   )

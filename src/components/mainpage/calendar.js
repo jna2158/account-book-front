@@ -41,7 +41,13 @@ export const Calendar = () => {
   const handleClickDay = (value) => {
     setSidebarOpen(true);
     const formatDate = dayjs(new Date(value)).format('YYYY-MM-DD');
-    setDate(formatDate);
+    console.log('formatDate');
+    console.log(formatDate);
+    const item = dayList.find((x) => x.date === formatDate);
+    item ? setDate(item) : setDate([ {date: formatDate} ]);
+    console.log('item >> ');
+    console.log(item);
+    // setDate(item);
   }
 
   const getActiveMonth = (activeStartDate) => {
@@ -66,8 +72,7 @@ export const Calendar = () => {
           showNeighboringMonth={false}
           tileContent={({ date, view }) => {
             const item = dayList.find((x) => x.date === moment(date).format("YYYY-MM-DD"));
-            if (dayList.find((x) => x.date === moment(date).format("YYYY-MM-DD"))) {
-              return (
+              return item && (
                <>
                  <div>
                   <span className='spending_summry'>
@@ -80,7 +85,6 @@ export const Calendar = () => {
                  </div>
                </>
              );
-            }
           }}
           onChange={onChange}
           onClickDay={(event) => handleClickDay(event)}
