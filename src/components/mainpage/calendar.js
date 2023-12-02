@@ -7,6 +7,7 @@ import moment from 'moment';
 import dayjs from 'dayjs';
 import { API_HOST } from '../../constant';
 import axios from 'axios';
+import { updateRefreshToken } from '../../shared/token';
 
 export const Calendar = () => {
   const [value, onChange] = useState(new Date());
@@ -16,7 +17,13 @@ export const Calendar = () => {
   const [editComplete, setEditComplete] = useState(false);
   const [activeMonth, setActiveMonth] = useState(new Date().getFullYear() + '-' + (new Date().getMonth() + 1));
 
+
   useEffect(() => {
+    console.log('useEffect');
+    console.log(localStorage.getItem('ACCESS_TOKEN'));
+    if (!localStorage.getItem('ACCESS_TOKEN')) {
+      return;
+    }
     const apiUrl = `${API_HOST}/api/budget/datesummary/`;
     const headers = {
       Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
@@ -34,6 +41,9 @@ export const Calendar = () => {
     })
     .catch(err => {
       console.log(err);
+      if (err.response.status === 401) {
+        updateRefreshToken();
+      } 
     })
   }, [editComplete, activeMonth]);
 
@@ -41,13 +51,8 @@ export const Calendar = () => {
   const handleClickDay = (value) => {
     setSidebarOpen(true);
     const formatDate = dayjs(new Date(value)).format('YYYY-MM-DD');
-    console.log('formatDate');
-    console.log(formatDate);
     const item = dayList.find((x) => x.date === formatDate);
     item ? setDate(item) : setDate([ {date: formatDate} ]);
-    console.log('item >> ');
-    console.log(item);
-    // setDate(item);
   }
 
   const getActiveMonth = (activeStartDate) => {
