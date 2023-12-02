@@ -21,10 +21,14 @@ export const Calendar = () => {
   useEffect(() => {
     console.log('useEffect');
     console.log(localStorage.getItem('ACCESS_TOKEN'));
+    console.log('1');
     if (!localStorage.getItem('ACCESS_TOKEN')) {
+      console.log('2');
       return;
     }
+    console.log('3');
     const apiUrl = `${API_HOST}/api/budget/datesummary/`;
+    console.log('4');
     const requestBody = {
       date: activeMonth
     }

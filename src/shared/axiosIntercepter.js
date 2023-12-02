@@ -8,6 +8,7 @@ axios.interceptors.request.use(
     if (accessToken) {
       config.headers['Authorization'] = `Bearer ${accessToken}`;
     }
+    return config;
   },
   (error) => {
     return Promise.reject(error);
