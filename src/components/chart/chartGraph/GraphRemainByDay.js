@@ -1,46 +1,6 @@
-import { ResponsiveLine } from '@nivo/line'
-import { useEffect } from 'react';
-import { API_HOST } from '../../../constant';
-import axios from 'axios';
-import { useState } from 'react';
+import { ResponsiveLine } from '@nivo/line';
 
-export default function GraphRemainByDay({startDate, endDate}) {
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    const apiUrl = `${API_HOST}/api/chart/datesummary/`;
-    const headers = {
-      Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
-    }
-    const requestBody = {
-      st_date: startDate,
-      ed_date: endDate
-    }
-    axios.get(apiUrl, {
-      headers: headers,
-      params: requestBody
-    })
-    .then(res => {
-      const response = res.data;
-      for(let idx in response) {
-        if (response[idx].hasOwnProperty('date')) {
-            response[idx].x = response[idx].date;
-            response[idx].y = response[idx].left_money;
-            delete response[idx].date;
-            delete response[idx].left_money;
-        }
-      }
-      setData([{
-        id: "지원",
-        color: "hsl(125, 70%, 50%)",
-        data: response
-      }]
-    );
-    })
-    .catch(err => {
-      console.log(err);
-    })
-  }, []);
-  
+export default function GraphRemainByDay({data}) {
   const customToolTip = (point) => {
     let cell = point.point;
     let styleValue = {

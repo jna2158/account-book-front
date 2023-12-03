@@ -1,9 +1,7 @@
-import Mypage from '../../mypage/mypage';
 import { API_HOST } from '../../../constant';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { updateRefreshToken } from '../../../shared/token';
-import { NavLink, Routes, Route } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import "./profileDropdown.css";
 
 export default function ProfileDropdown({setClickProfile}) {
@@ -12,12 +10,7 @@ export default function ProfileDropdown({setClickProfile}) {
   /** 로그아웃 */
   const logoutUser = () => {
     const apiUrl = `${API_HOST}/api/accounts/logout/`;
-    const headers = {
-      Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
-    }
-
     axios.post(apiUrl, null, {  
-      headers: headers,
       withCredentials: true
     })
     .then(res => {
@@ -28,10 +21,6 @@ export default function ProfileDropdown({setClickProfile}) {
     })
     .catch(err => {
       console.log(err);
-      if (err.response.status === 401) {
-        updateRefreshToken();
-        logoutUser();
-      }
     })
   }
 

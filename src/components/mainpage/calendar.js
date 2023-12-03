@@ -7,7 +7,6 @@ import moment from 'moment';
 import dayjs from 'dayjs';
 import { API_HOST } from '../../constant';
 import axios from 'axios';
-import { updateRefreshToken } from '../../shared/token';
 
 export const Calendar = () => {
   const [value, onChange] = useState(new Date());

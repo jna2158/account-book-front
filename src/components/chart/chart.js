@@ -1,29 +1,82 @@
 import DatePicker from "react-datepicker";
 import Multiselect from "multiselect-react-dropdown";
 import { useState } from "react";
+import { useEffect } from 'react';
+import { API_HOST } from '../../constant';
+import axios from 'axios';
+import dayjs from 'dayjs';
 import "./chart.css";
 import 'react-datepicker/dist/react-datepicker.css';
+// graph
 import GraphRemainByDay from './chartGraph/GraphRemainByDay';
+import NoData from "./chartGraph/noData";
 
 export const Chart = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+  const [data, setData] = useState([]);
+  const [selectedChart, setSelectedChart] = useState('remainByDay');
 
+  /* 태그 option */
   const state = {
     options: [{name: 'tag1', id: 1}, {name: 'tag2', id: 2}, {name: 'tag3', id: 3}]
   };
 
+  /* Tag */
   const onSelect = (selectedList, selectedItem) => {
     console.log('a');
   }
+  /* Tag */
   const onRemove = (selectedList, removedItem) => {
     console.log('a');
   }
 
+  useEffect(() => {
+   getChartData();
+  }, [startDate, endDate]);
+
+  /* 날짜별로 차트 데이터 가져오기 */
+  const getChartData = () => {
+    const apiUrl = `${API_HOST}/api/chart/datesummary/`;
+    const headers = {
+      Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
+    }
+    const requestBody = {
+      st_date: dayjs(startDate).format('YYYY-MM-DD'),
+      ed_date: dayjs(endDate).format('YYYY-MM-DD')
+    }
+    axios.get(apiUrl, {
+      headers: headers,
+      params: requestBody
+    })
+    .then(res => {
+      const response = res.data;
+      for(let idx in response) {
+        if (response[idx].hasOwnProperty('date')) {
+            response[idx].x = response[idx].date;
+            response[idx].y = response[idx].left_money;
+            delete response[idx].date;
+            delete response[idx].left_money;
+        }
+      }
+      if (response.length) {
+        setData([{
+          id: "지원",
+          color: "hsl(125, 70%, 50%)",
+          data: response
+        }]);
+      } else {
+        setData([]);
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }
 
   return (
     <section className="chart">
-      <div className="chart_title">지원님 ! 이번달 예산은<br /><strong>300,000원</strong> 남았습니다.</div>
+      <div className="chart_title">{JSON.parse(localStorage.getItem('user')).nickname}님 ! 이번달 예산은<br /><strong>300,000원</strong> 남았습니다.</div>
       
       <div className="date_select">
         <DatePicker
@@ -77,7 +130,18 @@ export const Chart = () => {
         </section>
 
         <section className="chart-graph">
-          <GraphRemainByDay startDate={startDate} endDate={endDate}/>
+        {(() => {
+          switch (data.length && selectedChart) {
+            case 'remainByDay':
+              console.log('case 1');
+              console.log(data);
+              return <GraphRemainByDay data={data}/>;
+            default:
+              console.log('case 2');
+              console.log(data);
+              return <NoData />;
+          }
+        })()}
         </section>
       </section>
     </section>
