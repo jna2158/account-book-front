@@ -23,10 +23,19 @@ axios.interceptors.response.use(
   async (error) => {
     if (error.response && error.response.status === 401) {
       const originalRequest = error.config;
-      const res = await updateRefreshToken();
-      if (res === 'success') {
-        return axios.request(originalRequest);
-      }
+      return updateRefreshToken()
+        .then((res) => {
+          console.log('res');
+          console.log(res);
+          if (res === 'success') {
+            return axios.request(originalRequest);
+          } else {
+            return Promise.reject(error);
+          }
+        })
+        .catch((err) => {
+          return Promise.reject(error);
+        });
     }
     return Promise.reject(error);
   }
