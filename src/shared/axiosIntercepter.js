@@ -20,15 +20,13 @@ axios.interceptors.response.use(
   (response) => {
     return response;
   },
-  (error) => {
+  async (error) => {
     if (error.response && error.response.status === 401) {
-      const originalRequest = error.config.url;
-      console.log('originalRequest >>> ');
-      console.log(originalRequest);
-      updateRefreshToken();
-      setTimeout(() => {
-        return axios(originalRequest);
-      }, 2000);
+      const originalRequest = error.config;
+      const res = await updateRefreshToken();
+      if (res === 'success') {
+        return axios.request(originalRequest);
+      }
     }
     return Promise.reject(error);
   }
