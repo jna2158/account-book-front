@@ -22,7 +22,9 @@ axios.interceptors.response.use(
   },
   (error) => {
     if (error.response && error.response.status === 401) {
-      const originalRequest = error.config;
+      const originalRequest = error.config.url;
+      console.log('originalRequest >>> ');
+      console.log(originalRequest);
       updateRefreshToken();
       setTimeout(() => {
         return axios(originalRequest);

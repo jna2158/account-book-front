@@ -19,29 +19,22 @@ export const Calendar = () => {
 
 
   useEffect(() => {
-    console.log('useEffect');
-    console.log(localStorage.getItem('ACCESS_TOKEN'));
-    console.log('1');
-    if (!localStorage.getItem('ACCESS_TOKEN')) {
-      console.log('2');
-      return;
+    if (localStorage.getItem('ACCESS_TOKEN')) {
+      const apiUrl = `${API_HOST}/api/budget/datesummary/`;
+      const requestBody = {
+        date: activeMonth
+      }
+      axios.get(apiUrl, {
+        params: requestBody
+      })
+      .then(res => {
+        console.log(res);
+        setDayList(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      })
     }
-    console.log('3');
-    const apiUrl = `${API_HOST}/api/budget/datesummary/`;
-    console.log('4');
-    const requestBody = {
-      date: activeMonth
-    }
-    axios.get(apiUrl, {
-      params: requestBody
-    })
-    .then(res => {
-      console.log(res);
-      setDayList(res.data);
-    })
-    .catch(err => {
-      console.log(err);
-    })
   }, [editComplete, activeMonth]);
 
   /** 날짜 클릭 */

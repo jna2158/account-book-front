@@ -28,9 +28,13 @@ export default function ProfileDropdown({setClickProfile}) {
     })
     .catch(err => {
       console.log(err);
+      if (err.response.status === 401) {
+        updateRefreshToken();
+        logoutUser();
+      }
     })
   }
-  
+
   return (
     <section className="profile_dropdown_section">
       <ul>
