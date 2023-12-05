@@ -11,6 +11,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import GraphRemainByDay from './chartGraph/GraphRemainByDay';
 import NoData from "./chartGraph/noData";
 import GraphRemainByMonth from "./chartGraph/GraphRemainByMonth";
+import GraphTopPercentage from "./chartGraph/GraphTopPercentage";
 
 export const Chart = () => {
   const [startDate, setStartDate] = useState(new Date());
@@ -36,9 +37,30 @@ export const Chart = () => {
    getChartData();
   }, [startDate, endDate, selectedChart]);
 
+
+  /* 일 단위 남은 재산 data format */
+  const remainByDayFormat = (response) => {
+    for(let idx in response) {
+      if (response[idx].hasOwnProperty('date')) {
+          response[idx].x = response[idx].date;
+          response[idx].y = response[idx].left_money;
+          delete response[idx].date;
+          delete response[idx].left_money;
+      }
+    }
+    if (response.length) {
+      setData([{
+        id: "지원",
+        color: "hsl(125, 70%, 50%)",
+        data: response
+      }]);
+    } else {
+      setData([]);
+    }
+  }
+
   /* 날짜별로 차트 데이터 가져오기 */
   const getChartData = () => {
-    console.log('getChartData > ');
     const headers = {
       Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
     }
@@ -52,7 +74,18 @@ export const Chart = () => {
         st_date: dayjs(startDate).format('YYYY-MM-DD'),
         ed_date: dayjs(endDate).format('YYYY-MM-DD')
       }
-    } else {
+    }
+    
+    if (selectedChart === 'topPercentage') {
+      apiUrl = `${API_HOST}/api/chart/tagtopten/`;
+      requestBody = {
+        st_date: dayjs(startDate).format('YYYY-MM-DD'),
+        ed_date: dayjs(endDate).format('YYYY-MM-DD')
+      }
+      headers.chart_datatype = 'percent';
+    }
+    
+    if (selectedChart === 'remainByMonth') {
       apiUrl = `${API_HOST}/api/chart/monthsummary/`;
       requestBody = {
         st_month: dayjs(startDate).format('YYYY-MM'),
@@ -66,22 +99,8 @@ export const Chart = () => {
     })
     .then(res => {
       const response = res.data;
-      for(let idx in response) {
-        if (response[idx].hasOwnProperty('date')) {
-            response[idx].x = response[idx].date;
-            response[idx].y = response[idx].left_money;
-            delete response[idx].date;
-            delete response[idx].left_money;
-        }
-      }
-      if (response.length) {
-        setData([{
-          id: "지원",
-          color: "hsl(125, 70%, 50%)",
-          data: response
-        }]);
-      } else {
-        setData([]);
+      if (selectedChart === 'remainByDay') {
+        remainByDayFormat(response);
       }
     })
     .catch(err => {
@@ -148,7 +167,7 @@ export const Chart = () => {
           <div className="tab" data-chart="topTags" onClick={() => setSelectedChart('topTags')}>
             <span className="tab-text">소비가 큰 태그 순위 (상위 10개)</span>
           </div>
-          <div className="tab" data-chart="percentage" onClick={() => setSelectedChart('percentage')}>
+          <div className="tab" data-chart="topPercentage" onClick={() => setSelectedChart('topPercentage')}>
             <span className="tab-text">나의 소비를 태그 %로 표현</span>
           </div>
         </section>
@@ -162,10 +181,14 @@ export const Chart = () => {
                 return <GraphRemainByDay data={data}/>;
               case 'topTags':
                 return
-              case 'percentage':
-                return
+              case 'topPercentage':
+                return <GraphTopPercentage data={data}/>;
               default:
-                return <NoData />;
+                return (
+                  <>
+                    <GraphTopPercentage data={data}/>
+                  </>
+                )
             }
           })()}
         </section>
