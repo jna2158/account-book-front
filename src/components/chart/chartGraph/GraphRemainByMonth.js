@@ -1,6 +1,18 @@
 import { ResponsiveLine } from '@nivo/line';
+import { useEffect, useState } from 'react';
 
-export default function GraphRemainByMonth({data}) {
+export default function GraphRemainByMonth({ data }) {
+  console.log('graphRemainByMonth >> ');
+  console.log(data);
+  const [list, setList] = useState([]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      remainByMonthFormat();
+    }, 1000);
+  }, [])
+
+  /* Tooltip */
   const customToolTip = (point) => {
     let cell = point.point;
     let styleValue = {
@@ -24,10 +36,32 @@ export default function GraphRemainByMonth({data}) {
       </div>
     )
   }
+
+  /* 월 단위 남은 재산 data format */
+  const remainByMonthFormat = () => {
+
+    for(let idx in data) {
+      if (data[idx].hasOwnProperty('date')) {
+          data[idx].x = data[idx].date;
+          data[idx].y = data[idx].left_money;
+          delete data[idx].date;
+          delete data[idx].left_money;
+      }
+    }
+    if (data.length) {
+      setList([{
+        id: "지원",
+        color: "hsl(125, 70%, 50%)",
+        data: data
+      }]);
+    } else {
+      setList([]);
+    }
+  }
   
   return (
     <ResponsiveLine
-    data={data}
+    data={list}
     margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
     xScale={{ type: 'point' }}
     yScale={{

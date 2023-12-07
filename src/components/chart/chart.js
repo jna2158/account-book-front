@@ -12,12 +12,14 @@ import GraphRemainByDay from './chartGraph/GraphRemainByDay';
 import NoData from "./chartGraph/noData";
 import GraphRemainByMonth from "./chartGraph/GraphRemainByMonth";
 import GraphTopPercentage from "./chartGraph/GraphTopPercentage";
+import GraphTopTags from "./chartGraph/GraphTopTags";
 
 export const Chart = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [data, setData] = useState([]);
   const [selectedChart, setSelectedChart] = useState('remainByDay');
+  const [loading, setLoading] = useState(false);
 
   /* 태그 option */
   const state = {
@@ -34,7 +36,8 @@ export const Chart = () => {
   }
 
   useEffect(() => {
-   getChartData();
+    setLoading(true);
+    getChartData();
   }, [startDate, endDate, selectedChart]);
 
 
@@ -59,8 +62,34 @@ export const Chart = () => {
     }
   }
 
+  /* 월 단위 Tag top ten % data format */
+  const topPercentageFormat = (response ) => {
+    const spendingArray = Object.entries(response.spending_top_ten).map(([id, value], index) => ({
+      id,
+      label: id,
+      value,
+      color: `hsl(191, 70%, 50%)`
+    }));
+
+    const incomeArray = Object.entries(response.income_top_ten).map(([id, value], index) => ({
+      id,
+      label: id,
+      value,
+      color: `hsl(191, 70%, 50%)`
+    }));
+    
+    // 결과 객체 생성
+    const resultObject = {
+      income_top_ten: incomeArray,
+      spending_top_ten: spendingArray
+    };
+    setData(resultObject);
+  }
+
+
   /* 날짜별로 차트 데이터 가져오기 */
   const getChartData = () => {
+    setLoading(true);
     const headers = {
       Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
     }
@@ -76,13 +105,17 @@ export const Chart = () => {
       }
     }
     
-    if (selectedChart === 'topPercentage') {
+    if (selectedChart === 'topPercentage' || selectedChart === 'topTags') {
       apiUrl = `${API_HOST}/api/chart/tagtopten/`;
       requestBody = {
-        st_date: dayjs(startDate).format('YYYY-MM-DD'),
-        ed_date: dayjs(endDate).format('YYYY-MM-DD')
+        st_month: dayjs(startDate).format('YYYY-MM'),
+        ed_month: dayjs(endDate).format('YYYY-MM')
       }
       headers.chart_datatype = 'percent';
+
+      if (selectedChart === 'topTags') {
+        headers.chartDataType = 'integer';
+      }
     }
     
     if (selectedChart === 'remainByMonth') {
@@ -93,18 +126,20 @@ export const Chart = () => {
       }
     }
 
+
     axios.get(apiUrl, {
       headers: headers,
       params: requestBody
     })
     .then(res => {
-      const response = res.data;
-      if (selectedChart === 'remainByDay') {
-        remainByDayFormat(response);
-      }
+      setData(res.data);
+      console.log('res.data >>>>');
+      console.log(res.data);
+      setLoading(false);
     })
     .catch(err => {
       console.log(err);
+      setLoading(false);
     })
   }
 
@@ -146,15 +181,6 @@ export const Chart = () => {
               />
             </>
         }
-        
-
-        <Multiselect
-          options={state.options}
-          selectedValues={state.selectedValue}
-          onSelect={onSelect()}
-          onRemove={onRemove()}
-          displayValue="name"
-        />
       </div>
       <section className="graph">
         <section className="tab-container">
@@ -173,24 +199,28 @@ export const Chart = () => {
         </section>
 
         <section className="chart-graph">
-          {(() => {
-            switch (data.length && selectedChart) {
-              case 'remainByMonth':
-                return <GraphRemainByMonth data={data}/>
-              case 'remainByDay':
-                return <GraphRemainByDay data={data}/>;
-              case 'topTags':
-                return
-              case 'topPercentage':
-                return <GraphTopPercentage data={data}/>;
-              default:
-                return (
-                  <>
-                    <GraphTopPercentage data={data}/>
-                  </>
-                )
-            }
-          })()}
+          {
+            loading ? (
+              <div>loading...</div>
+            ) : (
+              <>
+                {(() => {
+                  switch ((data.length || Object.keys(data).length) && selectedChart) {
+                    case 'remainByMonth':
+                      return <GraphRemainByMonth data={data}/>
+                    case 'remainByDay':
+                      return <GraphRemainByDay data={data}/>;
+                    case 'topTags':
+                      return <GraphTopTags data={data}/>
+                    case 'topPercentage':
+                      return <GraphTopPercentage data={data}/>;
+                    default:
+                      return <NoData />
+                  }
+                })()}
+              </>
+            )
+          }
         </section>
       </section>
     </section>
