@@ -15,77 +15,16 @@ import GraphTopPercentage from "./chartGraph/GraphTopPercentage";
 import GraphTopTags from "./chartGraph/GraphTopTags";
 
 export const Chart = () => {
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(new Date(new Date().setMonth(new Date().getMonth() - 3)));
   const [endDate, setEndDate] = useState(new Date());
   const [data, setData] = useState([]);
-  const [selectedChart, setSelectedChart] = useState('remainByDay');
+  const [selectedChart, setSelectedChart] = useState('remainByMonth');
   const [loading, setLoading] = useState(false);
-
-  /* 태그 option */
-  const state = {
-    options: [{name: 'tag1', id: 1}, {name: 'tag2', id: 2}, {name: 'tag3', id: 3}]
-  };
-
-  /* Tag */
-  const onSelect = (selectedList, selectedItem) => {
-    console.log('a');
-  }
-  /* Tag */
-  const onRemove = (selectedList, removedItem) => {
-    console.log('a');
-  }
 
   useEffect(() => {
     setLoading(true);
     getChartData();
   }, [startDate, endDate, selectedChart]);
-
-
-  /* 일 단위 남은 재산 data format */
-  const remainByDayFormat = (response) => {
-    for(let idx in response) {
-      if (response[idx].hasOwnProperty('date')) {
-          response[idx].x = response[idx].date;
-          response[idx].y = response[idx].left_money;
-          delete response[idx].date;
-          delete response[idx].left_money;
-      }
-    }
-    if (response.length) {
-      setData([{
-        id: "지원",
-        color: "hsl(125, 70%, 50%)",
-        data: response
-      }]);
-    } else {
-      setData([]);
-    }
-  }
-
-  /* 월 단위 Tag top ten % data format */
-  const topPercentageFormat = (response ) => {
-    const spendingArray = Object.entries(response.spending_top_ten).map(([id, value], index) => ({
-      id,
-      label: id,
-      value,
-      color: `hsl(191, 70%, 50%)`
-    }));
-
-    const incomeArray = Object.entries(response.income_top_ten).map(([id, value], index) => ({
-      id,
-      label: id,
-      value,
-      color: `hsl(191, 70%, 50%)`
-    }));
-    
-    // 결과 객체 생성
-    const resultObject = {
-      income_top_ten: incomeArray,
-      spending_top_ten: spendingArray
-    };
-    setData(resultObject);
-  }
-
 
   /* 날짜별로 차트 데이터 가져오기 */
   const getChartData = () => {
@@ -138,7 +77,9 @@ export const Chart = () => {
       setLoading(false);
     })
     .catch(err => {
-      console.log(err);
+      if (err.response.data[0]) {
+        alert(err.response.data[0]);
+      }
       setLoading(false);
     })
   }

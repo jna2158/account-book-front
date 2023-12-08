@@ -38,7 +38,7 @@ export default function GraphTopPercentage({ data }) {
     setLoding(true);
     setTimeout(() => {
       topPercentageFormat();
-    }, 1000);
+    }, 100);
   }, []);
 
   return (

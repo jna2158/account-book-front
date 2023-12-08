@@ -41,7 +41,7 @@ export default function GraphTopTags({ data }) {
     setLoding(true);
     setTimeout(() => {
       topTagFormat();
-    }, 1000);
+    }, 100);
   }, []);
 
   return (
@@ -121,15 +121,7 @@ export default function GraphTopTags({ data }) {
 										legendOffset: 32,
 										truncateTickAt: 0
 								}}
-								axisLeft={{
-										tickSize: 5,
-										tickPadding: 5,
-										tickRotation: 0,
-										legend: 'pay',
-										legendPosition: 'middle',
-										legendOffset: -40,
-										truncateTickAt: 0
-								}}
+								axisLeft={null}
 								labelSkipWidth={12}
 								labelSkipHeight={12}
 								labelTextColor={{

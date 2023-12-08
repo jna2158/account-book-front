@@ -9,7 +9,7 @@ export default function GraphRemainByMonth({ data }) {
   useEffect(() => {
     setTimeout(() => {
       remainByMonthFormat();
-    }, 1000);
+    }, 100);
   }, [])
 
   /* Tooltip */
@@ -50,7 +50,7 @@ export default function GraphRemainByMonth({ data }) {
     }
     if (data.length) {
       setList([{
-        id: "지원",
+        id: JSON.parse(localStorage.getItem('user')).nickname,
         color: "hsl(125, 70%, 50%)",
         data: data
       }]);
@@ -82,14 +82,7 @@ export default function GraphRemainByMonth({ data }) {
         legendOffset: 36,
         legendPosition: 'middle',
     }}
-    axisLeft={{
-        tickSize: 5,
-        tickPadding: 5,
-        tickRotation: 0,
-        legend: 'Left Money',
-        legendOffset: -40,
-        legendPosition: 'middle'
-    }}
+    axisLeft={null}
     pointSize={10}
     pointColor={{ theme: 'background' }}
     pointBorderWidth={2}
