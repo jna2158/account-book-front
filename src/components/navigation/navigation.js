@@ -8,9 +8,10 @@ import MyPage from '../mypage/mypage';
 import SignInModal from '../signin/signInModal';
 import logo from "../../source/account-book-logo.png";
 import './navigation.css';
-
 import { isModalOpen } from '../../actions/loginAction';
 import { useSelector, useDispatch } from 'react-redux';
+// auth
+import RequireAuth from "../../requireAuth";
 
 export default function Navigation() {
   const open = useSelector(state => state.loginReducer.state);
@@ -21,6 +22,8 @@ export default function Navigation() {
   const isLogin = () => {
     return localStorage.getItem("ACCESS_TOKEN");
   }
+
+  const auth = localStorage.getItem('user');
 
   return (
     <section>
@@ -53,7 +56,7 @@ export default function Navigation() {
       <Routes>
         <Route path="/" exact={true} element={<Calendar />}/>
         <Route path="/home" element={<Calendar />}/>
-        <Route path="/chart" element={<Chart />} />
+        <Route path="/chart" element={auth ? <Chart /> : <RequireAuth />} />
         <Route path="/content" element={<Content />} />
         <Route path="/mypage" element={<MyPage />} />
       </Routes>

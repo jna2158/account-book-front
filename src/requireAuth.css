@@ -1,0 +1,15 @@
+.auth-section {
+  padding: 2rem;
+  background-color: var(--white);
+  border-radius: 1.3rem;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: auto;
+  transform: translate(-50%, -50%);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}

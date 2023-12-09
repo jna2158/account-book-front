@@ -1,5 +1,4 @@
 import DatePicker from "react-datepicker";
-import Multiselect from "multiselect-react-dropdown";
 import { useState } from "react";
 import { useEffect } from 'react';
 import { API_HOST } from '../../constant';

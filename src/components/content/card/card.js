@@ -18,7 +18,11 @@ export const Card = ({ item }) => {
   });
   const [imageUrl, setImageUrl] = useState('');
 
-  useEffect(async () => {
+  useEffect(() => {
+    getImage();
+  }, []);
+
+  const getImage = async () => {
     try {
       const params = {
         Bucket: bucketName,
@@ -31,7 +35,7 @@ export const Card = ({ item }) => {
     } catch (err) {
       console.log(err);
     }
-  }, []);
+  }
 
   return (
     <div className="card">

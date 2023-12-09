@@ -114,13 +114,13 @@ export const Content = () => {
         onClick={() => handlePageChange(1)}
         disabled={currentPage === 1}
       >
-        <i class="fa-solid fa-backward"></i>
+        <i className="fa-solid fa-backward"></i>
       </button>
       <button
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}
       >
-        <i class="fa-solid fa-chevron-left"></i>
+        <i className="fa-solid fa-chevron-left"></i>
       </button>
 
       {Array.from({ length: Math.ceil(data.length / ItemsPerPage) }, (_, index) => (
@@ -137,13 +137,13 @@ export const Content = () => {
         onClick={() => handlePageChange(Math.ceil(data.length / ItemsPerPage))}
         disabled={currentPage === Math.ceil(data.length / ItemsPerPage)}
       >
-        <i class="fa-solid fa-chevron-right"></i>
+        <i className="fa-solid fa-chevron-right"></i>
       </button>
       <button
         onClick={() => handlePageChange(Math.ceil(data.length / ItemsPerPage))}
         disabled={currentPage === Math.ceil(data.length / ItemsPerPage)}
       >
-        <i class="fa-solid fa-forward"></i>
+        <i className="fa-solid fa-forward"></i>
       </button>
     </div>
   </>
