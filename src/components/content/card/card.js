@@ -19,14 +19,15 @@ export const Card = ({ item }) => {
   const [imageUrl, setImageUrl] = useState('');
 
   useEffect(() => {
+    console.log('useEffect >>> ');
     getImage();
-  }, []);
+  }, [item]);
 
   const getImage = async () => {
     try {
       const params = {
         Bucket: bucketName,
-        Key: item.img_url,
+        Key: item.img_url.slice(1),
       };
       const response = await s3.getObject(params).promise();
       const blob = new Blob([response.Body], { type: response.ContentType });
