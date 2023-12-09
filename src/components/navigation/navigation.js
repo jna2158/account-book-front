@@ -58,7 +58,7 @@ export default function Navigation() {
         <Route path="/home" element={<Calendar />}/>
         <Route path="/chart" element={auth ? <Chart /> : <RequireAuth />} />
         <Route path="/content" element={<Content />} />
-        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/mypage" element={auth ? <MyPage /> : <RequireAuth />} />
       </Routes>
 
       <div> {open ? <SignInModal /> : <></> } </div>
