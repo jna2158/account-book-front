@@ -8,10 +8,11 @@
 
 .calendar_title {
   position: relative;
-  margin-top: 2%;
+  margin-top: 2.5%;
   left: 8%;
-  font-weight: 400;
   width: 60%;
+  font-size: 1.8rem;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
 /* Calendar Custom */

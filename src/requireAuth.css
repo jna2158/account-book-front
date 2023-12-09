@@ -13,3 +13,22 @@
   transform: translate(-50%, -50%);
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
+.sub_title {
+  font-size: 18px;
+  line-height: 1.5;
+  margin-top: 16px;
+  color: #333;
+  margin-left: 10%;
+}
+.close-btn {
+  cursor: pointer;
+  width: 100%;
+  padding: .6rem 0;
+  margin-top: 25px;
+  border-radius: .5rem;
+  border: none;
+  background-color: var(--primary-color);
+  color: var(--white);
+  font-size: 1.2rem;
+  outline: none;
+}

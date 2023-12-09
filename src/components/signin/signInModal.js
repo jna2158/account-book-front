@@ -181,13 +181,11 @@ export default function LoginModal () {
 
   return (
     <>
-    
     {open && (
         <div className="modal-overlay">
         </div>
       )
     }
-
     {
       !isSignIn
       ? <section className="signin-section">

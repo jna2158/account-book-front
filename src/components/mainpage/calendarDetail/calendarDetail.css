@@ -19,11 +19,6 @@
   text-align: center;
   padding-bottom: 5%;
 }
-.calendar_content_section h3 span {
-  background-color: rgba(169, 20, 243, 0.05);
-  border-radius: 12px;
-  padding: .5%;
-}
 .summary_section {
   font-size: 1.5rem;
   padding-left: 8vw;
