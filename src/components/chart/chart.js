@@ -85,43 +85,69 @@ export const Chart = () => {
 
   return (
     <section className="chart">
-      <div className="chart_title">{JSON.parse(localStorage.getItem('user')).nickname}님 ! 이번달 예산은<br /><strong>300,000원</strong> 남았습니다.</div>
+      <div className="chart_title">
+        {JSON.parse(localStorage.getItem('user')).nickname}님 !
+        <br />
+        이번달 예산은 <strong>300,000원</strong> 남았습니다.
+      </div>
       
       <div className="date_select">
         {
           selectedChart === 'remainByDay' ?
             <>
-              <DatePicker
-              className="chart-calendar"
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-              dateFormat="yyyy-MM-dd"
-              />
-              ~
-              <DatePicker
-              className="chart-calendar"
-              selected={endDate}
-              onChange={(date) => setEndDate(date)}
-              dateFormat="yyyy-MM-dd"
-              />
+              <div className="date-label">
+                <label>시작 날짜</label>
+                <div className="date-picker-container">
+                  <DatePicker
+                    className="chart-calendar"
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                    dateFormat="yyyy-MM-dd"
+                  />
+                </div>
+              </div>
+              
+              <div className="date-label">
+                <label>끝나는 날짜</label>
+                <div className="date-picker-container">
+                  <DatePicker
+                    className="chart-calendar"
+                    selected={endDate}
+                    onChange={(date) => setEndDate(date)}
+                    dateFormat="yyyy-MM-dd"
+                  />
+                </div>
+              </div>
             </> :
             <>
-              <DatePicker
-              className="chart-calendar"
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-              dateFormat="yyyy-MM"
-              />
-              ~
-              <DatePicker
-              className="chart-calendar"
-              selected={endDate}
-              onChange={(date) => setEndDate(date)}
-              dateFormat="yyyy-MM"
-              />
+              <div className="date-label">
+                <label>시작 날짜</label>
+                <div className="date-picker-container">
+                  <DatePicker
+                    className="chart-calendar"
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                    dateFormat="yyyy-MM"
+                  />
+                </div>
+              </div>
+              
+              <div className="date-label">
+                <label>끝나는 날짜</label>
+                <div className="date-picker-container">
+                  <DatePicker
+                    className="chart-calendar"
+                    selected={endDate}
+                    onChange={(date) => setEndDate(date)}
+                    dateFormat="yyyy-MM"
+                  />
+                </div>
+              </div>
             </>
         }
       </div>
+
+
       <section className="graph">
         <section className="tab-container">
           <div className="tab" data-chart="remainByMonth" onClick={() => setSelectedChart('remainByMonth')}>
