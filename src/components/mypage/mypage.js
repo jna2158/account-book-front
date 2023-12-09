@@ -52,15 +52,11 @@ export default function Mypage() {
   const getUserInfo = () => {
     setIsLoading(true);
     const apiUrl = `${API_HOST}/api/accounts/detail/`;
-    const headers = {
-      Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
-    }
     const requestBody = {
       email: JSON.parse(localStorage.getItem('user')).email
     }
 
     axios.get(apiUrl, {
-      headers: headers,
       params: requestBody
     })
     .then(res => {
