@@ -5,8 +5,12 @@
   top: 55%;
   left: 50%;
   width: 80vw;
-  height: 77vh;
+  height: 75vh;
   transform: translate(-50%, -50%);
+  overflow-y: "auto";
+}
+.content_section::-webkit-scrollbar {
+  display: none;
 }
 .content_section ul {
   list-style: none;

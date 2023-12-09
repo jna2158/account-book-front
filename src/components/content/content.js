@@ -60,7 +60,38 @@ export const Content = () => {
         content: '22유튜브가 프리미엄 멤버십 가격을 대폭 인상했다. 유튜브는 지난 8일 공지를 통해 여러 경제적인 요인들이 변화함에 따라 2020년 9월 이후 3년 만에 한국 멤버십 가격을 인상했다고 9일 밝혔다 유튜브 프리미엄 가격은 종전 1만450원에서 1만4900원으로 42.6% 인상됐다. 2020년 9월 가격 인상 이후에도 8690원에 이용 중이던 초기 가입자들의 멤버십 가격은 71.5%나 인상되는 셈이다.',
         image_url: 'https://naver.com',
         news_url: 'https://naver.com'
+      },
+      {
+        title: '22광고 정말 짜증나지? 돈 더 내”…유튜브 프리미엄 4천원 넘게 올랐다',
+        content: '22유튜브가 프리미엄 멤버십 가격을 대폭 인상했다. 유튜브는 지난 8일 공지를 통해 여러 경제적인 요인들이 변화함에 따라 2020년 9월 이후 3년 만에 한국 멤버십 가격을 인상했다고 9일 밝혔다 유튜브 프리미엄 가격은 종전 1만450원에서 1만4900원으로 42.6% 인상됐다. 2020년 9월 가격 인상 이후에도 8690원에 이용 중이던 초기 가입자들의 멤버십 가격은 71.5%나 인상되는 셈이다.',
+        image_url: 'https://naver.com',
+        news_url: 'https://naver.com'
+      },
+      {
+        title: '22광고 정말 짜증나지? 돈 더 내”…유튜브 프리미엄 4천원 넘게 올랐다',
+        content: '22유튜브가 프리미엄 멤버십 가격을 대폭 인상했다. 유튜브는 지난 8일 공지를 통해 여러 경제적인 요인들이 변화함에 따라 2020년 9월 이후 3년 만에 한국 멤버십 가격을 인상했다고 9일 밝혔다 유튜브 프리미엄 가격은 종전 1만450원에서 1만4900원으로 42.6% 인상됐다. 2020년 9월 가격 인상 이후에도 8690원에 이용 중이던 초기 가입자들의 멤버십 가격은 71.5%나 인상되는 셈이다.',
+        image_url: 'https://naver.com',
+        news_url: 'https://naver.com'
+      },
+      {
+        title: '22광고 정말 짜증나지? 돈 더 내”…유튜브 프리미엄 4천원 넘게 올랐다',
+        content: '22유튜브가 프리미엄 멤버십 가격을 대폭 인상했다. 유튜브는 지난 8일 공지를 통해 여러 경제적인 요인들이 변화함에 따라 2020년 9월 이후 3년 만에 한국 멤버십 가격을 인상했다고 9일 밝혔다 유튜브 프리미엄 가격은 종전 1만450원에서 1만4900원으로 42.6% 인상됐다. 2020년 9월 가격 인상 이후에도 8690원에 이용 중이던 초기 가입자들의 멤버십 가격은 71.5%나 인상되는 셈이다.',
+        image_url: 'https://naver.com',
+        news_url: 'https://naver.com'
+      },
+      {
+        title: '22광고 정말 짜증나지? 돈 더 내”…유튜브 프리미엄 4천원 넘게 올랐다',
+        content: '22유튜브가 프리미엄 멤버십 가격을 대폭 인상했다. 유튜브는 지난 8일 공지를 통해 여러 경제적인 요인들이 변화함에 따라 2020년 9월 이후 3년 만에 한국 멤버십 가격을 인상했다고 9일 밝혔다 유튜브 프리미엄 가격은 종전 1만450원에서 1만4900원으로 42.6% 인상됐다. 2020년 9월 가격 인상 이후에도 8690원에 이용 중이던 초기 가입자들의 멤버십 가격은 71.5%나 인상되는 셈이다.',
+        image_url: 'https://naver.com',
+        news_url: 'https://naver.com'
+      },
+      {
+        title: '22광고 정말 짜증나지? 돈 더 내”…유튜브 프리미엄 4천원 넘게 올랐다',
+        content: '22유튜브가 프리미엄 멤버십 가격을 대폭 인상했다. 유튜브는 지난 8일 공지를 통해 여러 경제적인 요인들이 변화함에 따라 2020년 9월 이후 3년 만에 한국 멤버십 가격을 인상했다고 9일 밝혔다 유튜브 프리미엄 가격은 종전 1만450원에서 1만4900원으로 42.6% 인상됐다. 2020년 9월 가격 인상 이후에도 8690원에 이용 중이던 초기 가입자들의 멤버십 가격은 71.5%나 인상되는 셈이다.',
+        image_url: 'https://naver.com',
+        news_url: 'https://naver.com'
       }
+      
       
     ]
     setData(data);
@@ -99,53 +130,53 @@ export const Content = () => {
 
   return (
     <>
-    <div className="content_section">
-      <ul>
-        {
-          data.map((el, idx) => {
-            return <li key={idx}>{<Card item={el}/> }</li>
-          })
-        }
-      </ul>
-    </div>
+      <div className="content_section" style={{ height: "75vh", overflowY: "auto" }}>
+        <ul>
+          {
+            data.map((el, idx) => {
+              return <li key={idx}>{<Card item={el}/> }</li>
+            })
+          }
+        </ul>
+      </div>
 
-    <div className="pagination">
-      <button
-        onClick={() => handlePageChange(1)}
-        disabled={currentPage === 1}
-      >
-        <i className="fa-solid fa-backward"></i>
-      </button>
-      <button
-        onClick={() => handlePageChange(currentPage - 1)}
-        disabled={currentPage === 1}
-      >
-        <i className="fa-solid fa-chevron-left"></i>
-      </button>
-
-      {Array.from({ length: Math.ceil(data.length / ItemsPerPage) }, (_, index) => (
+      <div className="pagination">
         <button
-          key={index + 1}
-          onClick={() => handlePageChange(index + 1)}
-          style={{ fontWeight: currentPage === index + 1 ? 'bold' : 'normal' }}
+          onClick={() => handlePageChange(1)}
+          disabled={currentPage === 1}
         >
-          {index + 1}
+          <i className="fa-solid fa-backward"></i>
         </button>
-      ))}
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          <i className="fa-solid fa-chevron-left"></i>
+        </button>
 
-      <button
-        onClick={() => handlePageChange(Math.ceil(data.length / ItemsPerPage))}
-        disabled={currentPage === Math.ceil(data.length / ItemsPerPage)}
-      >
-        <i className="fa-solid fa-chevron-right"></i>
-      </button>
-      <button
-        onClick={() => handlePageChange(Math.ceil(data.length / ItemsPerPage))}
-        disabled={currentPage === Math.ceil(data.length / ItemsPerPage)}
-      >
-        <i className="fa-solid fa-forward"></i>
-      </button>
-    </div>
-  </>
+        {Array.from({ length: Math.ceil(data.length / ItemsPerPage) }, (_, index) => (
+          <button
+            key={index + 1}
+            onClick={() => handlePageChange(index + 1)}
+            style={{ fontWeight: currentPage === index + 1 ? 'bold' : 'normal' }}
+          >
+            {index + 1}
+          </button>
+        ))}
+
+        <button
+          onClick={() => handlePageChange(Math.ceil(data.length / ItemsPerPage))}
+          disabled={currentPage === Math.ceil(data.length / ItemsPerPage)}
+        >
+          <i className="fa-solid fa-chevron-right"></i>
+        </button>
+        <button
+          onClick={() => handlePageChange(Math.ceil(data.length / ItemsPerPage))}
+          disabled={currentPage === Math.ceil(data.length / ItemsPerPage)}
+        >
+          <i className="fa-solid fa-forward"></i>
+        </button>
+      </div>
+    </>
   )
 }
