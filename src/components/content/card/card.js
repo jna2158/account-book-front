@@ -26,7 +26,7 @@ export const Card = ({ item }) => {
     try {
       const params = {
         Bucket: bucketName,
-        Key: item.image_url,
+        Key: item.img_url,
       };
       const response = await s3.getObject(params).promise();
       const blob = new Blob([response.Body], { type: response.ContentType });
