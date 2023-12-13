@@ -17,8 +17,13 @@
   font-size: 18px;
   line-height: 1.5;
   margin-top: 16px;
-  color: #333;
+  color: #676767;
   margin-left: 10%;
+}
+.sub_title_emphasis {
+  font-size: 20px;
+  color: #080b2e;
+  font-weight: 500;
 }
 .close-btn {
   cursor: pointer;

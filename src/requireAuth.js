@@ -1,5 +1,5 @@
-import "./requireAuth.css";
 import { useNavigate } from 'react-router-dom';
+import "./requireAuth.css";
 import logo from "../src/source/account-book-logo.png";
 
 export default function RequireAuth() {
@@ -12,7 +12,7 @@ export default function RequireAuth() {
         <p className="sub_title">
           로그인이 필요한 기능입니다.
           <br />
-          지금 로그인하고 ACCOUNT BOOK의<br />모든 기능을 이용해보세요.
+          지금 로그인하고<br /><span className='sub_title_emphasis'>ACCOUNT BOOK의 모든 기능을</span><br />이용해보세요.
         </p>
         <button className="close-btn" onClick={() => navigate('/')}>닫기</button>
       </section>

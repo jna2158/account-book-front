@@ -19,7 +19,6 @@ export const Card = ({ item }) => {
   const [imageUrl, setImageUrl] = useState('');
 
   useEffect(() => {
-    console.log('useEffect >>> ');
     getImage();
   }, [item]);
 

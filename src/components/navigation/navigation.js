@@ -7,23 +7,20 @@ import ProfileDropdown from './profile-dropdown/profileDropdown';
 import MyPage from '../mypage/mypage';
 import SignInModal from '../signin/signInModal';
 import logo from "../../source/account-book-logo.png";
-import './navigation.css';
 import { isModalOpen } from '../../actions/loginAction';
 import { useSelector, useDispatch } from 'react-redux';
-// auth
 import RequireAuth from "../../requireAuth";
+import './navigation.css';
 
 export default function Navigation() {
-  const open = useSelector(state => state.loginReducer.state);
   const [clickProfile, setClickProfile] = useState(false);
+  const open = useSelector(state => state.loginReducer.state);
   const dispatch = useDispatch();
-  const profileRef = useRef(null);
 
+  /* 회원의 로그인 여부 확인 */
   const isLogin = () => {
     return localStorage.getItem("ACCESS_TOKEN");
   }
-
-  const auth = localStorage.getItem('user');
 
   return (
     <section>
@@ -34,15 +31,15 @@ export default function Navigation() {
           </div>
 
           <div className="gnb">
-            <NavLink to="/home" className="link_selected"><a onClick={() => setClickProfile(false)}>조회</a></NavLink>
-            <NavLink to="/chart" className="link_selected"><a onClick={() => setClickProfile(false)}>차트 보기</a></NavLink>
-            <NavLink to="/content" className="link_selected"><a onClick={() => setClickProfile(false)}>소비 습관</a></NavLink>
+            <NavLink to="/home" className="link_selected"><a onClick={() => setClickProfile(false)}>캘린더</a></NavLink>
+            <NavLink to="/chart" className="link_selected"><a onClick={() => setClickProfile(false)}>차트</a></NavLink>
+            <NavLink to="/content" className="link_selected"><a onClick={() => setClickProfile(false)}>뉴스 게시판</a></NavLink>
           </div>
 
           <div className="login">
             {
               isLogin()
-              ? <a ref={profileRef} onClick={() => setClickProfile(!clickProfile)}>{JSON.parse(localStorage.getItem('user')).nickname} 님</a>
+              ? <a onClick={() => setClickProfile(!clickProfile)}>{JSON.parse(localStorage.getItem('user')).nickname} 님</a>
               : <a onClick={() => dispatch(isModalOpen(open))}><a>로그인</a></a> 
             }
           </div>
@@ -56,9 +53,9 @@ export default function Navigation() {
       <Routes>
         <Route path="/" exact={true} element={<Calendar />}/>
         <Route path="/home" element={<Calendar />}/>
-        <Route path="/chart" element={auth ? <Chart /> : <RequireAuth />} />
+        <Route path="/chart" element={isLogin() ? <Chart /> : <RequireAuth />} />
         <Route path="/content" element={<Content />} />
-        <Route path="/mypage" element={auth ? <MyPage /> : <RequireAuth />} />
+        <Route path="/mypage" element={isLogin() ? <MyPage /> : <RequireAuth />} />
       </Routes>
 
       <div> {open ? <SignInModal /> : <></> } </div>
