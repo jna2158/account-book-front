@@ -15,13 +15,14 @@
   background-color: #fafdff;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.01);
   border-radius: 5px;
-  height: 13%;
+  height: 10vh;
   line-height: 12vh;
   padding-bottom: 8%;
 }
 .mypage_section a {
   font-size: 1rem;
   padding: 30px;
+  font-weight: 500
 }
 .mypage_section form {
   display: flex;
@@ -37,8 +38,9 @@
   outline: none;
 }
 .profile {
-  position: absolute;
-  width: 70px;
+  position: fixed;
+  width: 5.5vw;
+  cursor: pointer;
 }
 
 /* password */

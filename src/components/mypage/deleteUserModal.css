@@ -1,0 +1,36 @@
+.delete-user-section {
+  padding: 2rem;
+  background-color: var(--white);
+  border-radius: 1.3rem;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: auto;
+  transform: translate(-50%, -50%);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.delete-user-section .validation {
+  font-size: .7rem;
+  color: #E00000;
+  text-align: left;
+}
+.delete-user-section div {
+  border: none;
+  padding-bottom: 0;
+  background-color: white;
+}
+.confirm-btn {
+  cursor: pointer;
+  width: 100%;
+  padding: .6rem 0;
+  margin-top: 15px;
+  border-radius: .5rem;
+  border: none;
+  background-color: var(--primary-color);
+  color: var(--white);
+  font-size: 1.2rem;
+  outline: none;
+}

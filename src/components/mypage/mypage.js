@@ -2,6 +2,7 @@ import React, { useEffect, useState, } from 'react';
 import { API_HOST } from '../../constant';
 import logo from "../../source/account_baby.png";
 import Profile from './profile';
+import DeleteUserModal from './deleteUserModal';
 import { getImageFromS3 } from '../../shared/s3';
 import './mypage.css';
 import { useNavigate } from 'react-router-dom';
@@ -26,8 +27,7 @@ export default function Mypage() {
   const [errMsg, setErrMsg] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [obj, setObj] = useState({});
-
-  const navigate = useNavigate();
+  const [reqDeleteUser, isReqDeleteUser] = useState(false);
 
   // s3
   const accessKeyId = process.env.REACT_APP_ACCESS_KEY_ID;
@@ -112,34 +112,7 @@ export default function Mypage() {
     }
   };
 
-  /** 탈퇴 요청 */
-  const deleteUser = () => {
-    const password = prompt("비밀번호를 입력하세요", "");
-    if (!password) {
-      return;
-    }
-    const apiUrl = `${API_HOST}/api/accounts/detail/`;
-    const headers = {
-      Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
-    }
- 
-    axios.delete(apiUrl, {
-      data: {
-        email: JSON.parse(localStorage.getItem('user')).email,
-        password
-      },
-      headers: headers
-    })
-    .then(res => {
-      localStorage.removeItem('ACCESS_TOKEN');
-      localStorage.removeItem('user');
-      navigate('/');
-      window.location.reload();
-    })
-    .catch(err => {
-        alert('비밀번호가 일치하지 않습니다.');
-    })
-  }
+  
 
   /** input 변경되었을 때 form 업데이트 */
   const handleInputChange = (event) => {
@@ -282,8 +255,11 @@ export default function Mypage() {
         }
         <section className='button_section'>
           <button type="submit" onClick={() => saveUserInfo()}>저장</button>
-          <button type="button" onClick={() => deleteUser()}>회원탈퇴</button>
+          <button type="button" onClick={() => isReqDeleteUser(true)}>회원탈퇴</button>
         </section>
+        {
+          reqDeleteUser ? <DeleteUserModal /> : <></>
+        }
       </form>
     </div>
     )
