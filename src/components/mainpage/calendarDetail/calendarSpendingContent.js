@@ -48,8 +48,6 @@ export default function CalendarSpendingContent({date, setCurrentMode, setSpendL
         el.id = idx;
         setTag([...tag, el.tag]);
       });
-      console.log('result >> ');
-      console.log(result);
 
       setData(result);
       setIsLoading(false);
@@ -119,8 +117,6 @@ export default function CalendarSpendingContent({date, setCurrentMode, setSpendL
 }
 
 const Table = ({ columns, data, setData, tag, setTag }) => {
-  console.log('Table >> ');
-  console.log(data);
   const {
     getTableProps,
     getTableBodyProps,
