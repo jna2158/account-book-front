@@ -49,7 +49,6 @@ export default function GraphRemainByMonth({ data }) {
     if (data.length) {
       setList([{
         id: JSON.parse(localStorage.getItem('user')).nickname,
-        color: "hsl(125, 70%, 50%)",
         data: data
       }]);
     } else {
@@ -76,7 +75,7 @@ export default function GraphRemainByMonth({ data }) {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: 'date',
+        legend: '날짜 (월)',
         legendOffset: 36,
         legendPosition: 'middle',
     }}
@@ -87,6 +86,7 @@ export default function GraphRemainByMonth({ data }) {
     pointBorderColor={{ from: 'serieColor' }}
     pointLabelYOffset={-12}
     useMesh={true}
+    colors={{ scheme: 'accent' }}
     legends={[
         {
             anchor: 'bottom-right',

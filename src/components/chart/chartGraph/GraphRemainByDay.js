@@ -49,7 +49,6 @@ export default function GraphRemainByDay({ data }) {
     if (data.length) {
       setList([{
         id: JSON.parse(localStorage.getItem('user')).nickname,
-        color: "hsl(125, 70%, 50%)",
         data: data
       }]);
     } else {
@@ -75,10 +74,10 @@ export default function GraphRemainByDay({ data }) {
         axisTop={null}
         axisRight={null}
         axisBottom={{
-            tickSize: 5,
+            tickSize: 1,
             tickPadding: 5,
             tickRotation: 0,
-            legend: 'date',
+            legend: '날짜 (일)',
             legendOffset: 36,
             legendPosition: 'middle',
         }}
@@ -89,6 +88,7 @@ export default function GraphRemainByDay({ data }) {
         pointBorderColor={{ from: 'serieColor' }}
         pointLabelYOffset={-12}
         useMesh={true}
+        colors = {{ scheme: 'category10' }}
         legends={[
             {
                 anchor: 'bottom-right',
