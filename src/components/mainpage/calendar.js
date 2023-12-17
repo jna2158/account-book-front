@@ -41,7 +41,7 @@ export const Calendar = () => {
     setSidebarOpen(true);
     const formatDate = dayjs(new Date(value)).format('YYYY-MM-DD');
     const item = dayList.find((x) => x.date === formatDate);
-    item ? setDate(item) : setDate([ {date: formatDate} ]);
+    item ? setDate(item) : setDate({date: formatDate});
   }
 
   const getActiveMonth = (activeStartDate) => {
