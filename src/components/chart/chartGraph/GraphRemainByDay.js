@@ -2,8 +2,6 @@ import { ResponsiveLine } from '@nivo/line';
 import { useEffect, useState } from 'react';
 
 export default function GraphRemainByDay({ data }) {
-  console.log('graphRemainByDay >> ');
-  console.log(data);
   const [list, setList] = useState([]);
 
   useEffect(() => {

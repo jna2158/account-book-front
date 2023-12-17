@@ -2,8 +2,6 @@ import { ResponsivePie } from '@nivo/pie';
 import { useEffect, useState } from 'react';
 
 export default function GraphTopPercentage({ data }) {
-  console.log('graphTopPercentage >> ');
-  console.log(data);
   const [list, setList] = useState([]);
   const [loading, setLoding] = useState(false);
 	const [graphType, setGraphType] = useState('income_top_ten');

@@ -2,8 +2,6 @@ import { ResponsiveBar } from '@nivo/bar'
 import { useEffect, useState } from 'react';
 
 export default function GraphTopTags({ data }) {
-  console.log('graphTopTags >> ');
-  console.log(data);
   const [list, setList] = useState([]);
   const [loading, setLoding] = useState(false);
 	const [graphType, setGraphType] = useState('income_top_ten');

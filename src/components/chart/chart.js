@@ -12,6 +12,7 @@ import NoData from "./chartGraph/noData";
 import GraphRemainByMonth from "./chartGraph/GraphRemainByMonth";
 import GraphTopPercentage from "./chartGraph/GraphTopPercentage";
 import GraphTopTags from "./chartGraph/GraphTopTags";
+import Toast from "../toast/toast";
 
 export const Chart = () => {
   const [startDate, setStartDate] = useState(new Date(new Date().setMonth(new Date().getMonth() - 3)));
@@ -19,6 +20,9 @@ export const Chart = () => {
   const [data, setData] = useState([]);
   const [selectedChart, setSelectedChart] = useState('remainByMonth');
   const [loading, setLoading] = useState(false);
+
+  const [showToast, setShowToast] = useState(false);
+  const [toastError, setToastError] = useState('');
 
   useEffect(() => {
     setLoading(true);
@@ -28,9 +32,7 @@ export const Chart = () => {
   /* 날짜별로 차트 데이터 가져오기 */
   const getChartData = () => {
     setLoading(true);
-    const headers = {
-      Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
-    }
+    const headers = {}
 
     let apiUrl = '';
     let requestBody = {};
@@ -71,17 +73,20 @@ export const Chart = () => {
     })
     .then(res => {
       setData(res.data);
-      console.log('res.data >>>>');
-      console.log(res.data);
       setLoading(false);
     })
     .catch(err => {
       if (err.response.data[0]) {
-        alert(err.response.data[0]);
+        setToastError(err.response.data[0]);
+        setShowToast(true);
       }
       setLoading(false);
     })
   }
+
+  const handleCloseToast = () => {
+    setShowToast(false);
+  };
 
   return (
     <section className="chart">
@@ -147,27 +152,29 @@ export const Chart = () => {
         }
       </div>
 
-
       <section className="graph">
         <section className="tab-container">
-          <div className="tab" data-chart="remainByMonth" onClick={() => setSelectedChart('remainByMonth')}>
-            <span className="tab-text">월 단위 남은 재산</span>
+          <div className="tab" onClick={() => setSelectedChart('remainByMonth')}>
+            <span className="tab-text">월 단위 남은 예산</span>
           </div>
-          <div className="tab" data-chart="remainByDay" onClick={() => setSelectedChart('remainByDay')}>
-            <span className="tab-text">일 단위 남은 재산</span>
+          <div className="tab" onClick={() => setSelectedChart('remainByDay')}>
+            <span className="tab-text">일 단위 남은 예산</span>
           </div>
-          <div className="tab" data-chart="topTags" onClick={() => setSelectedChart('topTags')}>
-            <span className="tab-text">소비가 큰 태그 순위 (상위 10개)</span>
+          <div className="tab" onClick={() => setSelectedChart('topTags')}>
+            <span className="tab-text">태그 별 지출 금액</span>
           </div>
-          <div className="tab" data-chart="topPercentage" onClick={() => setSelectedChart('topPercentage')}>
-            <span className="tab-text">나의 소비를 태그 %로 표현</span>
+          <div className="tab" onClick={() => setSelectedChart('topPercentage')}>
+            <span className="tab-text">태그 별 지출 퍼센트</span>
           </div>
         </section>
 
         <section className="chart-graph">
           {
             loading ? (
-              <div>loading...</div>
+              <div className="loading-container">
+                <div className="loading-spinner"></div>
+                <p>Loading...</p>
+              </div>
             ) : (
               <>
                 {(() => {
@@ -189,6 +196,7 @@ export const Chart = () => {
           }
         </section>
       </section>
+      { showToast && <Toast message={toastError} onClose={handleCloseToast}/>}
     </section>
   )
 }

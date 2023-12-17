@@ -1,0 +1,19 @@
+.toast-container {
+  position: fixed;
+  bottom: 50px;
+  left: 75%;
+  transform: translateX(-50%);
+  background-color: #1d79b6;
+  color: #fff;
+  padding: 10px;
+  padding-top: 17px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  opacity: 0.9;
+  z-index: 999;
+  height: 7vh;
+}
+.toast-message {
+  font-size: 20px;
+  font-weight: bold;
+}
