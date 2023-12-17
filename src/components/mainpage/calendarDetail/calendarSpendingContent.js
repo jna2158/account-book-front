@@ -127,6 +127,9 @@ const Table = ({ columns, data, setData, tag, setTag }) => {
 
   /** input 영역에 내용 입력했을 때 */
   const handleChangeContent = (event, cell) => {
+    if (cell.column.Header === '금액') {
+      event.target.value = Math.max(0, event.target.value);
+    }
     const updatedData = [...data];
     const updatedRow = { ...updatedData[cell.row.index] };
     updatedRow[cell.column.id] = event.target.value;
@@ -191,21 +194,11 @@ const Table = ({ columns, data, setData, tag, setTag }) => {
                     height: '50px'
                   }}
                 >
-                  {
-                    cell.column.Header === '태그'
-                    ? (
-                      <>
-                        <input disabled={tag[idx] && tag[idx].length >= 5} type="text" className="tag_input" placeholder="입력 후 Enter" onChange={(event) => handleChangeContent(event, cell)} onKeyPress={(event) => handleChangeTagContent(event, cell)}/>
-                        <div>
-                          {
-                            tag[idx] && tag[idx].map((value, key) => <span key={key} className="tag">{value}</span>)
-                          }
-                        </div>
-                      </>
-                    )
-                    :
-                    cell.column.Header === '시간'
-                    ? (
+                  
+                {(() => {
+                switch (cell.column.Header) {
+                  case '시간':
+                    return (
                       <select id="dropdown" value={data[idx].time} onChange={(event) => handleChangeContent(event, cell)}>
                         <option value="0">0</option>
                         <option value="1">1</option>
@@ -233,8 +226,23 @@ const Table = ({ columns, data, setData, tag, setTag }) => {
                         <option value="23">23</option>
                       </select>
                     )
-                    :  <input type="text" value={cell.value} onChange={(event) => handleChangeContent(event, cell)} />
-                  }
+                  case '금액':
+                    return <input type="number" value={cell.value} onChange={(event) => handleChangeContent(event, cell)} />
+                  case '태그':
+                    return (
+                      <>
+                        <input disabled={tag[idx] && tag[idx].length >= 5} type="text" className="tag_input" placeholder="입력 후 Enter" onChange={(event) => handleChangeContent(event, cell)} onKeyPress={(event) => handleChangeTagContent(event, cell)}/>
+                        <div>
+                          {
+                            tag[idx] && tag[idx].map((value, key) => <span key={key} className="tag">{value}</span>)
+                          }
+                        </div>
+                      </>
+                    )
+                  default:
+                    return <input type="text" value={cell.value} onChange={(event) => handleChangeContent(event, cell)} />
+                }
+                })()}
                 </td>
               ))}
             </tr>
