@@ -17,9 +17,14 @@ export const Card = ({ item }) => {
     region,
   });
   const [imageUrl, setImageUrl] = useState('');
+  const [subContent, setSubContent] = useState('');
 
   useEffect(() => {
     getImage();
+    item.content = item.content.split('...');
+    setSubContent(item.content[item.content.length - 1]);
+    item.content.pop()
+    item.content.join('');
   }, [item]);
 
   const getImage = async () => {
@@ -44,7 +49,8 @@ export const Card = ({ item }) => {
       </div>
       <div className="card-content">
         <h3 className="card_title" onClick={() => window.open(item.news_url, "_blank")}>{item.title}</h3>
-        <div className="card_content">{item.content}</div>
+        <div className="card_content">{item.content + "..."}</div>
+        <div className="card_sub_content">{subContent}</div>
       </div>
     </div>
   );

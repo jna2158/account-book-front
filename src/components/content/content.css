@@ -16,9 +16,7 @@
   list-style: none;
 }
 
-/***********************************/
 /* content.css */
-
 .pagination {
   display: flex;
   justify-content: center;
@@ -29,7 +27,6 @@
   text-align: center;
   width: 100%;
 }
-
 .pagination button {
   margin: 0 5px;
   padding: 8px 12px;
@@ -38,21 +35,17 @@
   background-color: #fff;
   cursor: pointer;
 }
-
 .pagination button[disabled] {
   color: #aaa;
   cursor: not-allowed;
 }
-
 .pagination button:hover {
   background-color: #f4f4f4;
 }
-
 .pagination button[style="fontWeight:bold"] {
   color: #333;
   background-color: #f0f0f0;
 }
-
 .fa-solid.fa-angles-right {
   margin-top: 3px;
   font-size: 2.5rem;
