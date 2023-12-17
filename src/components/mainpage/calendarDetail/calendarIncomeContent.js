@@ -270,7 +270,7 @@ const Table = ({ columns, data, setData, tag, setTag }) => {
                     :
                     cell.column.Header === '시간'
                     ? (
-                      <select id="dropdown" value={data.time} onChange={(event) => handleChangeContent(event, cell)}>
+                      <select id="dropdown" value={data[idx].time} onChange={(event) => handleChangeContent(event, cell)}>
                         <option value="0">0</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
