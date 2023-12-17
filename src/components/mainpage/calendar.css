@@ -11,7 +11,7 @@
   margin-top: 2.5%;
   left: 8%;
   width: 60%;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-family: 'Noto Sans KR', sans-serif;
 }
 
@@ -27,6 +27,10 @@
 }
 .react-calendar button {
   border-radius: 10%;
+}
+.react-calendar__tile--active {
+  background: var(--light-blue);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 10px;
 }
 
 /* navigation */
@@ -55,6 +59,11 @@
 .react-calendar__month-view__days__day {
   height: 10vh;
 }
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+  background: var(--gray);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 10px;
+}
 
 
 /* weekday */
@@ -65,8 +74,12 @@
 .react-calendar__tile--now {
   background: white;
   color: var(--gray3);
-  background-color: rgba(194, 194, 243, 0.3);
+  background-color: var(--gray);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 10px;
 }
+/* .react-calendar__month-view__days__day--weekend {
+  color: #3a3a3a;
+} */
 
 /* arrow button */
 .react-calendar__navigation__arrow {
@@ -111,10 +124,10 @@
   height: 1000px;
 }
 span.spending_summary {
-  color: red;
+  color: rgb(110, 50, 33) !important;
 }
 span.income_summary {
-  color: blue
+  color: blue !important;
 }
 
 

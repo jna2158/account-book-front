@@ -1,9 +1,15 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import "./requireAuth.css";
 import logo from "../src/source/account-book-logo.png";
 
 export default function RequireAuth() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const closeModal = () => {
+
+    location.pathname === "/" ? window.location.reload() : navigate('/');
+  }
 
   return (
     <div className="modal-overlay">
@@ -14,7 +20,7 @@ export default function RequireAuth() {
           <br />
           지금 로그인하고<br /><span className='sub_title_emphasis'>ACCOUNT BOOK의 모든 기능을</span><br />이용해보세요.
         </p>
-        <button className="close-btn" onClick={() => navigate('/')}>닫기</button>
+        <button className="close-btn" onClick={() => closeModal()}>닫기</button>
       </section>
     </div>
   );

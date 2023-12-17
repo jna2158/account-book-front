@@ -5,8 +5,10 @@
   --white: #ffffff;
   --gray: #efefef;
   --btn-light-blue: #d6eaf8;
+  --light-blue: rgb(200, 212, 240);
   --gray2: rgba(0, 0, 0, 0.31);
   --gray3: rgba(0, 0, 0, 0.5);
+
 }
 
 /* Common */

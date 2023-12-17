@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useTable } from 'react-table';
+import RequireAuth from '../../../requireAuth';
 import './calendarDetail.css';
 import { API_HOST } from '../../../constant';
 import axios from "axios";
 
+
 export default function CalendarIncomeContent({date, setCurrentMode, spendList, idEditMode}) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLogin, setIsLogin] = useState(true);
 
   const columns = [
     { Header: '시간', accessor: 'time' },
@@ -87,13 +90,17 @@ export default function CalendarIncomeContent({date, setCurrentMode, spendList, 
   }
 
   const btnClick = () => {
+    if (!localStorage.getItem("ACCESS_TOKEN")) {
+      setIsLogin(false);
+      return;
+    }
+
     data.forEach((el, idx) => {
       data[idx].tag = tag[idx];
     });
     const result = spendList.concat(data);
     result.forEach(el => {
       el.date = date;
-      // el.spending !== "0" ? el.income = "0" : el.spending = "0";
       if (!el.spending) {
         el.spending = "0";
       }
@@ -123,24 +130,17 @@ export default function CalendarIncomeContent({date, setCurrentMode, spendList, 
 
   const saveContent = (result) => {
     const apiUrl = `${API_HOST}/api/budget/datedetail/`;
-    const headers = {
-      Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
-    }
 
     if (idEditMode) {
-      axios.put(apiUrl, result, {
-        headers
-      })
+      axios.put(apiUrl, result)
       .then(res => {
-        setCurrentMode('content')
+        setCurrentMode('content');
       })
       .catch(err => {})
     } else {
-      axios.post(apiUrl, result, {
-        headers
-      })
+      axios.post(apiUrl, result)
       .then(res => {
-        setCurrentMode('content')
+        setCurrentMode('content');
       })
       .catch(err => {})
     }
@@ -165,6 +165,9 @@ export default function CalendarIncomeContent({date, setCurrentMode, spendList, 
           </section>
           </>
         )
+      }
+      {
+        !isLogin ? <RequireAuth /> : <></>
       }
     </>
   )

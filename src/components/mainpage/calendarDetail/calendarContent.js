@@ -17,14 +17,10 @@ export default function CalendarContent({date, setCurrentMode, setIsEditMode, ed
 
   useEffect(() => {
     const apiUrl = `${API_HOST}/api/budget/datedetail/`;
-    const headers = {
-      Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
-    }
     const requestBody = {
       date: date.date
     }
     axios.get(apiUrl, {
-      headers: headers,
       params: requestBody
     })
     .then(res => {
@@ -60,16 +56,15 @@ export default function CalendarContent({date, setCurrentMode, setIsEditMode, ed
         {
           date && (date.income_summary || date.spending_summary) && (
             <>
-              <div className='summry_title'>요약</div>
-              <div>수입: <span>{date.income_summary.toLocaleString()} 원</span></div>
-              <div>지출: <span>{date.spending_summary.toLocaleString()} 원</span></div>
-              <div>남은 총액: <span>{date.left_money.toLocaleString()} 원</span></div>
+              <div>수입: <span>{new Intl.NumberFormat('en-US').format(date.income_summary)} 원</span></div>
+              <div>지출: <span>{new Intl.NumberFormat('en-US').format(date.spending_summary)} 원</span></div>
+              <div>남은 총액: <span>{new Intl.NumberFormat('en-US').format(date.left_money)} 원</span></div>
             </>
           ) 
         }
         </section>
       <section className='content_button'>
-        <button onClick={() => setCurrentMode('spending')}>오늘의 하루 작성/편집하기</button>
+        <button onClick={() => setCurrentMode('spending')}>오늘의 하루 작성 / 편집하기</button>
       </section>
     </section>
   )

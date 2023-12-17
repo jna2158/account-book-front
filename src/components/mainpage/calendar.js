@@ -69,12 +69,12 @@ export const Calendar = () => {
               return item && (
                <>
                  <div>
-                  <span className='spending_summry'>
-                    지출: <span>{item.spending_summary}</span>
+                  <span className='spending_summary'>
+                    지출: <span>{new Intl.NumberFormat('en-US').format(item.spending_summary)}</span>
                   </span>
                   <br />
                   <span className='income_summary'>
-                   수입: <span>{item.income_summary}</span>
+                   수입: <span>{new Intl.NumberFormat('en-US').format(item.income_summary)}</span>
                   </span>
                  </div>
                </>
