@@ -136,13 +136,8 @@ export default function Mypage() {
     }
 
     const apiUrl = `${API_HOST}/api/accounts/detail/`;
-    const headers = {
-      Authorization : `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
-    }
  
-    axios.patch(apiUrl, formData, {
-      headers: headers
-    })
+    axios.patch(apiUrl, formData)
     .then(res => {
       getUserInfo();
     })
