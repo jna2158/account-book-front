@@ -164,7 +164,7 @@ export const Chart = () => {
             <span className="tab-text">태그 별 지출 금액</span>
           </div>
           <div className="tab" onClick={() => setSelectedChart('topPercentage')}>
-            <span className="tab-text">태그 별 지출 퍼센트</span>
+            <span className="tab-text">태그 별 지출 비율</span>
           </div>
         </section>
 

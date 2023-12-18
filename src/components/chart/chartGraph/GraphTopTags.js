@@ -15,22 +15,18 @@ export default function GraphTopTags({ data }) {
 		}
 		const spendingArray = Object.keys(data.spending_top_ten).map(key => ({
 			content: key,
-			pay: Number(data.spending_top_ten[key]),
-			color: "hsl(67, 70%, 50%)"
+			금액: Number(data.spending_top_ten[key])
 		}));
 
 		const incomeArray = Object.keys(data.income_top_ten).map(key => ({
 			content: key,
-			pay: Number(data.income_top_ten[key]),
-			color: "hsl(67, 70%, 50%)"
+			금액: Number(data.income_top_ten[key])
 		}));
 
 		const resultObject = {
       income_top_ten: incomeArray,
       spending_top_ten: spendingArray
     };
-		console.log('resultObject >> ');
-		console.log(resultObject);
     setList(resultObject);
     setLoding(true);
   }
@@ -42,43 +38,69 @@ export default function GraphTopTags({ data }) {
     }, 100);
   }, []);
 
+	/* Tooltip */
+	const customToolTip = (point) => {
+		let cell = point;
+    let styleValue = {
+      width: 'auto',
+      maxHeight:'250px',
+      color: `${'#ffffff'}`,
+      marginBottom: '20px',
+      padding: '10px',
+      border:`2px solid ${cell.color}`,
+      borderRadius : '5px',
+      backgroundColor: cell.color
+    }
+    var fontSize = {fontSize : '12px'}
+    return (
+      <div style={styleValue}>
+        <strong>{cell.data.content}<span style={fontSize}></span></strong>
+        <br />
+        <strong> {cell.data.금액.toLocaleString()} <span style={fontSize}>원 </span></strong>
+        <br />
+      </div>
+    )
+  }
+
   return (
     <>
-			<div>
-				<label>
+			<div className="radio-container">
+				<label className="radio-label">
 					<input
 						type="radio"
 						value="income_top_ten"
 						checked={graphType === 'income_top_ten'}
 						onChange={() => setGraphType('income_top_ten')}
+						className="radio-input"
 					/>
 					수입
 				</label>
-				<label>
+				<label className="radio-label">
 					<input
 						type="radio"
 						value="spending_top_ten"
 						checked={graphType === 'spending_top_ten'}
 						onChange={() => setGraphType('spending_top_ten')}
+						className="radio-input"
 					/>
 					지출
 				</label>
-			</div>
+    	</div>
 			{
 				list[`${graphType}`] && list[`${graphType}`].length
 				? (
 					loading && (
 						<ResponsiveBar
-								data={list.spending_top_ten}
+								data={list[`${graphType}`]}
 								keys={[
-										'pay'
+										'금액'
 								]}
 								indexBy="content"
-								margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+								margin={{ top: 50, right: 130, bottom: 70, left: 60 }}
 								padding={0.3}
 								valueScale={{ type: 'linear' }}
 								indexScale={{ type: 'band', round: true }}
-								colors={{ scheme: 'nivo' }}
+								colors={{ scheme: 'pastel2' }}
 								defs={[
 										{
 												id: 'dots',
@@ -111,10 +133,10 @@ export default function GraphTopTags({ data }) {
 								axisTop={null}
 								axisRight={null}
 								axisBottom={{
-										tickSize: 5,
+										tickSize: 0,
 										tickPadding: 5,
 										tickRotation: 0,
-										legend: 'content',
+										legend: null,
 										legendPosition: 'middle',
 										legendOffset: 32,
 										truncateTickAt: 0
@@ -155,6 +177,7 @@ export default function GraphTopTags({ data }) {
 												]
 										}
 								]}
+								tooltip={(cell) => customToolTip(cell)}
 								role="application"
 								ariaLabel="Nivo bar chart demo"
 								barAriaLabel={e=>e.id+": "+e.formattedValue+" in content: "+e.indexValue}
