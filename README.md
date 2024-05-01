@@ -1,14 +1,14 @@
 # 🗓 __Account-Book__
 
-
+<br />
 ## 🍎 __프로젝트 소개__
 #### 가계부를 손쉽게 정리할 수 있는 서비스입니다.
 
-
+<br />
 ## 🚗 __사용 기술__
 <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"> <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white"> <img src="https://img.shields.io/badge/CSS-239120?&style=for-the-badge&logo=css3&logoColor=white">
 
-
+<br />
 ## 📕 __주요 기능__
 + 지출 및 수입 등록
   > react-calendar 라이브러리를 사용해서 캘린더를 구현했습니다.
